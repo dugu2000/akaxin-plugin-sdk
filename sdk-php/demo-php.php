@@ -4,6 +4,7 @@
 // ====
 //
 // > Github: https://github.com/akaxincom/openzaly
+// > 扩展体验：下载阿卡信客户端，访问 demo.akaxin.com 站点
 //
 //
 //  Akaxin扩展服务与站点InnerAPI通信教程源码
