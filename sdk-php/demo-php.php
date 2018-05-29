@@ -16,6 +16,9 @@
 //
 //
 
+// 体验前，先remove掉这一句，防止被别人访问。
+die("https://github.com/akaxincom/openzaly");
+
 
 
 // 加载Google Protobuf Library
