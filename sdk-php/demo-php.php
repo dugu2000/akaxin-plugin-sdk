@@ -23,7 +23,7 @@ die("https://github.com/akaxincom/openzaly");
 
 // 加载Google Protobuf Library
 // ==========================
-require_once(__DIR__ . "/vendor/autoload.php");
+require_once(__DIR__ ."/vendor/autoload.php");
 
 
 
@@ -32,7 +32,7 @@ require_once(__DIR__ . "/vendor/autoload.php");
 // Akaxin\Proto 有很多，在sdk-php文件夹下，具体接口使用哪一个，请参考接口文档。
 function autoloadForAkaxinProtoSDK($className) {
     $className = str_replace("\\", "/", $className);
-    require_once(__DIR__ . "/sdk-php/{$className}.php");
+    require_once(__DIR__ . "/{$className}.php");
 }
 spl_autoload_register("autoloadForAkaxinProtoSDK");
 
@@ -95,6 +95,10 @@ $responseInBinary = curl_exec($ch); // curl可能会出错，要容错。
 $responseData = openssl_decrypt($responseInBinary, "AES-128-ECB", $pluginAuthKey, OPENSSL_RAW_DATA); // 解密可能失败
 $responsePackage = new Akaxin\Proto\Core\ProxyPluginPackage();
 $responsePackage->mergeFromString($responseData);
+
+$errorInfo = $responsePackage->getErrorInfo();
+var_dump("errorCode: " . $errorInfo->getCode());
+var_dump("errorInfo: " . $errorInfo->getInfo());
 
 // 业务逻辑，开始解析Response
 // ===============
