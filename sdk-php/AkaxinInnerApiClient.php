@@ -19,13 +19,17 @@ spl_autoload_register("autoloadForAkaxinProtoSDK");
 
 
 
-
+/**
+ *
+ * 用于访问InnerAPI的客户端
+ *
+ */
 class AkaxinInnerApiClient {
 
-    private $apiHost = "127.0.0.1";
-    private $apiPort = 8280;
-    private $authkey = "";
-    private $pluginId = -1;
+    private $apiHost = "127.0.0.1"; // 对应启动服务器时的 -Dhttp.address 参数
+    private $apiPort = 8280;        // 对应启动服务器时的 -Dhttp.port 参数
+    private $authkey = "";          // 管理平台->扩展列表，点击相应的扩展获取。
+    private $pluginId = -1;         // 管理平台->扩展列表，点击相应的扩展获取。
 
     private $sessionSiteUserId = "";
 
@@ -54,7 +58,20 @@ class AkaxinInnerApiClient {
         return $this->lastErrorInfo;
     }
 
+    /**
+     * 执行API请求
+     *
+     * 请参考具体的接口文档。
+     *
+     * @param $actionName 接口名称
+     * @param Message $requestMessage
+     * @return false|string false代表失败，string代表response的二进制数据
+     */
     public function request($actionName, Message $requestMessage) {
+
+        $this->lastErrorCode = "";
+        $this->lastErrorInfo = "";
+
         $requestPackage = new Akaxin\Proto\Core\ProxyPluginPackage();
         $data = $requestMessage->serializeToString();
         $data = base64_encode($data); //千万不要忘了这一步！
