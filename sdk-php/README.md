@@ -65,9 +65,9 @@
 
 #### 功能
  添加A、B两人为好友
- ######## 接口名
+ #### 接口名
  /hai/friend/add
- ######## 错误码
+ #### 错误码
  - success
  - error.alert
 
@@ -94,11 +94,11 @@
 
  #### A->B 发送好友请求
 
- ######## 接口名
+ #### 接口名
 
  /hai/friend/apply
 
- ######## 错误码
+ #### 错误码
 
  - success
  - error.alert
