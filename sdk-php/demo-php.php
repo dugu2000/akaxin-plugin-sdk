@@ -6,20 +6,9 @@
 // > Github: https://github.com/akaxincom/openzaly
 // > 扩展体验：下载阿卡信客户端，访问 demo.akaxin.com 站点
 //
-//
-//  Akaxin扩展服务与站点InnerAPI通信教程源码
-//
-//  * 本源码只做原理演示，请勿直接用于生产环境。
-//  * 请根据自己具体情况，封装相关代码。
-//  * 目前提供PHP、Java两种语言的SDK。
-//
-//  * 如需帮助，请进我们的QQ群咨询：655249600
+// 如需帮助，请进我们的QQ群咨询：655249600
 //
 //
-
-// 体验前，先remove掉这一句，防止被别人访问。
-// die("https://github.com/akaxincom/openzaly");
-
 
 // 初始化设置
 // =========
