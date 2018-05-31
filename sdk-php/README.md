@@ -65,9 +65,9 @@
 
 #### 功能
  添加A、B两人为好友
- #### 接口名
+ ######## 接口名
  /hai/friend/add
- #### 错误码
+ ######## 错误码
  - success
  - error.alert
 
@@ -92,13 +92,14 @@
 ## Class: \\Akaxin\\Proto\\Plugin\\HaiFriendApplyRequest
 
 
- A->B 发送好友请求
- ----
- 接口名
- ----
+ #### A->B 发送好友请求
+
+ ######## 接口名
+
  /hai/friend/apply
- 错误码
- ----
+
+ ######## 错误码
+
  - success
  - error.alert
 
@@ -125,13 +126,13 @@
 ## Class: \\Akaxin\\Proto\\Plugin\\HaiFriendRelationsRequest
 
 
- 获取某用户与其他用户的好友关系
- ----
- 接口名
- ----
+####  获取某用户与其他用户的好友关系
+
+#### 接口名
+
  /hai/friend/relations
- 错误码
- ----
+#### 错误码
+
  - success
  - error.alert
 
@@ -157,14 +158,14 @@
 ## Class: \\Akaxin\\Proto\\Plugin\\HaiGroupAddMemberRequest
 
 
- 向群里添加群成员
- ----
+####  向群里添加群成员
+
  > 如果此人已在群里，返回成功而不是失败
- 接口名
- ----
+#### 接口名
+
  /hai/group/addMember
- 错误码
- ----
+#### 错误码
+
  - success
  - error.alert
 
@@ -190,13 +191,13 @@
 ## Class: \\Akaxin\\Proto\\Plugin\\HaiGroupCheckMemberRequest
 
 
- 检查用户是否在某群里
- ----
- 接口名
- ----
+####  检查用户是否在某群里
+
+#### 接口名
+
  /hai/group/checkMember
- 错误码
- ----
+#### 错误码
+
  - success
  - error.alert
 
@@ -222,13 +223,13 @@
 ## Class: \\Akaxin\\Proto\\Plugin\\HaiGroupDeleteRequest
 
 
- 删除群组
- ----
- 接口名
- ----
+####  删除群组
+
+#### 接口名
+
  /hai/group/delete
- 错误码
- ----
+#### 错误码
+
  - success
  - error.alert
 
@@ -253,13 +254,13 @@
 ## Class: \\Akaxin\\Proto\\Plugin\\HaiGroupListRequest
 
 
- 获取群组列表
- ----
- 接口名
- ----
+#### 获取群组列表
+
+#### 接口名
+
  /hai/group/list
- 错误码
- ----
+#### 错误码
+
  - success
  - error.alert
 
@@ -287,13 +288,13 @@
 ## Class: \\Akaxin\\Proto\\Plugin\\HaiGroupMembersRequest
 
 
- 获取群成员
- ----
- 接口名
- ----
+#### 获取群成员
+
+#### 接口名
+
  /hai/group/members
- 错误码
- ----
+#### 错误码
+
  - success
  - error.alert
 
@@ -321,13 +322,13 @@
 ## Class: \\Akaxin\\Proto\\Plugin\\HaiGroupNonmembersRequest
 
 
- 分页获非群成员
- ----
- 接口名
- ----
+####  分页获非群成员
+
+#### 接口名
+
  /hai/group/nonmembers
- 错误码
- ----
+#### 错误码
+
  - success
  - error.alert
 
@@ -356,13 +357,13 @@
 ## Class: \\Akaxin\\Proto\\Plugin\\HaiGroupProfileRequest
 
 
- 获取群组资料
- ----
- 接口名
- ----
+####  获取群组资料
+
+#### 接口名
+
  /hai/group/profile
- 错误码
- ----
+#### 错误码
+
  - success
  - error.alert
 
@@ -387,13 +388,13 @@
 ## Class: \\Akaxin\\Proto\\Plugin\\HaiGroupRemoveMemberRequest
 
 
- 删除群成员
- ----
- 接口名
- ----
+####  删除群成员
+
+#### 接口名
+
  /hai/group/removeMember
- 错误码
- ----
+#### 错误码
+
  - success
  - error.alert
 
@@ -419,13 +420,13 @@
 ## Class: \\Akaxin\\Proto\\Plugin\\HaiGroupUpdateRequest
 
 
- 更新群资料
- ----
- 接口名
- ----
+####  更新群资料
+
+#### 接口名
+
  /hai/group/update
- 错误码
- ----
+#### 错误码
+
  - success
  - error.alert
 
@@ -451,13 +452,13 @@
 ## Class: \\Akaxin\\Proto\\Plugin\\HaiMessageProxyRequest
 
 
- 代发消息
- ----
- 接口名
- ----
+####  代发消息
+
+#### 接口名
+
  /hai/message/proxy
- 错误码
- ----
+#### 错误码
+
  - success
  - error.alert
 
@@ -482,13 +483,13 @@
 ## Class: \\Akaxin\\Proto\\Plugin\\HaiPushNoticesRequest
 
 
- 向全员推送消息通知
- ----
- 接口名
- ----
+####  向全员推送消息通知
+
+#### 接口名
+
  /hai/push/notices
- 错误码
- ----
+#### 错误码
+
  - success
  - error.alert
 
@@ -515,13 +516,13 @@
 ## Class: \\Akaxin\\Proto\\Plugin\\HaiSiteGetConfigRequest
 
 
- 获取站点的配置
- ----
- 接口名
- ----
+####  获取站点的配置
+
+#### 接口名
+
  /hai/site/getConfig
- 错误码
- ----
+#### 错误码
+
  - success
  - error.alert
 
@@ -546,13 +547,13 @@
 ## Class: \\Akaxin\\Proto\\Plugin\\HaiUserFriendsRequest
 
 
- 获取用户的好友列表
- ----
- 接口名
- ----
+####  获取用户的好友列表
+
+#### 接口名
+
  /hai/user/friends
- 错误码
- ----
+#### 错误码
+
  - success
  - error.alert
 
@@ -580,13 +581,13 @@
 ## Class: \\Akaxin\\Proto\\Plugin\\HaiUserGroupsRequest
 
 
- 获取用户的群组列表
- ----
- 接口名
- ----
+####  获取用户的群组列表
+
+#### 接口名
+
  /hai/user/groups
- 错误码
- ----
+#### 错误码
+
  - success
  - error.alert
 
@@ -614,13 +615,13 @@
 ## Class: \\Akaxin\\Proto\\Plugin\\HaiUserListRequest
 
 
- 获取站点上用户
- ----
- 接口名
- ----
+####  获取站点上用户
+
+#### 接口名
+
  /hai/user/list
- 错误码
- ----
+#### 错误码
+
  - success
  - error.alert
 
@@ -647,15 +648,14 @@
 ## Class: \\Akaxin\\Proto\\Plugin\\HaiUserPhoneRequest
 
 
- !! 这个文件需要重命名 !!
- 获取用户手机号
- ----
+####  获取用户手机号
+
  只有实名站点，才能获取此数据。
- 接口名
- ----
+#### 接口名
+
  /hai/user/phone
- 错误码
- ----
+#### 错误码
+
  - success
  - error.alert
 
@@ -681,13 +681,13 @@
 ## Class: \\Akaxin\\Proto\\Plugin\\HaiUserProfileRequest
 
 
- 获取用户资料
- ----
- 接口名
- ----
+####  获取用户资料
+
+#### 接口名
+
  /hai/user/profile
- 错误码
- ----
+#### 错误码
+
  - success
  - error.alert
 
@@ -712,13 +712,13 @@
 ## Class: \\Akaxin\\Proto\\Plugin\\HaiUserUpdateRequest
 
 
- 更新用户信息
- ----
- 接口名
- ----
+####  更新用户信息
+
+#### 接口名
+
  /hai/user/update
- 错误码
- ----
+#### 错误码
+
  - success
  - error.alert
 
