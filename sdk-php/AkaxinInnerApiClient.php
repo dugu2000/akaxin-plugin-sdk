@@ -5,8 +5,15 @@ use \Google\Protobuf\Internal\Message;
 
 
 // 加载Google Protobuf Library
+// https://packagist.org/packages/google/protobuf
+//
+// 如果不想使用SDK中的Google lib，比如自己产品已经有composer机制
+// 可以 define("DONNOT_USE_AKAXIN_GOOGLE_PROTOBUF_LIB", true);
+//
 // ==========================
-require_once(__DIR__ ."/vendor/autoload.php");
+if (false === defined("DONNOT_USE_AKAXIN_GOOGLE_PROTOBUF_LIB") || false === DONNOT_USE_AKAXIN_GOOGLE_PROTOBUF_LIB) {
+    require_once(__DIR__ ."/vendor/autoload.php");
+}
 
 // 加载AkaxinProtoSDK
 // ==================

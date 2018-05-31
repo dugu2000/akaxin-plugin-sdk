@@ -36,3 +36,9 @@ $userProfileResponse->mergeFromString($responseData);
 
 var_dump($userProfileResponse->getUserProfile());
 ```
+
+使用自己的composer安装google/protobuf
+
+```php
+define("DONNOT_USE_AKAXIN_GOOGLE_PROTOBUF_LIB", true);
+```
