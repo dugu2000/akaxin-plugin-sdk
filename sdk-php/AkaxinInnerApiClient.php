@@ -38,24 +38,17 @@ class AkaxinInnerApiClient {
 
     /**
      * 设置InnerAPI服务器地址、authkey
+     *
+     * @param string $apiHost 对应启动服务器时的 -Dhttp.address 参数
+     * @param string $apiPort 对应启动服务器时的 -Dhttp.port 参数
+     * @param int $pluginId 管理平台->扩展列表，点击相应的扩展获取。
+     * @param string $authkey 管理平台->扩展列表，点击相应的扩展获取。
      */
     public function __construct($apiHost, $apiPort, $pluginId, $authkey) {
         $this->apiHost = $apiHost;
         $this->apiPort = $apiPort;
         $this->pluginId = $pluginId;
         $this->authkey = $authkey;
-    }
-
-    public function setSessionSiteUserId($siteUserId) {
-        $this->sessionSiteUserId = $siteUserId;
-    }
-
-    public function errorCode() {
-        return $this->lastErrorCode;
-    }
-
-    public function errorInfo() {
-        return $this->lastErrorInfo;
     }
 
     /**
@@ -90,6 +83,34 @@ class AkaxinInnerApiClient {
         // 业务逻辑，开始解析Response
         // ===============
         return base64_decode($responsePackage->getData());
+    }
+
+    /**
+     * 设置当前Session用户，可以不设置
+     *
+     *
+     * @param string $siteUserId 用户的id
+     */
+    public function setSessionSiteUserId($siteUserId) {
+        $this->sessionSiteUserId = $siteUserId;
+    }
+
+    /**
+     * 返回最近一次错误的错误码
+     *
+     * @param string
+     */
+    public function errorCode() {
+        return $this->lastErrorCode;
+    }
+
+    /**
+     * 返回最近一次错误的错误信息
+     *
+     * @param string
+     */
+    public function errorInfo() {
+        return $this->lastErrorInfo;
     }
 
     private function curlRequest($actionName, Message $requestPackage) {
