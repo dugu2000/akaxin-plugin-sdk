@@ -78,8 +78,6 @@
 
 
 
-<hr />
-
 ## Class: \\Akaxin\\Proto\\Plugin\\HaiFriendAddResponse
 
 > 无内容
@@ -111,8 +109,6 @@
 
 
 
-<hr />
-
 ## Class: \\Akaxin\\Proto\\Plugin\\HaiFriendApplyResponse
 
 | Visibility | Function |
@@ -142,8 +138,6 @@
 | public | <strong>setTargetSiteUserId(</strong><em>string[]/\Google\Protobuf\Internal\RepeatedField</em> <strong>$var</strong>)</strong> : <em>\Akaxin\Proto\Plugin\$this</em><br /><em>需要查询关系的用户ID</em> |
 
 
-
-<hr />
 
 ## Class: \\Akaxin\\Proto\\Plugin\\HaiFriendRelationsResponse
 
@@ -176,8 +170,6 @@
 
 
 
-<hr />
-
 ## Class: \\Akaxin\\Proto\\Plugin\\HaiGroupAddMemberResponse
 
 | Visibility | Function |
@@ -208,8 +200,6 @@
 
 
 
-<hr />
-
 ## Class: \\Akaxin\\Proto\\Plugin\\HaiGroupCheckMemberResponse
 
 | Visibility | Function |
@@ -238,8 +228,6 @@
 | public | <strong>setGroupId(</strong><em>string</em> <strong>$var</strong>)</strong> : <em>\Akaxin\Proto\Plugin\$this</em><br /><em>删除的群组ID</em> |
 
 
-
-<hr />
 
 ## Class: \\Akaxin\\Proto\\Plugin\\HaiGroupDeleteResponse
 
@@ -272,8 +260,6 @@
 
 
 
-<hr />
-
 ## Class: \\Akaxin\\Proto\\Plugin\\HaiGroupListResponse
 
 | Visibility | Function |
@@ -305,8 +291,6 @@
 | public | <strong>setPageSize(</strong><em>int</em> <strong>$var</strong>)</strong> : <em>\Akaxin\Proto\Plugin\$this</em><br /><em>分页：每页条数，默认100</em> |
 
 
-
-<hr />
 
 ## Class: \\Akaxin\\Proto\\Plugin\\HaiGroupMembersResponse
 
@@ -341,8 +325,6 @@
 
 
 
-<hr />
-
 ## Class: \\Akaxin\\Proto\\Plugin\\HaiGroupNonmembersResponse
 
 | Visibility | Function |
@@ -372,8 +354,6 @@
 | public | <strong>setGroupId(</strong><em>string</em> <strong>$var</strong>)</strong> : <em>\Akaxin\Proto\Plugin\$this</em><br /><em>当前用户获取群组ID的资料信息</em> |
 
 
-
-<hr />
 
 ## Class: \\Akaxin\\Proto\\Plugin\\HaiGroupProfileResponse
 
@@ -405,8 +385,6 @@
 
 
 
-<hr />
-
 ## Class: \\Akaxin\\Proto\\Plugin\\HaiGroupRemoveMemberResponse
 
 | Visibility | Function |
@@ -437,8 +415,6 @@
 
 
 
-<hr />
-
 ## Class: \\Akaxin\\Proto\\Plugin\\HaiGroupUpdateResponse
 
 | Visibility | Function |
@@ -467,8 +443,6 @@
 | public | <strong>setProxyMsg(</strong><em>\Akaxin\Proto\Site\ImCtsMessageRequest</em> <strong>$var</strong>)</strong> : <em>\Akaxin\Proto\Plugin\$this</em><br /><em>代理发送的消息请求</em> |
 
 
-
-<hr />
 
 ## Class: \\Akaxin\\Proto\\Plugin\\HaiMessageProxyResponse
 
@@ -501,8 +475,6 @@
 
 
 
-<hr />
-
 ## Class: \\Akaxin\\Proto\\Plugin\\HaiPushNoticesResponse
 
 | Visibility | Function |
@@ -531,8 +503,6 @@
 
 
 
-
-<hr />
 
 ## Class: \\Akaxin\\Proto\\Plugin\\HaiSiteGetConfigResponse
 
@@ -564,8 +534,6 @@
 | public | <strong>setSiteUserId(</strong><em>string</em> <strong>$var</strong>)</strong> : <em>\Akaxin\Proto\Plugin\$this</em><br /><em>需要查找的用户ID</em> |
 
 
-
-<hr />
 
 ## Class: \\Akaxin\\Proto\\Plugin\\HaiUserFriendsResponse
 
@@ -599,8 +567,6 @@
 
 
 
-<hr />
-
 ## Class: \\Akaxin\\Proto\\Plugin\\HaiUserGroupsResponse
 
 | Visibility | Function |
@@ -631,8 +597,6 @@
 | public | <strong>setPageSize(</strong><em>int</em> <strong>$var</strong>)</strong> : <em>\Akaxin\Proto\Plugin\$this</em><br /><em>分页：每页条数</em> |
 
 
-
-<hr />
 
 ## Class: \\Akaxin\\Proto\\Plugin\\HaiUserListResponse
 
@@ -665,8 +629,6 @@
 
 
 
-<hr />
-
 ## Class: \\Akaxin\\Proto\\Plugin\\HaiUserPhoneResponse
 
 | Visibility | Function |
@@ -697,8 +659,6 @@
 
 
 
-<hr />
-
 ## Class: \\Akaxin\\Proto\\Plugin\\HaiUserProfileResponse
 
 | Visibility | Function |
@@ -727,8 +687,6 @@
 | public | <strong>setUserProfile(</strong><em>\Akaxin\Proto\Core\UserProfile</em> <strong>$var</strong>)</strong> : <em>\Akaxin\Proto\Plugin\$this</em><br /><em>需要更新的用户信息</em> |
 
 
-
-<hr />
 
 ## Class: \\Akaxin\\Proto\\Plugin\\HaiUserUpdateResponse
 
