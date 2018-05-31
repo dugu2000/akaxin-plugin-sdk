@@ -73,9 +73,6 @@
 
 | Visibility | Function |
 |:-----------|:---------|
-| public | <strong>__construct()</strong> : <em>void</em> |
-| public | <strong>getFriendSiteUserId()</strong> : <em>string</em><br /><em>用户2</em> |
-| public | <strong>getSiteUserId()</strong> : <em>string</em><br /><em>用户1</em> |
 | public | <strong>setFriendSiteUserId(</strong><em>string</em> <strong>$var</strong>)</strong> : <em>\Akaxin\Proto\Plugin\$this</em><br /><em>用户2</em> |
 | public | <strong>setSiteUserId(</strong><em>string</em> <strong>$var</strong>)</strong> : <em>\Akaxin\Proto\Plugin\$this</em><br /><em>用户1</em> |
 
@@ -85,9 +82,8 @@
 
 ## Class: \\Akaxin\\Proto\\Plugin\\HaiFriendAddResponse
 
-| Visibility | Function |
-|:-----------|:---------|
-| public | <strong>__construct()</strong> : <em>void</em> |
+> 无内容
+
 
 
 
@@ -108,10 +104,6 @@
 
 | Visibility | Function |
 |:-----------|:---------|
-| public | <strong>__construct()</strong> : <em>void</em> |
-| public | <strong>getApplyReason()</strong> : <em>string</em><br /><em>申请理由</em> |
-| public | <strong>getFriendSiteUserId()</strong> : <em>string</em><br /><em>目标用户</em> |
-| public | <strong>getSiteUserId()</strong> : <em>string</em><br /><em>发起好友请求的用户</em> |
 | public | <strong>setApplyReason(</strong><em>string</em> <strong>$var</strong>)</strong> : <em>\Akaxin\Proto\Plugin\$this</em><br /><em>申请理由</em> |
 | public | <strong>setFriendSiteUserId(</strong><em>string</em> <strong>$var</strong>)</strong> : <em>\Akaxin\Proto\Plugin\$this</em><br /><em>目标用户</em> |
 | public | <strong>setSiteUserId(</strong><em>string</em> <strong>$var</strong>)</strong> : <em>\Akaxin\Proto\Plugin\$this</em><br /><em>发起好友请求的用户</em> |
@@ -124,7 +116,7 @@
 
 | Visibility | Function |
 |:-----------|:---------|
-| public | <strong>__construct()</strong> : <em>void</em> |
+
 
 
 
@@ -145,9 +137,6 @@
 
 | Visibility | Function |
 |:-----------|:---------|
-| public | <strong>__construct()</strong> : <em>void</em> |
-| public | <strong>getSiteUserId()</strong> : <em>string</em> |
-| public | <strong>getTargetSiteUserId()</strong> : <em>\Google\Protobuf\Internal\RepeatedField</em><br /><em>需要查询关系的用户ID</em> |
 | public | <strong>setSiteUserId(</strong><em>string</em> <strong>$var</strong>)</strong> : <em>\Akaxin\Proto\Plugin\$this</em> |
 | public | <strong>setTargetSiteUserId(</strong><em>string[]/\Google\Protobuf\Internal\RepeatedField</em> <strong>$var</strong>)</strong> : <em>\Akaxin\Proto\Plugin\$this</em><br /><em>需要查询关系的用户ID</em> |
 
@@ -159,8 +148,6 @@
 
 | Visibility | Function |
 |:-----------|:---------|
-| public | <strong>__construct()</strong> : <em>void</em> |
-| public | <strong>getUserProfile()</strong> : <em>\Google\Protobuf\Internal\RepeatedField</em><br /><em>查询的结果</em> |
 | public | <strong>setUserProfile(</strong><em>\Akaxin\Proto\Core\UserRelationProfile[]/\Google\Protobuf\Internal\RepeatedField</em> <strong>$var</strong>)</strong> : <em>\Akaxin\Proto\Plugin\$this</em><br /><em>查询的结果</em> |
 
 
@@ -183,9 +170,6 @@
 
 | Visibility | Function |
 |:-----------|:---------|
-| public | <strong>__construct()</strong> : <em>void</em> |
-| public | <strong>getGroupId()</strong> : <em>string</em><br /><em>群组ID</em> |
-| public | <strong>getMemberSiteUserId()</strong> : <em>\Google\Protobuf\Internal\RepeatedField</em><br /><em>群组中需要增加的用户ID</em> |
 | public | <strong>setGroupId(</strong><em>string</em> <strong>$var</strong>)</strong> : <em>\Akaxin\Proto\Plugin\$this</em><br /><em>群组ID</em> |
 | public | <strong>setMemberSiteUserId(</strong><em>string[]/\Google\Protobuf\Internal\RepeatedField</em> <strong>$var</strong>)</strong> : <em>\Akaxin\Proto\Plugin\$this</em><br /><em>群组中需要增加的用户ID</em> |
 
@@ -197,7 +181,7 @@
 
 | Visibility | Function |
 |:-----------|:---------|
-| public | <strong>__construct()</strong> : <em>void</em> |
+
 
 
 
@@ -218,9 +202,6 @@
 
 | Visibility | Function |
 |:-----------|:---------|
-| public | <strong>__construct()</strong> : <em>void</em> |
-| public | <strong>getGroupId()</strong> : <em>string</em><br /><em>群组ID</em> |
-| public | <strong>getSiteUserId()</strong> : <em>\Google\Protobuf\Internal\RepeatedField</em><br /><em>待检查的成员id</em> |
 | public | <strong>setGroupId(</strong><em>string</em> <strong>$var</strong>)</strong> : <em>\Akaxin\Proto\Plugin\$this</em><br /><em>群组ID</em> |
 | public | <strong>setSiteUserId(</strong><em>string[]/\Google\Protobuf\Internal\RepeatedField</em> <strong>$var</strong>)</strong> : <em>\Akaxin\Proto\Plugin\$this</em><br /><em>待检查的成员id</em> |
 
@@ -232,9 +213,7 @@
 
 | Visibility | Function |
 |:-----------|:---------|
-| public | <strong>__construct()</strong> : <em>void</em> |
 | public | <strong>getMembersSiteUserId()</strong> : <em>\Google\Protobuf\Internal\RepeatedField</em><br /><em>请求在这个群里的成员( 肯定是request参数的子集 )</em> |
-| public | <strong>setMembersSiteUserId(</strong><em>string[]/\Google\Protobuf\Internal\RepeatedField</em> <strong>$var</strong>)</strong> : <em>\Akaxin\Proto\Plugin\$this</em><br /><em>请求在这个群里的成员( 肯定是request参数的子集 )</em> |
 
 
 
@@ -255,8 +234,6 @@
 
 | Visibility | Function |
 |:-----------|:---------|
-| public | <strong>__construct()</strong> : <em>void</em> |
-| public | <strong>getGroupId()</strong> : <em>string</em><br /><em>删除的群组ID</em> |
 | public | <strong>setGroupId(</strong><em>string</em> <strong>$var</strong>)</strong> : <em>\Akaxin\Proto\Plugin\$this</em><br /><em>删除的群组ID</em> |
 
 
@@ -267,7 +244,7 @@
 
 | Visibility | Function |
 |:-----------|:---------|
-| public | <strong>__construct()</strong> : <em>void</em> |
+
 
 
 
@@ -288,10 +265,6 @@
 
 | Visibility | Function |
 |:-----------|:---------|
-| public | <strong>__construct()</strong> : <em>void</em> |
-| public | <strong>getPageNumber()</strong> : <em>int</em><br /><em>第几页</em> |
-| public | <strong>getPageSize()</strong> : <em>int</em><br /><em>每页的条数，默认100</em> |
-| public | <strong>getSiteUserId()</strong> : <em>\Google\Protobuf\Internal\RepeatedField</em><br /><em>查询谁的群组，为空则查询所有。</em> |
 | public | <strong>setPageNumber(</strong><em>int</em> <strong>$var</strong>)</strong> : <em>\Akaxin\Proto\Plugin\$this</em><br /><em>第几页</em> |
 | public | <strong>setPageSize(</strong><em>int</em> <strong>$var</strong>)</strong> : <em>\Akaxin\Proto\Plugin\$this</em><br /><em>每页的条数，默认100</em> |
 | public | <strong>setSiteUserId(</strong><em>string[]/\Google\Protobuf\Internal\RepeatedField</em> <strong>$var</strong>)</strong> : <em>\Akaxin\Proto\Plugin\$this</em><br /><em>查询谁的群组，为空则查询所有。</em> |
@@ -304,11 +277,8 @@
 
 | Visibility | Function |
 |:-----------|:---------|
-| public | <strong>__construct()</strong> : <em>void</em> |
 | public | <strong>getGroupProfile()</strong> : <em>\Google\Protobuf\Internal\RepeatedField</em><br /><em>用户的群列表</em> |
 | public | <strong>getPageTotalNum()</strong> : <em>int</em><br /><em>一共多少页</em> |
-| public | <strong>setGroupProfile(</strong><em>\Akaxin\Proto\Core\SimpleGroupProfile[]/\Google\Protobuf\Internal\RepeatedField</em> <strong>$var</strong>)</strong> : <em>\Akaxin\Proto\Plugin\$this</em><br /><em>用户的群列表</em> |
-| public | <strong>setPageTotalNum(</strong><em>int</em> <strong>$var</strong>)</strong> : <em>\Akaxin\Proto\Plugin\$this</em><br /><em>一共多少页</em> |
 
 
 
@@ -329,10 +299,6 @@
 
 | Visibility | Function |
 |:-----------|:---------|
-| public | <strong>__construct()</strong> : <em>void</em> |
-| public | <strong>getGroupId()</strong> : <em>string</em><br /><em>群组ID</em> |
-| public | <strong>getPageNumber()</strong> : <em>int</em><br /><em>分页：第几页</em> |
-| public | <strong>getPageSize()</strong> : <em>int</em><br /><em>分页：每页条数，默认100</em> |
 | public | <strong>setGroupId(</strong><em>string</em> <strong>$var</strong>)</strong> : <em>\Akaxin\Proto\Plugin\$this</em><br /><em>群组ID</em> |
 | public | <strong>setPageNumber(</strong><em>int</em> <strong>$var</strong>)</strong> : <em>\Akaxin\Proto\Plugin\$this</em><br /><em>分页：第几页</em> |
 | public | <strong>setPageSize(</strong><em>int</em> <strong>$var</strong>)</strong> : <em>\Akaxin\Proto\Plugin\$this</em><br /><em>分页：每页条数，默认100</em> |
@@ -345,11 +311,8 @@
 
 | Visibility | Function |
 |:-----------|:---------|
-| public | <strong>__construct()</strong> : <em>void</em> |
 | public | <strong>getGroupMember()</strong> : <em>\Google\Protobuf\Internal\RepeatedField</em><br /><em>群组成员信息</em> |
 | public | <strong>getPageTotalNum()</strong> : <em>int</em><br /><em>分页总数</em> |
-| public | <strong>setGroupMember(</strong><em>\Akaxin\Proto\Core\GroupMemberProfile[]/\Google\Protobuf\Internal\RepeatedField</em> <strong>$var</strong>)</strong> : <em>\Akaxin\Proto\Plugin\$this</em><br /><em>群组成员信息</em> |
-| public | <strong>setPageTotalNum(</strong><em>int</em> <strong>$var</strong>)</strong> : <em>\Akaxin\Proto\Plugin\$this</em><br /><em>分页总数</em> |
 
 
 
@@ -370,11 +333,6 @@
 
 | Visibility | Function |
 |:-----------|:---------|
-| public | <strong>__construct()</strong> : <em>void</em> |
-| public | <strong>getGroupId()</strong> : <em>string</em><br /><em>群组ID</em> |
-| public | <strong>getPageNumber()</strong> : <em>int</em><br /><em>分页：第几页</em> |
-| public | <strong>getPageSize()</strong> : <em>int</em><br /><em>分页：每页条数，默认100</em> |
-| public | <strong>getSiteUserId()</strong> : <em>string</em><br /><em>以谁的视角获取这份数据</em> |
 | public | <strong>setGroupId(</strong><em>string</em> <strong>$var</strong>)</strong> : <em>\Akaxin\Proto\Plugin\$this</em><br /><em>群组ID</em> |
 | public | <strong>setPageNumber(</strong><em>int</em> <strong>$var</strong>)</strong> : <em>\Akaxin\Proto\Plugin\$this</em><br /><em>分页：第几页</em> |
 | public | <strong>setPageSize(</strong><em>int</em> <strong>$var</strong>)</strong> : <em>\Akaxin\Proto\Plugin\$this</em><br /><em>分页：每页条数，默认100</em> |
@@ -388,11 +346,8 @@
 
 | Visibility | Function |
 |:-----------|:---------|
-| public | <strong>__construct()</strong> : <em>void</em> |
 | public | <strong>getGroupMember()</strong> : <em>\Google\Protobuf\Internal\RepeatedField</em><br /><em>群组成员信息</em> |
 | public | <strong>getPageTotalNum()</strong> : <em>int</em><br /><em>分页总数</em> |
-| public | <strong>setGroupMember(</strong><em>\Akaxin\Proto\Core\GroupMemberProfile[]/\Google\Protobuf\Internal\RepeatedField</em> <strong>$var</strong>)</strong> : <em>\Akaxin\Proto\Plugin\$this</em><br /><em>群组成员信息</em> |
-| public | <strong>setPageTotalNum(</strong><em>int</em> <strong>$var</strong>)</strong> : <em>\Akaxin\Proto\Plugin\$this</em><br /><em>分页总数</em> |
 
 
 
@@ -413,8 +368,6 @@
 
 | Visibility | Function |
 |:-----------|:---------|
-| public | <strong>__construct()</strong> : <em>void</em> |
-| public | <strong>getGroupId()</strong> : <em>string</em><br /><em>当前用户获取群组ID的资料信息</em> |
 | public | <strong>setGroupId(</strong><em>string</em> <strong>$var</strong>)</strong> : <em>\Akaxin\Proto\Plugin\$this</em><br /><em>当前用户获取群组ID的资料信息</em> |
 
 
@@ -425,9 +378,7 @@
 
 | Visibility | Function |
 |:-----------|:---------|
-| public | <strong>__construct()</strong> : <em>void</em> |
 | public | <strong>getProfile()</strong> : <em>\Akaxin\Proto\Core\GroupProfile</em><br /><em>群组资料页信息</em> |
-| public | <strong>setProfile(</strong><em>\Akaxin\Proto\Core\GroupProfile</em> <strong>$var</strong>)</strong> : <em>\Akaxin\Proto\Plugin\$this</em><br /><em>群组资料页信息</em> |
 
 
 
@@ -448,9 +399,6 @@
 
 | Visibility | Function |
 |:-----------|:---------|
-| public | <strong>__construct()</strong> : <em>void</em> |
-| public | <strong>getGroupId()</strong> : <em>string</em><br /><em>群组ID</em> |
-| public | <strong>getGroupMember()</strong> : <em>\Google\Protobuf\Internal\RepeatedField</em><br /><em>需要删除的群组成员！！不能删除管理员</em> |
 | public | <strong>setGroupId(</strong><em>string</em> <strong>$var</strong>)</strong> : <em>\Akaxin\Proto\Plugin\$this</em><br /><em>群组ID</em> |
 | public | <strong>setGroupMember(</strong><em>string[]/\Google\Protobuf\Internal\RepeatedField</em> <strong>$var</strong>)</strong> : <em>\Akaxin\Proto\Plugin\$this</em><br /><em>需要删除的群组成员！！不能删除管理员</em> |
 
@@ -462,7 +410,7 @@
 
 | Visibility | Function |
 |:-----------|:---------|
-| public | <strong>__construct()</strong> : <em>void</em> |
+
 
 
 
@@ -483,9 +431,6 @@
 
 | Visibility | Function |
 |:-----------|:---------|
-| public | <strong>__construct()</strong> : <em>void</em> |
-| public | <strong>getGroupId()</strong> : <em>string</em><br /><em>显示的设置群组ID</em> |
-| public | <strong>getProfile()</strong> : <em>\Akaxin\Proto\Core\GroupProfile</em><br /><em>需要更新的群组资料</em> |
 | public | <strong>setGroupId(</strong><em>string</em> <strong>$var</strong>)</strong> : <em>\Akaxin\Proto\Plugin\$this</em><br /><em>显示的设置群组ID</em> |
 | public | <strong>setProfile(</strong><em>\Akaxin\Proto\Core\GroupProfile</em> <strong>$var</strong>)</strong> : <em>\Akaxin\Proto\Plugin\$this</em><br /><em>需要更新的群组资料</em> |
 
@@ -497,7 +442,7 @@
 
 | Visibility | Function |
 |:-----------|:---------|
-| public | <strong>__construct()</strong> : <em>void</em> |
+
 
 
 
@@ -518,8 +463,6 @@
 
 | Visibility | Function |
 |:-----------|:---------|
-| public | <strong>__construct()</strong> : <em>void</em> |
-| public | <strong>getProxyMsg()</strong> : <em>\Akaxin\Proto\Site\ImCtsMessageRequest</em><br /><em>代理发送的消息请求</em> |
 | public | <strong>setProxyMsg(</strong><em>\Akaxin\Proto\Site\ImCtsMessageRequest</em> <strong>$var</strong>)</strong> : <em>\Akaxin\Proto\Plugin\$this</em><br /><em>代理发送的消息请求</em> |
 
 
@@ -530,7 +473,7 @@
 
 | Visibility | Function |
 |:-----------|:---------|
-| public | <strong>__construct()</strong> : <em>void</em> |
+
 
 
 
@@ -551,10 +494,6 @@
 
 | Visibility | Function |
 |:-----------|:---------|
-| public | <strong>__construct()</strong> : <em>void</em> |
-| public | <strong>getContent()</strong> : <em>string</em><br /><em>通知的内容</em> |
-| public | <strong>getPushGoto()</strong> : <em>string</em><br /><em>通知的跳转，可以为空。</em> |
-| public | <strong>getSubtitle()</strong> : <em>string</em><br /><em>push通知的title(副标题)，客户端主标题展示站点名称</em> |
 | public | <strong>setContent(</strong><em>string</em> <strong>$var</strong>)</strong> : <em>\Akaxin\Proto\Plugin\$this</em><br /><em>通知的内容</em> |
 | public | <strong>setPushGoto(</strong><em>string</em> <strong>$var</strong>)</strong> : <em>\Akaxin\Proto\Plugin\$this</em><br /><em>通知的跳转，可以为空。</em> |
 | public | <strong>setSubtitle(</strong><em>string</em> <strong>$var</strong>)</strong> : <em>\Akaxin\Proto\Plugin\$this</em><br /><em>push通知的title(副标题)，客户端主标题展示站点名称</em> |
@@ -567,7 +506,7 @@
 
 | Visibility | Function |
 |:-----------|:---------|
-| public | <strong>__construct()</strong> : <em>void</em> |
+
 
 
 
@@ -588,7 +527,7 @@
 
 | Visibility | Function |
 |:-----------|:---------|
-| public | <strong>__construct()</strong> : <em>void</em> |
+
 
 
 
@@ -598,9 +537,7 @@
 
 | Visibility | Function |
 |:-----------|:---------|
-| public | <strong>__construct()</strong> : <em>void</em> |
 | public | <strong>getSiteConfig()</strong> : <em>\Akaxin\Proto\Core\SiteBackConfig</em><br /><em>信息配置，Key为SiteConfigKey</em> |
-| public | <strong>setSiteConfig(</strong><em>\Akaxin\Proto\Core\SiteBackConfig</em> <strong>$var</strong>)</strong> : <em>\Akaxin\Proto\Plugin\$this</em><br /><em>信息配置，Key为SiteConfigKey</em> |
 
 
 
@@ -621,10 +558,6 @@
 
 | Visibility | Function |
 |:-----------|:---------|
-| public | <strong>__construct()</strong> : <em>void</em> |
-| public | <strong>getPageNumber()</strong> : <em>int</em><br /><em>默认0</em> |
-| public | <strong>getPageSize()</strong> : <em>int</em><br /><em>默认100</em> |
-| public | <strong>getSiteUserId()</strong> : <em>string</em><br /><em>需要查找的用户ID</em> |
 | public | <strong>setPageNumber(</strong><em>int</em> <strong>$var</strong>)</strong> : <em>\Akaxin\Proto\Plugin\$this</em><br /><em>默认0</em> |
 | public | <strong>setPageSize(</strong><em>int</em> <strong>$var</strong>)</strong> : <em>\Akaxin\Proto\Plugin\$this</em><br /><em>默认100</em> |
 | public | <strong>setSiteUserId(</strong><em>string</em> <strong>$var</strong>)</strong> : <em>\Akaxin\Proto\Plugin\$this</em><br /><em>需要查找的用户ID</em> |
@@ -637,11 +570,8 @@
 
 | Visibility | Function |
 |:-----------|:---------|
-| public | <strong>__construct()</strong> : <em>void</em> |
 | public | <strong>getPageTotalNum()</strong> : <em>int</em><br /><em>总页数</em> |
 | public | <strong>getProfile()</strong> : <em>\Google\Protobuf\Internal\RepeatedField</em><br /><em>需要查找的用户</em> |
-| public | <strong>setPageTotalNum(</strong><em>int</em> <strong>$var</strong>)</strong> : <em>\Akaxin\Proto\Plugin\$this</em><br /><em>总页数</em> |
-| public | <strong>setProfile(</strong><em>\Akaxin\Proto\Core\SimpleUserProfile[]/\Google\Protobuf\Internal\RepeatedField</em> <strong>$var</strong>)</strong> : <em>\Akaxin\Proto\Plugin\$this</em><br /><em>需要查找的用户</em> |
 
 
 
@@ -662,10 +592,6 @@
 
 | Visibility | Function |
 |:-----------|:---------|
-| public | <strong>__construct()</strong> : <em>void</em> |
-| public | <strong>getPageNumber()</strong> : <em>int</em><br /><em>默认0</em> |
-| public | <strong>getPageSize()</strong> : <em>int</em><br /><em>默认100</em> |
-| public | <strong>getSiteUserId()</strong> : <em>string</em><br /><em>需要查找的用户ID</em> |
 | public | <strong>setPageNumber(</strong><em>int</em> <strong>$var</strong>)</strong> : <em>\Akaxin\Proto\Plugin\$this</em><br /><em>默认0</em> |
 | public | <strong>setPageSize(</strong><em>int</em> <strong>$var</strong>)</strong> : <em>\Akaxin\Proto\Plugin\$this</em><br /><em>默认100</em> |
 | public | <strong>setSiteUserId(</strong><em>string</em> <strong>$var</strong>)</strong> : <em>\Akaxin\Proto\Plugin\$this</em><br /><em>需要查找的用户ID</em> |
@@ -678,11 +604,8 @@
 
 | Visibility | Function |
 |:-----------|:---------|
-| public | <strong>__construct()</strong> : <em>void</em> |
 | public | <strong>getPageTotalNum()</strong> : <em>int</em><br /><em>总页数</em> |
 | public | <strong>getProfile()</strong> : <em>\Google\Protobuf\Internal\RepeatedField</em><br /><em>需要查找的个人群组</em> |
-| public | <strong>setPageTotalNum(</strong><em>int</em> <strong>$var</strong>)</strong> : <em>\Akaxin\Proto\Plugin\$this</em><br /><em>总页数</em> |
-| public | <strong>setProfile(</strong><em>\Akaxin\Proto\Core\GroupProfile[]/\Google\Protobuf\Internal\RepeatedField</em> <strong>$var</strong>)</strong> : <em>\Akaxin\Proto\Plugin\$this</em><br /><em>需要查找的个人群组</em> |
 
 
 
@@ -703,9 +626,6 @@
 
 | Visibility | Function |
 |:-----------|:---------|
-| public | <strong>__construct()</strong> : <em>void</em> |
-| public | <strong>getPageNumber()</strong> : <em>int</em><br /><em>分页：第几页</em> |
-| public | <strong>getPageSize()</strong> : <em>int</em><br /><em>分页：每页条数</em> |
 | public | <strong>setPageNumber(</strong><em>int</em> <strong>$var</strong>)</strong> : <em>\Akaxin\Proto\Plugin\$this</em><br /><em>分页：第几页</em> |
 | public | <strong>setPageSize(</strong><em>int</em> <strong>$var</strong>)</strong> : <em>\Akaxin\Proto\Plugin\$this</em><br /><em>分页：每页条数</em> |
 
@@ -717,11 +637,8 @@
 
 | Visibility | Function |
 |:-----------|:---------|
-| public | <strong>__construct()</strong> : <em>void</em> |
 | public | <strong>getPageTotalNum()</strong> : <em>int</em> |
 | public | <strong>getUserProfile()</strong> : <em>\Google\Protobuf\Internal\RepeatedField</em><br /><em>查询的结果</em> |
-| public | <strong>setPageTotalNum(</strong><em>int</em> <strong>$var</strong>)</strong> : <em>\Akaxin\Proto\Plugin\$this</em> |
-| public | <strong>setUserProfile(</strong><em>\Akaxin\Proto\Core\SimpleUserProfile[]/\Google\Protobuf\Internal\RepeatedField</em> <strong>$var</strong>)</strong> : <em>\Akaxin\Proto\Plugin\$this</em><br /><em>查询的结果</em> |
 
 
 
@@ -744,8 +661,6 @@
 
 | Visibility | Function |
 |:-----------|:---------|
-| public | <strong>__construct()</strong> : <em>void</em> |
-| public | <strong>getSiteUserId()</strong> : <em>string</em><br /><em>用户的站点ID</em> |
 | public | <strong>setSiteUserId(</strong><em>string</em> <strong>$var</strong>)</strong> : <em>\Akaxin\Proto\Plugin\$this</em><br /><em>用户的站点ID</em> |
 
 
@@ -756,11 +671,8 @@
 
 | Visibility | Function |
 |:-----------|:---------|
-| public | <strong>__construct()</strong> : <em>void</em> |
 | public | <strong>getCountryCode()</strong> : <em>string</em><br /><em>国际区号+86</em> |
 | public | <strong>getPhoneId()</strong> : <em>string</em><br /><em>手机号</em> |
-| public | <strong>setCountryCode(</strong><em>string</em> <strong>$var</strong>)</strong> : <em>\Akaxin\Proto\Plugin\$this</em><br /><em>国际区号+86</em> |
-| public | <strong>setPhoneId(</strong><em>string</em> <strong>$var</strong>)</strong> : <em>\Akaxin\Proto\Plugin\$this</em><br /><em>手机号</em> |
 
 
 
@@ -781,8 +693,6 @@
 
 | Visibility | Function |
 |:-----------|:---------|
-| public | <strong>__construct()</strong> : <em>void</em> |
-| public | <strong>getSiteUserId()</strong> : <em>string</em><br /><em>需要查找的用户ID</em> |
 | public | <strong>setSiteUserId(</strong><em>string</em> <strong>$var</strong>)</strong> : <em>\Akaxin\Proto\Plugin\$this</em><br /><em>需要查找的用户ID</em> |
 
 
@@ -793,9 +703,7 @@
 
 | Visibility | Function |
 |:-----------|:---------|
-| public | <strong>__construct()</strong> : <em>void</em> |
 | public | <strong>getUserProfile()</strong> : <em>\Akaxin\Proto\Core\UserProfile</em><br /><em>需要查找的用户</em> |
-| public | <strong>setUserProfile(</strong><em>\Akaxin\Proto\Core\UserProfile</em> <strong>$var</strong>)</strong> : <em>\Akaxin\Proto\Plugin\$this</em><br /><em>需要查找的用户</em> |
 
 
 
@@ -816,8 +724,6 @@
 
 | Visibility | Function |
 |:-----------|:---------|
-| public | <strong>__construct()</strong> : <em>void</em> |
-| public | <strong>getUserProfile()</strong> : <em>\Akaxin\Proto\Core\UserProfile</em><br /><em>需要更新的用户信息</em> |
 | public | <strong>setUserProfile(</strong><em>\Akaxin\Proto\Core\UserProfile</em> <strong>$var</strong>)</strong> : <em>\Akaxin\Proto\Plugin\$this</em><br /><em>需要更新的用户信息</em> |
 
 
@@ -828,4 +734,3 @@
 
 | Visibility | Function |
 |:-----------|:---------|
-| public | <strong>__construct()</strong> : <em>void</em> |
