@@ -1,4 +1,3 @@
-在线访问：https://www.akaxin.com/docs/
 
 扩展可以通过调用站点主服务器的InnerAPI来增强产品功能。
 
@@ -7,7 +6,7 @@
 
 1. 每一个InnerAPI，都有接口名、Request结构体、Response结构体。
 2. InnerAPI的文档，请查阅
-    * PHP版
+    * [PHP版](sdk-php/)
     * Java版
 
 SDK
@@ -37,8 +36,8 @@ $userProfileResponse->mergeFromString($responseData);
 var_dump($userProfileResponse->getUserProfile());
 ```
 
-使用自己的composer安装google/protobuf
-
-```php
-define("DONNOT_USE_AKAXIN_GOOGLE_PROTOBUF_LIB", true);
-```
+> 如果你自己有composer，并且已经安装了google/protobuf，可以使用下面的常量，禁用AkaxinLib里的lib，防止冲突。
+>
+> ```php
+> define("DONNOT_USE_AKAXIN_GOOGLE_PROTOBUF_LIB", true);
+> ```
