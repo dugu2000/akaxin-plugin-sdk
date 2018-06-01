@@ -13,14 +13,14 @@
 // 初始化设置
 // =========
 // 本源码以获取用户Profile接口为例
-$innerApiHost = "127.0.0.1";        // 对应启动服务器时的 -Dhttp.address 参数
-$innerApiPort = 8280;               // 对应启动服务器时的 -Dhttp.port 参数
+$pluginApiHost = "127.0.0.1";        // 对应启动服务器时的 -Dhttp.address 参数
+$pluginApiPort = 8280;               // 对应启动服务器时的 -Dhttp.port 参数
 $pluginAuthKey = "XxlgqWBc6N4fMWZF";// 管理平台->扩展列表，点击相应的扩展获取。
 $pluginId = 3;
 
 
 require_once(__DIR__ . "/AkaxinPluginApiClient.php");
-$akaxinApiClient = new AkaxinPluginApiClient($innerApiHost, $innerApiPort, $pluginId, $pluginAuthKey);
+$akaxinApiClient = new AkaxinPluginApiClient($pluginApiHost, $pluginApiPort, $pluginId, $pluginAuthKey);
 
 
 // 构造Request
