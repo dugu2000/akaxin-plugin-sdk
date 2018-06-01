@@ -1,4 +1,3 @@
-在线访问：https://www.akaxin.com/docs/
 
 扩展可以通过调用站点主服务器的InnerAPI来增强产品功能。
 
