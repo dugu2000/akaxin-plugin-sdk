@@ -15,7 +15,7 @@
 // 本源码以获取用户Profile接口为例
 $innerApiHost = "127.0.0.1";        // 对应启动服务器时的 -Dhttp.address 参数
 $innerApiPort = 8280;               // 对应启动服务器时的 -Dhttp.port 参数
-$pluginAuthKey = "XxlgqWBc6N4fMWZF";// 管理平台->扩展列表，点击相应的扩展获取。
+$pluginAuthKey = "SgG64DAKUhS2eroo";// 管理平台->扩展列表，点击相应的扩展获取。
 $pluginId = 3;
 
 
@@ -25,14 +25,14 @@ $akaxinApiClient = new AkaxinPluginApiClient($innerApiHost, $innerApiPort, $plug
 
 // 构造Request
 // ==========
-$siteUserIdForQuery = "c15c4e03-ab76-4d1e-bf89-dc8699ae02ca";
+$siteUserIdForQuery = "63694fc0-7236-4dc8-aa3d-0956fa6d80c9";
 $requestMessage = new Akaxin\Proto\Plugin\HaiUserProfileRequest();
 $requestMessage->setSiteUserId($siteUserIdForQuery);
 
 
 // 执行请求
 // =======
-$responseData = $akaxinApiClient->request("hai/user/profile", $requestMessage);
+$responseData = $akaxinApiClient->request("/hai/user/profile", $requestMessage);
 
 
 // 处理返回逻辑
