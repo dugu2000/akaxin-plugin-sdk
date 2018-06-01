@@ -90,8 +90,13 @@ class AkaxinPluginApiClient {
         }
 
         $errorInfo = $responsePackage->getErrorInfo();
-        $this->lastErrorCode = $errorInfo->getCode();
-        $this->lastErrorInfo = $errorInfo->getInfo();
+        if ($errorInfo instanceof Akaxin\Proto\Core\ErrorInfo) {
+            $this->lastErrorCode = $errorInfo->getCode();
+            $this->lastErrorInfo = $errorInfo->getInfo();
+        } else {
+            $this->lastErrorCode = "";
+            $this->lastErrorInfo = "";
+        }
 
         // 业务逻辑，开始解析Response
         // ===============
