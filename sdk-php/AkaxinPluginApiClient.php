@@ -12,7 +12,10 @@ use \Google\Protobuf\Internal\Message;
 //
 // ==========================
 if (false === defined("DONNOT_USE_AKAXIN_GOOGLE_PROTOBUF_LIB") || false === DONNOT_USE_AKAXIN_GOOGLE_PROTOBUF_LIB) {
-    require_once(__DIR__ ."/vendor/autoload.php");
+    $path = __DIR__ ."/vendor/autoload.php";
+    if (file_exists($path)) {
+        require_once(__DIR__ ."/vendor/autoload.php");
+    }
 }
 
 // 加载AkaxinProtoSDK
@@ -20,7 +23,10 @@ if (false === defined("DONNOT_USE_AKAXIN_GOOGLE_PROTOBUF_LIB") || false === DONN
 // Akaxin\Proto 有很多，在sdk-php文件夹下，具体接口使用哪一个，请参考接口文档。
 function autoloadForAkaxinProtoSDK($className) {
     $className = str_replace("\\", "/", $className);
-    require_once(__DIR__ . "/{$className}.php");
+    $path = __DIR__ . "/{$className}.php";
+    if (file_exists($path)) {
+        require_once(__DIR__ . "/{$className}.php");
+    }
 }
 spl_autoload_register("autoloadForAkaxinProtoSDK");
 
@@ -31,7 +37,7 @@ spl_autoload_register("autoloadForAkaxinProtoSDK");
  * 用于访问InnerAPI的客户端
  *
  */
-class AkaxinInnerApiClient {
+class AkaxinPluginApiClient {
 
     private $apiHost = "127.0.0.1"; // 对应启动服务器时的 -Dhttp.address 参数
     private $apiPort = 8280;        // 对应启动服务器时的 -Dhttp.port 参数
@@ -124,7 +130,7 @@ class AkaxinInnerApiClient {
         $postData = openssl_encrypt($requestPackage->serializeToString() , "AES-128-ECB", $this->authkey, OPENSSL_RAW_DATA);
 
         $actionName = trim($actionName, "/\\ ");
-        $url = "http://{$this->apiHost}:{$this->apiPort}/{$actionName}";
+        $url = "http://{$this->apiHost}:{$this->apiPort}/akaxin-plugin-api/{$actionName}";
         $ch = curl_init("http://{$this->apiHost}:{$this->apiPort}/{$actionName}");
         $httpHeader = array(
             "site-plugin-id: {$this->pluginId}", // 替换为自己的扩展ID
