@@ -7,7 +7,7 @@
 
 1. 每一个InnerAPI，都有接口名、Request结构体、Response结构体。
 2. InnerAPI的文档，请查阅
-    * PHP版
+    * [PHP版](sdk-php/)
     * Java版
 
 SDK
@@ -37,8 +37,8 @@ $userProfileResponse->mergeFromString($responseData);
 var_dump($userProfileResponse->getUserProfile());
 ```
 
-使用自己的composer安装google/protobuf
-
-```php
-define("DONNOT_USE_AKAXIN_GOOGLE_PROTOBUF_LIB", true);
-```
+> 使用自己的composer安装google/protobuf
+>
+> ```php
+> define("DONNOT_USE_AKAXIN_GOOGLE_PROTOBUF_LIB", true);
+> ```
