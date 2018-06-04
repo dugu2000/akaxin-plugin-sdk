@@ -320,7 +320,10 @@ final class HaiGroupTest extends TestCase
         $this->assertEmpty($client->errorInfo());
 
         $groupProfiles = $response->getGroupProfile();
-        $this->assertEmpty($groupProfiles);
+        $this->assertEquals(
+            0,
+            count($groupProfiles)
+        );
     }
 
     public function testHaiGroupMembersRequest(): void
@@ -400,7 +403,10 @@ final class HaiGroupTest extends TestCase
         );
         $this->assertEmpty($client->errorInfo());
         $groupMembers = $response->getGroupMember();
-        $this->assertNotEmpty($groupMembers);
+        $this->assertGreaterThan(
+            count($groupMembers),
+            0
+        );
     }
 
     public function testHaiGroupProfileRequest(): void
