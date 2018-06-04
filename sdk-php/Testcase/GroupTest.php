@@ -267,7 +267,6 @@ final class HaiGroupTest extends TestCase
         $client = getApiClient();
 
         $request = new Akaxin\Proto\Plugin\HaiGroupListRequest();
-        $request->setSiteUserId();
         $request->setPageNumber(1);
         $request->setPageSize(10);
         $responseData = $client->request("/hai/group/list", $request);

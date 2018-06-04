@@ -74,14 +74,14 @@ final class HaiUserTest extends TestCase
         $response->mergeFromString($responseData);
 
         $this->assertEquals(ERROR_CODE_SUCCESS, $client->errorCode());
-        $this->assertEquals(100, count($client->getUserProfile()) );
+        $this->assertEquals(100, count($response->getUserProfile()) );
     }
 
     public function testHaiUserPhoneRequest() {
         $userA = Context::getInstance()->getUserA();
 
         $client = getApiClient();
-        $request = new Akaxin\Proto\Plugin\HaiUserListRequest();
+        $request = new Akaxin\Proto\Plugin\HaiUserPhoneRequest();
         $request->setSiteUserId($userA);
 
         $responseData = $client->request("hai/user/phone", $request);
