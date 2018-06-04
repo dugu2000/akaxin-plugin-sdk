@@ -4,6 +4,16 @@ use PHPUnit\Framework\TestCase;
 
 final class HaiMessageTest extends TestCase
 {
+
+    /**
+     * @afterClass
+     */
+    public static function tearDownEnv()
+    {
+        Context::getInstance()->restartServer();
+    }
+
+
     public function testHaiMessageProxyRequest(): void
     {
         $admin = Context::getInstance()->getAdminUserID();

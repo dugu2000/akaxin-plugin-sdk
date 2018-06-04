@@ -118,7 +118,6 @@ class Context {
 
     function killServer() {
         system("ps aux | grep openzaly-server-for-phpunit.jar > ps.log");
-        echo "stop the server.";
         $awkCommand = "awk '{print \$2}'";
         system("ps aux | grep openzaly-server-for-phpunit.jar | grep -v grep | {$awkCommand} | xargs kill -9");
     }

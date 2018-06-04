@@ -6,6 +6,14 @@ use PHPUnit\Framework\TestCase;
 final class HaiUserTest extends TestCase
 {
 
+    /**
+     * @afterClass
+     */
+    public static function tearDownEnv()
+    {
+        Context::getInstance()->restartServer();
+    }
+
     private $editUserName;
 
     private function getUserProfile() {

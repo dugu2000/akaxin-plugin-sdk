@@ -11,6 +11,14 @@ use PHPUnit\Framework\TestCase;
 final class HaiGroupTest extends TestCase
 {
 
+    /**
+     * @afterClass
+     */
+    public static function tearDownEnv()
+    {
+        Context::getInstance()->restartServer();
+    }
+
     public function testHaiGroupAddMemberRequest(): void
     {
         // 获取用户ID
