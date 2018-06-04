@@ -9,6 +9,10 @@ final class HaiFriendTest extends TestCase
     public function testHaiFriendAddRequest(): void
     {
 
+
+        // 获取用户ID
+        $userA = Context::getInstance()->getUserA();
+
         $client = getApiClient();
 
         $request = new Akaxin\Proto\Plugin\HaiFriendAddRequest();

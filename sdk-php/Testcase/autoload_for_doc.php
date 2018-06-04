@@ -55,6 +55,36 @@ class Context {
         return self::$instance;
     }
 
+    function getAdminUserID() {
+        return "xxx";
+    }
+
+    function getUserA() {
+        return "xxx";
+    }
+
+    function getUserB() {
+        return "xxx";
+    }
+
+    function getUserC() {
+        return "xxx";
+    }
+
+    function getUserD() {
+        return "xxx";
+    }
+
+    function getGroupA() {
+        return "xxx";
+    }
+
+    function getGroupB() {
+        return "xxx";
+    }
+
+
+
     function startupServer() {
 
         chdir(BASE_DIR);
@@ -80,11 +110,21 @@ class Context {
         sleep(5);
     }
 
-    function __destruct() {
+    function restartServer() {
+        $this->killServer();
+        sleep(1);
+        $this->startupServer();
+    }
+
+    function killServer() {
         system("ps aux | grep openzaly-server-for-phpunit.jar > ps.log");
         echo "stop the server.";
         $awkCommand = "awk '{print \$2}'";
         system("ps aux | grep openzaly-server-for-phpunit.jar | grep -v grep | {$awkCommand} | xargs kill -9");
+    }
+
+    function __destruct() {
+        $this->killServer();
     }
 }
 
