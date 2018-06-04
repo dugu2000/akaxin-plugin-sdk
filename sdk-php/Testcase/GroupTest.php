@@ -133,6 +133,86 @@ final class HaiGroupTest extends TestCase
             ));
         }
     }
+
+
+    public function testHaiGroupRemoveMemberRequest(): void
+    {
+        // 获取用户ID
+        $userA = Context::getInstance()->getUserA();
+        $userB = Context::getInstance()->getUserB();
+        $userC = Context::getInstance()->getUserC();
+        $userD = Context::getInstance()->getUserD();
+        $groupA = Context::getInstance()->getGroupA();
+        $admin = Context::getInstance()->getAdminUserID();
+
+        $client = getApiClient();
+
+        $request = new Akaxin\Proto\Plugin\HaiGroupRemoveMemberRequest();
+        $request->setGroupId($groupA);
+        $request->setGroupMember(
+            array(
+                $userA
+            )
+        );
+        $responseData = $client->request("/hai/group/removeMember", $request);
+
+        $response = new Akaxin\Proto\Plugin\HaiGroupRemoveMemberResponse();
+        $response->mergeFromString($responseData);
+
+
+        $this->assertInstanceOf(
+            Akaxin\Proto\Plugin\HaiGroupRemoveMemberResponse::class,
+            $response
+        );
+
+        $this->assertEquals(
+            ERROR_CODE_SUCCESS,
+            $client->errorCode()
+        );
+
+        $this->assertEmpty($client->errorInfo());
+
+    }
+
+    public function testHaiGroupRemoveMemberRequest_admin(): void
+    {
+        // 获取用户ID
+        $userA = Context::getInstance()->getUserA();
+        $userB = Context::getInstance()->getUserB();
+        $userC = Context::getInstance()->getUserC();
+        $userD = Context::getInstance()->getUserD();
+        $groupA = Context::getInstance()->getGroupA();
+        $admin = Context::getInstance()->getAdminUserID();
+
+        $client = getApiClient();
+
+        $request = new Akaxin\Proto\Plugin\HaiGroupRemoveMemberRequest();
+        $request->setGroupId($groupA);
+        $request->setGroupMember(
+            array(
+                $admin
+            )
+        );
+        $responseData = $client->request("/hai/group/removeMember", $request);
+
+        $response = new Akaxin\Proto\Plugin\HaiGroupRemoveMemberResponse();
+        $response->mergeFromString($responseData);
+
+
+        $this->assertInstanceOf(
+            Akaxin\Proto\Plugin\HaiGroupRemoveMemberResponse::class,
+            $response
+        );
+
+        $this->assertEquals(
+            ERROR_CODE_SUCCESS,
+            $client->errorCode()
+        );
+
+        $this->assertEmpty($client->errorInfo());
+
+    }
+
     public function testHaiGroupDeleteRequest(): void
     {
         // 获取用户ID
@@ -165,6 +245,7 @@ final class HaiGroupTest extends TestCase
         $this->assertEmpty($client->errorInfo());
 
     }
+
     public function testHaiGroupListRequest(): void
     {
         // 获取用户ID
@@ -201,6 +282,8 @@ final class HaiGroupTest extends TestCase
         $groupProfiles = $response->getGroupProfile();
         $this->assertNotEmpty($groupProfiles);
     }
+
+//    查询c的群组
     public function testHaiGroupListRequest_C(): void
     {
         // 获取用户ID
@@ -239,4 +322,163 @@ final class HaiGroupTest extends TestCase
         $groupProfiles = $response->getGroupProfile();
         $this->assertEmpty($groupProfiles);
     }
+
+    public function testHaiGroupMembersRequest(): void
+    {
+        // 获取用户ID
+        $userA = Context::getInstance()->getUserA();
+        $userB = Context::getInstance()->getUserB();
+        $userC = Context::getInstance()->getUserC();
+        $userD = Context::getInstance()->getUserD();
+        $groupA = Context::getInstance()->getGroupA();
+        $groupB = Context::getInstance()->getGroupB();
+        $admin = Context::getInstance()->getAdminUserID();
+
+        $client = getApiClient();
+
+        $request = new Akaxin\Proto\Plugin\HaiGroupMembersRequest();
+        $request->setGroupId($groupB);
+        $request->setPageSize(1000);
+        $request->setPageNumber(1);
+        $responseData = $client->request("/hai/group/members", $request);
+
+        $response = new Akaxin\Proto\Plugin\HaiGroupMembersResponse();
+        $response->mergeFromString($responseData);
+
+
+        $this->assertInstanceOf(
+            Akaxin\Proto\Plugin\HaiGroupMembersResponse::class,
+            $response
+        );
+
+        $this->assertEquals(
+            ERROR_CODE_SUCCESS,
+            $client->errorCode()
+        );
+        $this->assertEmpty($client->errorInfo());
+        $groupMembers = $response->getGroupMember();
+        $this->assertEquals(
+            101,
+            $groupMembers->count()
+        );
+    }
+
+    public function testHaiGroupNonmembersRequest(): void
+    {
+        // 获取用户ID
+        $userA = Context::getInstance()->getUserA();
+        $userB = Context::getInstance()->getUserB();
+        $userC = Context::getInstance()->getUserC();
+        $userD = Context::getInstance()->getUserD();
+        $groupA = Context::getInstance()->getGroupA();
+        $groupB = Context::getInstance()->getGroupB();
+        $admin = Context::getInstance()->getAdminUserID();
+
+        $client = getApiClient();
+
+        $request = new Akaxin\Proto\Plugin\HaiGroupNonmembersRequest();
+        $request->setGroupId($groupB);
+        $request->setPageNumber(1);
+        $request->setPageSize(1000);
+        $request->setSiteUserId($admin);
+
+
+        $responseData = $client->request("/hai/group/nonmembers", $request);
+
+        $response = new Akaxin\Proto\Plugin\HaiGroupNonmembersResponse();
+        $response->mergeFromString($responseData);
+
+
+        $this->assertInstanceOf(
+            Akaxin\Proto\Plugin\HaiGroupNonmembersResponse::class,
+            $response
+        );
+
+        $this->assertEquals(
+            ERROR_CODE_SUCCESS,
+            $client->errorCode()
+        );
+        $this->assertEmpty($client->errorInfo());
+        $groupMembers = $response->getGroupMember();
+        $this->assertNotEmpty($groupMembers);
+    }
+
+    public function testHaiGroupProfileRequest(): void
+    {
+        // 获取用户ID
+        $userA = Context::getInstance()->getUserA();
+        $userB = Context::getInstance()->getUserB();
+        $userC = Context::getInstance()->getUserC();
+        $userD = Context::getInstance()->getUserD();
+        $groupA = Context::getInstance()->getGroupA();
+        $groupB = Context::getInstance()->getGroupB();
+        $admin = Context::getInstance()->getAdminUserID();
+
+        $client = getApiClient();
+
+        $request = new Akaxin\Proto\Plugin\HaiGroupProfileRequest();
+        $request->setGroupId($groupB);
+
+        $responseData = $client->request("/hai/group/profile", $request);
+
+        $response = new Akaxin\Proto\Plugin\HaiGroupProfileResponse();
+        $response->mergeFromString($responseData);
+
+
+        $this->assertInstanceOf(
+            Akaxin\Proto\Plugin\HaiGroupProfileResponse::class,
+            $response
+        );
+
+        $this->assertEquals(
+            ERROR_CODE_SUCCESS,
+            $client->errorCode()
+        );
+        $this->assertEmpty($client->errorInfo());
+        $groupProfile = $response->getProfile();
+        $name = $groupProfile->getName();
+        $this->assertEquals(
+            "撬剧1",
+            $name
+        );
+    }
+
+    public function testHaiGroupUpdateRequest(): void
+    {
+        // 获取用户ID
+        $userA = Context::getInstance()->getUserA();
+        $userB = Context::getInstance()->getUserB();
+        $userC = Context::getInstance()->getUserC();
+        $userD = Context::getInstance()->getUserD();
+        $groupA = Context::getInstance()->getGroupA();
+        $groupB = Context::getInstance()->getGroupB();
+        $admin = Context::getInstance()->getAdminUserID();
+
+        $client = getApiClient();
+
+        $request = new Akaxin\Proto\Plugin\HaiGroupUpdateRequest();
+        $request->setGroupId($groupB);
+        $profile = new Akaxin\Proto\Core\GroupProfile();
+        $profile->setName("测试群组2");
+        $request->setProfile($profile);
+        $responseData = $client->request("/hai/group/update", $request);
+
+        $response = new Akaxin\Proto\Plugin\HaiGroupUpdateResponse();
+        $response->mergeFromString($responseData);
+
+
+        $this->assertInstanceOf(
+            Akaxin\Proto\Plugin\HaiGroupUpdateResponse::class,
+            $response
+        );
+
+        $this->assertEquals(
+            ERROR_CODE_SUCCESS,
+            $client->errorCode()
+        );
+        $this->assertEmpty($client->errorInfo());
+
+    }
+
+
 }
