@@ -48,6 +48,7 @@ final class HaiFriendTest extends TestCase
     public function testHaiFriendApplyRequest(): void
     {
         // 获取用户ID
+        // 这个Case有问题，A和B已经是好友了。
         $userA = Context::getInstance()->getUserA();
         $userB = Context::getInstance()->getUserB();
         $admin = Context::getInstance()->getAdminUserID();
@@ -68,7 +69,7 @@ final class HaiFriendTest extends TestCase
             $response
         );
 
-        $this->assertEquals(
+        $this->assertNotEquals(
             ERROR_CODE_SUCCESS,
             $client->errorCode()
         );

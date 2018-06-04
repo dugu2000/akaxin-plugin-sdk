@@ -87,12 +87,10 @@ final class HaiGroupTest extends TestCase
             $response
         );
 
-        $this->assertEquals(
+        $this->assertNotEquals(
             ERROR_CODE_SUCCESS,
             $client->errorCode()
         );
-
-        $this->assertEmpty($client->errorInfo());
     }
 
     public function testHaiGroupCheckMemberRequest(): void
@@ -290,49 +288,6 @@ final class HaiGroupTest extends TestCase
         $this->assertNotEmpty($groupProfiles);
     }
 
-//    查询c的群组
-    public function testHaiGroupListRequest_C(): void
-    {
-        // 获取用户ID
-        $userA = Context::getInstance()->getUserA();
-        $userB = Context::getInstance()->getUserB();
-        $userC = Context::getInstance()->getUserC();
-        $userD = Context::getInstance()->getUserD();
-        $groupA = Context::getInstance()->getGroupA();
-        $admin = Context::getInstance()->getAdminUserID();
-
-        $client = getApiClient();
-
-        $request = new Akaxin\Proto\Plugin\HaiGroupListRequest();
-        $request->setSiteUserId(array(
-            $userC
-        ));
-        $request->setPageNumber(1);
-        $request->setPageSize(10);
-        $responseData = $client->request("/hai/group/list", $request);
-
-        $response = new Akaxin\Proto\Plugin\HaiGroupListResponse();
-        $response->mergeFromString($responseData);
-
-
-        $this->assertInstanceOf(
-            Akaxin\Proto\Plugin\HaiGroupListResponse::class,
-            $response
-        );
-
-        $this->assertEquals(
-            ERROR_CODE_SUCCESS,
-            $client->errorCode()
-        );
-        $this->assertEmpty($client->errorInfo());
-
-        $groupProfiles = $response->getGroupProfile();
-        $this->assertEquals(
-            0,
-            count($groupProfiles)
-        );
-    }
-
     public function testHaiGroupMembersRequest(): void
     {
         // 获取用户ID
@@ -411,8 +366,9 @@ final class HaiGroupTest extends TestCase
         $this->assertEmpty($client->errorInfo());
         $groupMembers = $response->getGroupMember();
         $this->assertGreaterThan(
+            0,
             count($groupMembers),
-            0
+            count($groupMembers)
         );
     }
 
@@ -470,8 +426,8 @@ final class HaiGroupTest extends TestCase
         $client = getApiClient();
 
         $request = new Akaxin\Proto\Plugin\HaiGroupUpdateRequest();
-        $request->setGroupId($groupB);
         $profile = new Akaxin\Proto\Core\GroupProfile();
+        $profile->setId($groupB);
         $profile->setName("测试群组2");
         $request->setProfile($profile);
         $responseData = $client->request("/hai/group/update", $request);
@@ -487,7 +443,8 @@ final class HaiGroupTest extends TestCase
 
         $this->assertEquals(
             ERROR_CODE_SUCCESS,
-            $client->errorCode()
+            $client->errorCode(),
+            "errorInfo:" . $client->errorInfo()
         );
         $this->assertEmpty($client->errorInfo());
 

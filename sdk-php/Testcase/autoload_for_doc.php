@@ -103,7 +103,7 @@ class Context {
         $confPluginapiPort = CONF_PLUGINAPI_PORT;
         $confAdminPort = CONF_ADMIN_PORT;
 
-        $command = "java -jar -Dsite.baseDir=workspace-for-phpunit -Dsite.port={$confSitePort} -Dhttp.port={$confPluginapiPort} -Dsite.admin.port={$confAdminPort} openzaly-server-for-phpunit.jar > /dev/null 2>/dev/null &";
+        $command = "java -jar -Dsite.baseDir=workspace-for-phpunit -Dsite.port={$confSitePort} -Dpluginapi.port={$confPluginapiPort} -Dsite.admin.port={$confAdminPort} openzaly-server-for-phpunit.jar > /dev/null 2>/dev/null &";
         system($command);
 
         // wait the server starts
