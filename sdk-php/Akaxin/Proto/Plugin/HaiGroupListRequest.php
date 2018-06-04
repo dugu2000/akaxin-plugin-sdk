@@ -36,12 +36,6 @@ class HaiGroupListRequest extends \Google\Protobuf\Internal\Message
      * 
      */
     private $page_size = 0;
-    /**
-     * 查询谁的群组，为空则查询所有。
-     *
-     * 
-     */
-    private $site_user_id;
 
     public function __construct() {
         \GPBMetadata\Plugin\HaiGroupList::initOnce();
@@ -96,32 +90,6 @@ class HaiGroupListRequest extends \Google\Protobuf\Internal\Message
     {
         GPBUtil::checkInt32($var);
         $this->page_size = $var;
-
-        return $this;
-    }
-
-    /**
-     * 查询谁的群组，为空则查询所有。
-     *
-     * 
-     * @return \Google\Protobuf\Internal\RepeatedField
-     */
-    public function getSiteUserId()
-    {
-        return $this->site_user_id;
-    }
-
-    /**
-     * 查询谁的群组，为空则查询所有。
-     *
-     * 
-     * @param string[]|\Google\Protobuf\Internal\RepeatedField $var
-     * @return $this
-     */
-    public function setSiteUserId($var)
-    {
-        $arr = GPBUtil::checkRepeatedField($var, \Google\Protobuf\Internal\GPBType::STRING);
-        $this->site_user_id = $arr;
 
         return $this;
     }

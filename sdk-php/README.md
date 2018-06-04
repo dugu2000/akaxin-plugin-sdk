@@ -256,7 +256,6 @@
 |:-----------|:---------|
 | public | <strong>setPageNumber(</strong><em>int</em> <strong>$var</strong>)</strong> : <em>\Akaxin\Proto\Plugin\$this</em><br /><em>第几页</em> |
 | public | <strong>setPageSize(</strong><em>int</em> <strong>$var</strong>)</strong> : <em>\Akaxin\Proto\Plugin\$this</em><br /><em>每页的条数，默认100</em> |
-| public | <strong>setSiteUserId(</strong><em>string[]/\Google\Protobuf\Internal\RepeatedField</em> <strong>$var</strong>)</strong> : <em>\Akaxin\Proto\Plugin\$this</em><br /><em>查询谁的群组，为空则查询所有。</em> |
 
 
 
