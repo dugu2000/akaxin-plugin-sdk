@@ -128,4 +128,4 @@ class Context {
     }
 }
 
-Context::getInstance()->startupServer();
+Context::getInstance()->start();
