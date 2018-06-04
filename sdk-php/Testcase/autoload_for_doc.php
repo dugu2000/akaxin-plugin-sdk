@@ -1,7 +1,7 @@
 <?php
 
 $pluginApiHost = "127.0.0.1";        // 对应启动服务器时的 -Dhttp.address 参数
-$pluginAuthKey = "SgG64DAKUhS2eroo";// 管理平台->扩展列表，点击相应的扩展获取。
+$pluginAuthKey = "klg9V82TJnzBeRRS";// 管理平台->扩展列表，点击相应的扩展获取。
 $pluginId = 3;
 
 
@@ -56,31 +56,31 @@ class Context {
     }
 
     function getAdminUserID() {
-        return "xxx";
+        return "b182fa30-a9ff-4d5a-b9fd-012facb54d84";
     }
 
     function getUserA() {
-        return "xxx";
+        return "8e8030a5-668a-4cd4-a8b1-1adbac2c3029";
     }
 
     function getUserB() {
-        return "xxx";
+        return "016ff467-89c9-4f69-b662-65c3e2e2dce2";
     }
 
     function getUserC() {
-        return "xxx";
+        return "a59509b1-a15c-4bad-975f-614ea88a3e72";
     }
 
     function getUserD() {
-        return "xxx";
+        return "8bd0b734-40b6-4803-9a2f-510ecbc67dc1";
     }
 
     function getGroupA() {
-        return "xxx";
+        return "10001";
     }
 
     function getGroupB() {
-        return "xxx";
+        return "10002";
     }
 
 
@@ -128,4 +128,4 @@ class Context {
     }
 }
 
-Context::getInstance()->start();
+Context::getInstance()->startupServer();
