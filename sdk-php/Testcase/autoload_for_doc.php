@@ -1,7 +1,7 @@
 <?php
 
 $pluginApiHost = "127.0.0.1";        // 对应启动服务器时的 -Dhttp.address 参数
-$pluginAuthKey = "SgG64DAKUhS2eroo";// 管理平台->扩展列表，点击相应的扩展获取。
+$pluginAuthKey = "klg9V82TJnzBeRRS";// 管理平台->扩展列表，点击相应的扩展获取。
 $pluginId = 3;
 
 
@@ -128,4 +128,4 @@ class Context {
     }
 }
 
-Context::getInstance()->start();
+Context::getInstance()->startupServer();
