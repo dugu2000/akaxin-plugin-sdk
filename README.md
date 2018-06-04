@@ -1,11 +1,11 @@
 
-扩展可以通过调用站点主服务器的InnerAPI来增强产品功能。
+扩展可以通过调用站点主服务器的PluginAPI来增强产品功能。
 
 基本介绍
 ====
 
-1. 每一个InnerAPI，都有接口名、Request结构体、Response结构体。
-2. InnerAPI的文档，请查阅
+1. 每一个PluginAPI，都有接口名、Request结构体、Response结构体。
+2. PluginAPI的文档，请查阅
     * [PHP版](sdk-php/)
     * Java版
 
@@ -24,7 +24,7 @@ PHP通过SDK调用InnerAPI
 ----
 
 ```php
-$akaxinApiClient = new AkaxinInnerApiClient($innerApiHost, $innerApiPort, $pluginId, $pluginAuthKey);
+$akaxinApiClient = new AkaxinPluginApiClient($pluginApiHost, $pluginApiPort, $pluginId, $pluginAuthKey);
 
 $requestMessage = new Akaxin\Proto\Plugin\HaiUserProfileRequest();
 $requestMessage->setSiteUserId($siteUserIdForQuery);
