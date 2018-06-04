@@ -5,7 +5,7 @@
 3. 执行以下命令
 
 ```
-wget -o phpunit https://phar.phpunit.de/phpunit-7.0.phar
+wget --output-document phpunit https://phar.phpunit.de/phpunit-7.0.phar
 chmod u+x phpunit
 phpunit --bootstrap autoload_for_doc.php ./
 ```
