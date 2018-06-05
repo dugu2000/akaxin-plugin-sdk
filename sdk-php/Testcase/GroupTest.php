@@ -300,8 +300,6 @@ final class HaiGroupTest extends TestCase
             $client->errorCode()
         );
 
-        $this->assertEmpty($client->errorInfo());
-
     }
 
     //删除群组

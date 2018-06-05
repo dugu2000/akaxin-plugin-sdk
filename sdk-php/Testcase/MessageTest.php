@@ -51,41 +51,4 @@ final class HaiMessageTest extends TestCase
 
     }
 
-    //测试 错误Id
-    public function testHaiMessageProxyRequest_WrongId(): void
-    {
-        //admin 和 userA 都是错误Id
-        $admin = Context::getInstance()->getWrongId();
-        $userA = Context::getInstance()->getWrongId();
-
-        $client = getApiClient();
-        $request = new Akaxin\Proto\Plugin\HaiMessageProxyRequest();
-        $imCtsMessageRequest = new Akaxin\Proto\Site\ImCtsMessageRequest();
-        $msgText = new Akaxin\Proto\Core\MsgText();
-        $msgText->setText("你好这是测试消息");
-        $msgText->setTime("0");
-        $msgText->setSiteUserId($admin);
-        $msgText->setMsgId("001");
-        $msgText->setSiteFriendId($userA);
-        $imCtsMessageRequest->setText($msgText);
-        $imCtsMessageRequest->setType(3);
-        $request->setProxyMsg($imCtsMessageRequest);
-
-        $responseData = $client->request("/hai/message/proxy", $request);
-        $response = new Akaxin\Proto\Plugin\HaiGroupUpdateResponse();
-        $response->mergeFromString($responseData);
-
-        $this->assertInstanceOf(
-            Akaxin\Proto\Plugin\HaiGroupUpdateResponse::class,
-            $response
-        );
-
-        $this->assertNotEquals(
-            ERROR_CODE_SUCCESS,
-            $client->errorCode()
-        );
-
-
-    }
-
 }
