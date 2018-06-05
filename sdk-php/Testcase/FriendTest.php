@@ -14,21 +14,19 @@ final class HaiFriendTest extends TestCase
         Context::getInstance()->restartServer();
     }
 
+    //测试正常情况添加好友
     public function testHaiFriendAddRequest(): void
     {
-        // 获取用户ID
+        //已知userA和userB不是好友
         $userA = Context::getInstance()->getUserA();
         $userB = Context::getInstance()->getUserB();
-        $admin = Context::getInstance()->getAdminUserID();
 
         $client = getApiClient();
-
         $request = new Akaxin\Proto\Plugin\HaiFriendAddRequest();
         $request->setSiteUserId($userA);
         $request->setFriendSiteUserId($userB);
 
         $responseData = $client->request("hai/friend/add", $request);
-
         $response = new Akaxin\Proto\Plugin\HaiFriendAddResponse();
         $response->mergeFromString($responseData);
 
@@ -45,20 +43,76 @@ final class HaiFriendTest extends TestCase
         $this->assertEmpty($client->errorInfo());
     }
 
-    public function testHaiFriendApplyRequest(): void
+    //测试错误的UserId
+    public function testHaiFriendAddRequest_WrongId(): void
     {
-        // 获取用户ID
-        // 这个Case有问题，A和B已经是好友了。
-        $userA = Context::getInstance()->getUserA();
-        $userB = Context::getInstance()->getUserB();
-        $admin = Context::getInstance()->getAdminUserID();
+        //userA userB 不是已存在的 ID
+        $userA = Context::getInstance()->getWrongId();
+        $userB = Context::getInstance()->getWrongId();
 
         $client = getApiClient();
-
-        $request = new Akaxin\Proto\Plugin\HaiFriendApplyRequest();
+        $request = new Akaxin\Proto\Plugin\HaiFriendAddRequest();
         $request->setSiteUserId($userA);
         $request->setFriendSiteUserId($userB);
+
+        $responseData = $client->request("hai/friend/add", $request);
+        $response = new Akaxin\Proto\Plugin\HaiFriendAddResponse();
+        $response->mergeFromString($responseData);
+
+        $this->assertInstanceOf(
+            Akaxin\Proto\Plugin\HaiFriendAddResponse::class,
+            $response
+        );
+        //应该不返回success
+        $this->assertNotEquals(
+            ERROR_CODE_SUCCESS,
+            $client->errorCode()
+        );
+    }
+
+    //测试申请添加好友
+    public function testHaiFriendApplyRequest(): void
+    {
+        //已知userA和userC不是好友
+        $userA = Context::getInstance()->getUserA();
+        $userC = Context::getInstance()->getUserC();
+
+        $client = getApiClient();
+        $request = new Akaxin\Proto\Plugin\HaiFriendApplyRequest();
+        $request->setSiteUserId($userA);
+        $request->setFriendSiteUserId($userC);
         $request->setApplyReason("你好");
+
+        $responseData = $client->request("/hai/friend/apply", $request);
+        $response = new Akaxin\Proto\Plugin\HaiFriendApplyResponse();
+        $response->mergeFromString($responseData);
+
+        $this->assertInstanceOf(
+            Akaxin\Proto\Plugin\HaiFriendApplyResponse::class,
+            $response
+        );
+
+        $this->assertEquals(
+            ERROR_CODE_SUCCESS,
+            $client->errorCode()
+        );
+
+        $this->assertEmpty($client->errorInfo());
+    }
+
+    //测试错误的Id
+    public function testHaiFriendApplyRequest_WrongId(): void
+    {
+        //已知userA和userC是错误的id
+        $userA = Context::getInstance()->getWrongId();
+        $userC = Context::getInstance()->getWrongId();
+
+        $client = getApiClient();
+        $request = new Akaxin\Proto\Plugin\HaiFriendApplyRequest();
+        $request->setSiteUserId($userA);
+        $request->setFriendSiteUserId($userC);
+        $request->setApplyReason("你好");
+
         $responseData = $client->request("/hai/friend/apply", $request);
 
         $response = new Akaxin\Proto\Plugin\HaiFriendApplyResponse();
@@ -68,25 +122,22 @@ final class HaiFriendTest extends TestCase
             Akaxin\Proto\Plugin\HaiFriendApplyResponse::class,
             $response
         );
-
+        //不应该返回success
         $this->assertNotEquals(
             ERROR_CODE_SUCCESS,
             $client->errorCode()
         );
 
-        $this->assertEmpty($client->errorInfo());
     }
 
-
+    //测试获取好友关系,已知是好友
     public function testHaiFriendRelationsRequest_friend(): void
     {
-        // 获取用户ID
+        //userA和admin 是好友
         $userA = Context::getInstance()->getUserA();
-        $userB = Context::getInstance()->getUserB();
         $admin = Context::getInstance()->getAdminUserID();
 
         $client = getApiClient();
-
         $request = new Akaxin\Proto\Plugin\HaiFriendRelationsRequest();
         $request->setSiteUserId($userA);
         $request->setTargetSiteUserId(
@@ -96,10 +147,8 @@ final class HaiFriendTest extends TestCase
         );
 
         $responseData = $client->request("/hai/friend/relations", $request);
-
         $response = new Akaxin\Proto\Plugin\HaiFriendRelationsResponse();
         $response->mergeFromString($responseData);
-
         $userProfile = $response->getUserProfile();
         $relation = $userProfile[0]->getRelation();
 
@@ -121,14 +170,14 @@ final class HaiFriendTest extends TestCase
         );
     }
 
-    public function testHaiFriendRelationsRequest_Nofriend(): void
+    //测试获取好友关系,已知不是好友
+    public function testHaiFriendRelationsRequest_NotFriend(): void
     {
-        // 获取用户ID
+        //userA和userC 已知不是好友
         $userA = Context::getInstance()->getUserA();
         $userC = Context::getInstance()->getUserC();
 
         $client = getApiClient();
-
         $request = new Akaxin\Proto\Plugin\HaiFriendRelationsRequest();
         $request->setSiteUserId($userA);
         $request->setTargetSiteUserId(
@@ -138,10 +187,8 @@ final class HaiFriendTest extends TestCase
         );
 
         $responseData = $client->request("/hai/friend/relations", $request);
-
         $response = new Akaxin\Proto\Plugin\HaiFriendRelationsResponse();
         $response->mergeFromString($responseData);
-
         $userProfile = $response->getUserProfile();
         $relation = $userProfile[0]->getRelation();
 
@@ -161,6 +208,39 @@ final class HaiFriendTest extends TestCase
             "0",
             $relation
         );
+    }
+
+    //测试错误的Id
+    public function testHaiFriendRelationsRequest_WrongId(): void
+    {
+        //已知userA和userC 是错误的id
+        $userA = Context::getInstance()->getWrongId();
+        $userC = Context::getInstance()->getWrongId();
+
+        $client = getApiClient();
+        $request = new Akaxin\Proto\Plugin\HaiFriendRelationsRequest();
+        $request->setSiteUserId($userA);
+        $request->setTargetSiteUserId(
+            array(
+                $userC
+            )
+        );
+
+        $responseData = $client->request("/hai/friend/relations", $request);
+        $response = new Akaxin\Proto\Plugin\HaiFriendRelationsResponse();
+        $response->mergeFromString($responseData);
+
+        $this->assertInstanceOf(
+            Akaxin\Proto\Plugin\HaiFriendRelationsResponse::class,
+            $response
+        );
+        //不应该返回success
+        $this->assertNotEquals(
+            ERROR_CODE_SUCCESS,
+            $client->errorCode()
+        );
+
+
     }
 
 }
