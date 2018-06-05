@@ -44,7 +44,7 @@ class AkaxinPluginApiClient {
     private $authkey = "";          // 管理平台->扩展列表，点击相应的扩展获取。
     private $pluginId = -1;         // 管理平台->扩展列表，点击相应的扩展获取。
 
-    private $sessionSiteUserId = "";
+    private $sessionSiteUserId = "b182fa30-a9ff-4d5a-b9fd-012facb54d84";
 
     private $lastErrorCode = "";
     private $lastErrorInfo = "";
