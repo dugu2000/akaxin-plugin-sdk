@@ -19,7 +19,6 @@ final class HaiSiteTest extends TestCase
         $admin = Context::getInstance()->getAdminUserID();
 
         $client = getApiClient();
-
         $request = new Akaxin\Proto\Plugin\HaiSiteGetConfigRequest();
         $responseData = $client->request("/hai/site/getConfig", $request);
 

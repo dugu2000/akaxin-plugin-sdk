@@ -16,8 +16,10 @@ final class HaiUserTest extends TestCase
 
     private $editUserName;
 
-    private function getUserProfile() {
-        // 获取用户ID
+    // 获取用户资料
+    private function getUserProfile()
+    {
+        //userA是已知存在用户
         $userA = Context::getInstance()->getUserA();
 
         $client = getApiClient();
@@ -30,7 +32,10 @@ final class HaiUserTest extends TestCase
         return $response->getUserProfile();
     }
 
-    public function testHaiUserFriendsRequest() {
+    //获取用户好友列表
+    public function testHaiUserFriendsRequest()
+    {
+        //已知userA为存在用户
         $userA = Context::getInstance()->getUserA();
 
         $client = getApiClient();
@@ -41,13 +46,32 @@ final class HaiUserTest extends TestCase
         $response = new Akaxin\Proto\Plugin\HaiUserFriendsResponse();
         $response->mergeFromString($responseData);
 
-
         $this->assertEquals(ERROR_CODE_SUCCESS, $client->errorCode());
         $this->assertEquals(1, count($response->getProfile()));
         $this->assertEquals(1, $response->getPageTotalNum());
     }
 
-    public function testHaiUserGroupsRequest() {
+    //测试错误id
+    public function testHaiUserFriendsRequest_WrongId()
+    {
+        //已知userA为错误Id
+        $userA = Context::getInstance()->getWrongId();
+
+        $client = getApiClient();
+        $request = new Akaxin\Proto\Plugin\HaiUserFriendsRequest();
+        $request->setSiteUserId($userA);
+
+        $responseData = $client->request("/hai/user/friends", $request);
+        $response = new Akaxin\Proto\Plugin\HaiUserFriendsResponse();
+        $response->mergeFromString($responseData);
+
+        $this->assertNotEquals(ERROR_CODE_SUCCESS, $client->errorCode());
+    }
+
+    //获取用户群组列表
+    public function testHaiUserGroupsRequest()
+    {
+        //已知userA为存在用户
         $userA = Context::getInstance()->getUserA();
 
         $client = getApiClient();
@@ -61,8 +85,26 @@ final class HaiUserTest extends TestCase
         $this->assertEquals(ERROR_CODE_SUCCESS, $client->errorCode());
     }
 
-    public function testHaiUserListRequest() {
-        $userA = Context::getInstance()->getUserA();
+    //测试错误id
+    public function testHaiUserGroupsRequest_Wrong()
+    {
+        //已知userA为错误id
+        $userA = Context::getInstance()->getWrongId();
+
+        $client = getApiClient();
+        $request = new Akaxin\Proto\Plugin\HaiUserGroupsRequest();
+        $request->setSiteUserId($userA);
+
+        $responseData = $client->request("/hai/user/groups", $request);
+        $response = new Akaxin\Proto\Plugin\HaiUserGroupsResponse();
+        $response->mergeFromString($responseData);
+
+        $this->assertNotEquals(ERROR_CODE_SUCCESS, $client->errorCode());
+    }
+
+    //获取站点上的用户
+    public function testHaiUserListRequest()
+    {
 
         $client = getApiClient();
         $request = new Akaxin\Proto\Plugin\HaiUserListRequest();
@@ -74,10 +116,12 @@ final class HaiUserTest extends TestCase
         $response->mergeFromString($responseData);
 
         $this->assertEquals(ERROR_CODE_SUCCESS, $client->errorCode());
-        $this->assertEquals(100, count($response->getUserProfile()) );
+        $this->assertEquals(100, count($response->getUserProfile()));
     }
 
-    public function testHaiUserPhoneRequest() {
+    //只测试接口,无逻辑测试
+    public function testHaiUserPhoneRequest()
+    {
         $userA = Context::getInstance()->getUserA();
 
         $client = getApiClient();
@@ -89,13 +133,11 @@ final class HaiUserTest extends TestCase
         $response->mergeFromString($responseData);
     }
 
+    //测试 更新用户资料
     public function testHaiUserUpdateRequestAndHaiUserProfileRequest()
     {
         $this->editUserName = "abcde";
-
         $profile = $this->getUserProfile();
-
-
         $profile->setUserName($this->editUserName);
 
         $client = getApiClient();
@@ -116,4 +158,20 @@ final class HaiUserTest extends TestCase
         return true;
     }
 
+    //测试错误id
+    public function getUserProfile_WrongId()
+    {
+        //userA是错误id
+        $userA = Context::getInstance()->getWrongId();
+
+        $client = getApiClient();
+        $request = new Akaxin\Proto\Plugin\HaiUserProfileRequest();
+        $request->setSiteUserId($userA);
+
+        $responseData = $client->request("/hai/user/profile", $request);
+        $response = new Akaxin\Proto\Plugin\HaiUserProfileResponse();
+        $response->mergeFromString($responseData);
+
+        $this->assertNotEquals(ERROR_CODE_SUCCESS, $client->errorCode());
+    }
 }
