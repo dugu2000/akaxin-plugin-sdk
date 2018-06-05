@@ -45,6 +45,12 @@ class GroupWebNotice extends \Google\Protobuf\Internal\Message
      * 
      */
     private $time = 0;
+    /**
+     *跳转链接；如果为空则不跳转。
+     *
+     * 
+     */
+    private $href_url = '';
 
     public function __construct() {
         \GPBMetadata\Core\Core::initOnce();
@@ -177,6 +183,32 @@ class GroupWebNotice extends \Google\Protobuf\Internal\Message
     {
         GPBUtil::checkInt64($var);
         $this->time = $var;
+
+        return $this;
+    }
+
+    /**
+     *跳转链接；如果为空则不跳转。
+     *
+     * 
+     * @return string
+     */
+    public function getHrefUrl()
+    {
+        return $this->href_url;
+    }
+
+    /**
+     *跳转链接；如果为空则不跳转。
+     *
+     * 
+     * @param string $var
+     * @return $this
+     */
+    public function setHrefUrl($var)
+    {
+        GPBUtil::checkString($var, True);
+        $this->href_url = $var;
 
         return $this;
     }

@@ -43,6 +43,8 @@
     - [HaiPushNoticesResponse](#class-akaxinprotopluginhaipushnoticesresponse)
 - [HaiSiteGetConfigRequest](#class-akaxinprotopluginhaisitegetconfigrequest)    
     - [HaiSiteGetConfigResponse](#class-akaxinprotopluginhaisitegetconfigresponse)
+- [HaiSessionProfileRequest](#class-akaxinprotopluginhaisessionprofilerequest)    
+    - [HaiSessionProfileResponse](#class-akaxinprotopluginhaisessionprofileresponse)
 
 ### 用户
 
@@ -508,6 +510,45 @@
 | Visibility | Function |
 |:-----------|:---------|
 | public | <strong>getSiteConfig()</strong> : <em>\Akaxin\Proto\Core\SiteBackConfig</em><br /><em>信息配置，Key为SiteConfigKey</em> |
+
+
+
+<hr />
+
+
+
+- [HaiSessionProfileRequest](#class-akaxinprotopluginhaisessionprofilerequest)    
+- [HaiSessionProfileResponse](#class-akaxinprotopluginhaisessionprofileresponse)
+
+
+
+## Class: \\Akaxin\\Proto\\Plugin\\HaiSessionProfileRequest
+
+
+####  通过用户session获取用户资料
+
+#### 接口名
+
+ /hai/session/profile
+#### 错误码
+
+ - success
+ - error.alert
+
+| Visibility | Function |
+|:-----------|:---------|
+| public | <strong>setBase64SafeUrlSessionId(</strong><em>string</em> <strong>$var</strong>)</strong> : <em>\Akaxin\Proto\Plugin\$this</em><br /><em>从Cookie中获取到的sessionid</em> |
+
+
+
+## Class: \\Akaxin\\Proto\\Plugin\\HaiSessionProfileResponse
+
+| Visibility | Function |
+|:-----------|:---------|
+| public | <strong>getUserProfile()</strong> : <em>\Akaxin\Proto\Core\UserProfile</em><br /><em>需要查找的用户</em> |
+
+
+
 
 
 
