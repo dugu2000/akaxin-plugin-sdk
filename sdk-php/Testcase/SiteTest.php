@@ -5,13 +5,13 @@ use PHPUnit\Framework\TestCase;
 final class HaiSiteTest extends TestCase
 {
 
-    /**
-     * @afterClass
-     */
-    public static function tearDownEnv()
-    {
-        Context::getInstance()->restartServer();
-    }
+    // /**
+    //  * @afterClass
+    //  */
+    // public static function tearDownEnv()
+    // {
+    //     Context::getInstance()->restartServer();
+    // }
 
 
     public function testHaiSiteGetConfigRequest(): void

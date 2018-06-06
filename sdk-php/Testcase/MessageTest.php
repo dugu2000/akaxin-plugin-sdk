@@ -5,13 +5,13 @@ use PHPUnit\Framework\TestCase;
 final class HaiMessageTest extends TestCase
 {
 
-    /**
-     * @afterClass
-     */
-    public static function tearDownEnv()
-    {
-        Context::getInstance()->restartServer();
-    }
+    // /**
+    //  * @afterClass
+    //  */
+    // public static function tearDownEnv()
+    // {
+    //     Context::getInstance()->restartServer();
+    // }
 
     //测试 消息代发
     public function testHaiMessageProxyRequest(): void

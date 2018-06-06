@@ -4,10 +4,10 @@ use PHPUnit\Framework\TestCase;
 
 final class HaiPushTest extends TestCase
 {
-    public static function tearDownEnv()
-    {
-        Context::getInstance()->restartServer();
-    }
+    // public static function tearDownEnv()
+    // {
+    //     Context::getInstance()->restartServer();
+    // }
 
     //测试push机制
     public function testHaiPushNoticesRequest(): void

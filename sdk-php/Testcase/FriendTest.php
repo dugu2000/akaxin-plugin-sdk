@@ -6,13 +6,13 @@ use PHPUnit\Framework\TestCase;
 final class HaiFriendTest extends TestCase
 {
 
-    /**
-     * @afterClass
-     */
-    public static function tearDownEnv()
-    {
-        Context::getInstance()->restartServer();
-    }
+    // /**
+    //  * @afterClass
+    //  */
+    // public static function tearDownEnv()
+    // {
+    //     Context::getInstance()->restartServer();
+    // }
 
     //测试正常情况添加好友
     public function testHaiFriendAddRequest(): void
