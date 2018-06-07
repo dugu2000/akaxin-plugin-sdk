@@ -48,7 +48,7 @@ function sendWebMsg($title, $isWebNotice, $width, $height, $zalyUrl) {
     $request = new \Akaxin\Proto\Plugin\HaiMessageProxyRequest();
     $time = date("H:i:s", time());
 
-    $isWebNotice = $isWebNotice ? "True" : "False";
+    $textForIsWebNotice = $isWebNotice ? "True" : "False";
     $html = <<<EOT
     <!doctype html>
     <html>
@@ -61,7 +61,7 @@ function sendWebMsg($title, $isWebNotice, $width, $height, $zalyUrl) {
         <body>
             <pre style="color:#fff;">
 $title
-isWebNotice: {$isWebNotice}
+isWebNotice: {$textForIsWebNotice}
 {$width} x {$height}
 {$zalyUrl}
             </pre>
@@ -105,5 +105,7 @@ EOT;
 }
 
 foreach ($param as $v) {
+    var_dump($v[1], $v[2], $v[3]);
     sendWebMsg($v[0], $isWebNotice, $v[1], $v[2], $v[3]);
+    sleep(2);
 }
