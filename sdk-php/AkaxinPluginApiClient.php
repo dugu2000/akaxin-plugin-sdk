@@ -30,6 +30,47 @@ function autoloadForAkaxinProtoSDK($className) {
 }
 spl_autoload_register("autoloadForAkaxinProtoSDK");
 
+class AkaxinReferer {
+
+    private $params = array();
+
+    public function __construct($url) {
+        $ret = parse_url($url, PHP_URL_QUERY);
+        parse_str($ret, $this->params);
+    }
+
+    // 当前是否为群聊
+    public function isGroupChat() {
+        return isset($this->params["page"]) && $this->params["page"] == "group_msg";
+    }
+
+    // 获取群组ID
+    public function getChatGroupId() {
+        if ($this->isGroupChat() && isset($this->params["site_group_id"])) {
+            return $this->params["site_group_id"];
+        }
+        return "";
+    }
+
+    // 是否为私聊
+    public function isU2Chat() {
+        return isset($this->params["page"]) && $this->params["page"] == "u2_msg";
+    }
+
+    // 获取好友ID
+    public function getChatFriendId() {
+        if ($this->isU2Chat() && isset($this->params["site_user_id"])) {
+            return $this->params["site_user_id"];
+        }
+        return "";
+    }
+
+    // 获取SessionID，用于向Site获取用户资料
+    public function getAkaxinSessionId() {
+        return $_COOKIE["akaxin_site_session_id"];
+    }
+}
+
 
 
 /**
@@ -85,7 +126,7 @@ class AkaxinPluginApiClient {
         $requestPackage->setPluginHeader($this->makeRequestHeader());
 
         $responsePackage = $this->curlRequest($actionName, $requestPackage);
-        if (false === $response) {
+        if (false === $responsePackage) {
             return false;
         }
 
