@@ -15,13 +15,14 @@ $array = array(
     // 群聊测试，只在正确的群聊响应
     "zaly://192.168.3.72/goto?page=plugin_for_group_chat&plugin_id={$pluginId}&site_group_id={$testGroupID}",
     // 群聊测试，错误的URL，在哪里都不响应。
-    "zaly://192.168.3.5/goto?page=plugin_for_group_chat&plugin_id={$pluginId}&site_group_id=nonasdfkljdasas",
+    "zaly://192.168.3.72/goto?page=plugin_for_group_chat&plugin_id={$pluginId}&site_group_id=nonasdfkljdasas",
     // 群聊测试，错误的URL，在哪里都不响应。
-    "zaly://192.168.3.5/goto?page=plugin_for_group_chat&plugin_id=10000000000&site_group_id={$testGroupID}",
+    "zaly://192.168.3.72/goto?page=plugin_for_group_chat&plugin_id=10000000000&site_group_id={$testGroupID}",
     // 私聊测试，只在正确的私聊响应
-    "zaly://192.168.3.5/goto?page=plugin_for_u2_chat&plugin_id={$pluginId}&site_user_id={$testUserID}",
+    "zaly://192.168.3.72/goto?page=plugin_for_u2_chat&plugin_id={$pluginId}&site_user_id={$testUserID}",
     // 错误的，在群聊私聊均不响应。
-    "zaly://192.168.3.5/goto?page=friend_apply&plugin_id={$pluginId}&site_user_id={$testUserID}",
+    "zaly://192.168.3.72/goto?page=friend_apply&plugin_id={$pluginId}&site_user_id={$testUserID}",
+
     "dsafdf;sljdafsklfad;af"
 );
 
