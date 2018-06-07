@@ -107,5 +107,4 @@ EOT;
 foreach ($param as $v) {
     var_dump($v[1], $v[2], $v[3]);
     sendWebMsg($v[0], $isWebNotice, $v[1], $v[2], $v[3]);
-    sleep(2);
 }

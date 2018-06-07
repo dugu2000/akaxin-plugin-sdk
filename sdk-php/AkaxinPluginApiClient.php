@@ -151,6 +151,7 @@ class AkaxinPluginApiClient {
             $this->lastErrorInfo = "curl_info: " . curl_error($ch);
             trigger_error("curl_exec errors {$url} " . curl_error($ch));
         }
+        curl_close($ch);
 
         $responseData = openssl_decrypt($responseInBinary, "AES-128-ECB", $this->authkey, OPENSSL_RAW_DATA); // 解密可能失败
         $responsePackage = new Akaxin\Proto\Core\ProxyPluginPackage();
