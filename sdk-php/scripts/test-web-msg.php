@@ -78,7 +78,7 @@ EOT;
     global $rightUserId;
     $webmsg->setSiteGroupId($rightGroupId);
     $webmsg->setSiteUserId($rightUserId);
-    $webmsg->setMsgId(time());
+    $webmsg->setMsgId(time().mt_rand(1000, 2000));
     $webmsg->setWebCode($html);
 
     if (false == $isWebNotice) {
