@@ -51,6 +51,12 @@ class U2WebNotice extends \Google\Protobuf\Internal\Message
      * 
      */
     private $href_url = '';
+    /**
+     *web notice消息的高度
+     *
+     * 
+     */
+    private $height = 0;
 
     public function __construct() {
         \GPBMetadata\Core\Core::initOnce();
@@ -209,6 +215,32 @@ class U2WebNotice extends \Google\Protobuf\Internal\Message
     {
         GPBUtil::checkString($var, True);
         $this->href_url = $var;
+
+        return $this;
+    }
+
+    /**
+     *web notice消息的高度
+     *
+     * 
+     * @return int
+     */
+    public function getHeight()
+    {
+        return $this->height;
+    }
+
+    /**
+     *web notice消息的高度
+     *
+     * 
+     * @param int $var
+     * @return $this
+     */
+    public function setHeight($var)
+    {
+        GPBUtil::checkInt32($var);
+        $this->height = $var;
 
         return $this;
     }
