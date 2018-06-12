@@ -16,7 +16,7 @@ class FileType
      */
     const UNKNOWN_FILE = 0;
     /**
-     *用户，群头像
+     *用户头像
      *
      * Generated from protobuf enum <code>USER_PORTRAIT = 1;</code>
      */
