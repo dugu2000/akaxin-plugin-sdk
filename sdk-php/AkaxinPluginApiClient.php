@@ -35,7 +35,7 @@ class AkaxinReferer {
 
     private $params = array();
 
-    public function getInstance() {
+    public static function getInstance() {
         return new AkaxinReferer($_SERVER["HTTP_REFERER"]);
     }
 
