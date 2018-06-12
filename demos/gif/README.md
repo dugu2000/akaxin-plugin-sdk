@@ -25,6 +25,7 @@
     * 留空即可。
 * 落地页URL：
     * 请输入页面的完整URL（此URL需要可以通过网页访问到）
+    * 类似于：http://192.168.3.5/akaxin-plugin/demo/gif/index.php
 * Logo
     * 自行设置即可。
 * 扩展位置
