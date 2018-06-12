@@ -650,18 +650,19 @@ if(isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] == "POST"){
 }
 
 error_log(" post data is ==== ".json_encode($_POST));
-$httpCookie = isset( $_SERVER['HTTP_COOKIE']) ?  $_SERVER['HTTP_COOKIE'] : "";
-var_export($httpCookie);
-
+$httpCookie = isset($_COOKIE) ?  $_COOKIE : "";
 if(!$httpCookie) {
     return false;
 }
-parse_str($httpCookie, $siteSessionId);
+$siteSessionId = $httpCookie;
+//parse_str($httpCookie, $siteSessionId);
 if(!isset($siteSessionId['akaxin_site_session_id'])) {
     return false;
 }
 
 $siteSessionId = isset($siteSessionId['akaxin_site_session_id']) ? $siteSessionId['akaxin_site_session_id'] : '';
+
+echo $siteSessionId;
 
 $httpReferer = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : '';
 
