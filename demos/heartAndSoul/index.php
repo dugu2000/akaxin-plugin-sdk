@@ -9,7 +9,7 @@ class HeartAndSoul
     public $db;
     public $hrefUrl;
     public $dbName     = "openzaly_heartAndSoul.db";
-    public $expirtTime = 10*60;//10分钟过期
+    public $expirtTime = 10;//10分钟过期
     public $u2Type     = "u2_msg";
     public $groupType  = "group_msg";
     public $tableName  = "heart_and_soul";
@@ -335,7 +335,6 @@ class HeartAndSoul
         $siteUserPhoto = $userProfile->getUserPhoto();
         error_log('site_user_id === ' .$siteUserId );
         error_log('chat_session_id === ' .$chatSessionId );
-
         error_log('gameNum === ' .$gameNum );
         error_log("guess num === " .$guessNum);
 
@@ -377,7 +376,7 @@ class HeartAndSoul
             $isRight = $guessNum == $sponsorGuessNum ? 1 : 0;
             if($isRight) {
                 $this->insertGuessNum($siteUserId,  $siteUserPhoto,  $chatSessionId, $gameNum, $gameType, $guessNum, $isSponsor, 1);
-//                $this->sendSuccessMsg($chatSessionId, $siteSessionId, $siteUserId, $guessNum, $hrefType,$hrefUrl);
+                $this->sendSuccessMsg($chatSessionId, $siteSessionId, $siteUserId, $guessNum, $hrefType,$hrefUrl);
                 $this->sendSuccessMsgNotice($chatSessionId, $siteSessionId, $siteUserId, $gameNum, $gameType, $hrefType, $hrefUrl);
                 return json_encode(['error_code' => 'success', 'game_num' => $gameNum, 'is_right' => $isRight, 'site_user_photo' => $siteUserPhoto]);
             }
@@ -388,41 +387,70 @@ class HeartAndSoul
         return json_encode(['error_code' => 'success', 'game_num' => $gameNum, 'is_right' => 0, 'site_user_photo' => ""]);
     }
 
+    /**
+     *
+     * @param $chatSessionId
+     * @param $siteSessionId
+     * @param $siteUserId
+     * @param $gameNum
+     * @param $gameType
+     * @param $hrefType
+     * @param $hrefUrl
+     *
+     */
     public function sendSuccessMsgNotice($chatSessionId, $siteSessionId, $siteUserId, $gameNum,  $gameType, $hrefType, $hrefUrl)
     {
         $row_num = sqrt($gameType);
-        $webCode = "";
+
         $gameUserInfo = $this->getGameUserInfo($chatSessionId, $siteSessionId, $hrefType, $gameNum);
-        error_log(" sendSuccessMsgNotice  game user info ===" .json_encode($gameUserInfo));
         if($gameUserInfo) {
             $gameUserInfo = array_column($gameUserInfo, null, 'guess_num');
         }
-        $startNum = 1;
 
+        $startNum = 1;
+        $webCode = '<!DOCTYPE html> <html lang="en"> <head> <meta charset="UTF-8"> <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0"> <title>心有灵犀</title> </title> <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" /> <link rel="stylesheet" href="'.$this->httpDomain.'/Public/css/zaly.css" /> </head> </head> <body ontouchstart="" class="zaly-body">';
         for($i=0; $i<$row_num; $i++) {
             $webCode .= '<div class="d-flex flex-row justify-content-center" >';
             for($j=0; $j<$row_num; $j++) {
                 if(isset($gameUserInfo[$startNum]) && $gameUserInfo[$startNum]>0 ) {
-                    $avatarContent = $this->getUserAvatar($siteUserId);
+                    $gameSiteUserId = $gameUserInfo[$startNum]['site_user_id'];
+                    error_log("  gameSiteUserId === " . $gameSiteUserId);
+                    $avatarContent = $this->getUserAvatar($gameSiteUserId, $siteSessionId);
+                    error_log(" avatarContent === ".$avatarContent);
                     $webCode .= '<div class="p-2  guess_num ">';
                     if(isset($gameUserInfo[$startNum]['is_right']) && $gameUserInfo[$startNum]['is_right']>0 ) {
-                        $webCode .= '<div class="zaly-border zaly-num-right-style " ><img  src="data:image/png;base64,'.$avatarContent.'" style="height:38px; width:38px;border-radius:50%; text-align: center;margin-top: 3px;" " /></div>';
+                        $webCode .= '<div class="zaly_border zaly-num-right-style " ><img  src="data:image/png;base64,'.$avatarContent.'" style="height:38px; width:38px;border-radius:50%; text-align: center;margin-top: 3px;" " /></div>';
                     } else {
-                        $webCode .= '<div class="zaly-border zaly-num-wrong-style" ><img  src="data:image/png;base64,'.$avatarContent.'" style="height:38px; width:38px;border-radius:50%; text-align: center;margin-top: 3px;" " /></div>';
-                    }
+                        $webCode .= '<div class="zaly_border zaly-num-wrong-style" ><img  src="data:image/png;base64,'.$avatarContent.'" style="height:38px; width:38px;border-radius:50%; text-align: center;margin-top: 3px;" " /></div>';                    }
                     $webCode .= '</div>';
                 } else {
-                    $webCode .= '<div class="p-2  guess_num "> <button type="button" class="btn zaly-border zaly-num-style new_game ">$startNum</button> </div>';
+                    $webCode .= '<div class=" p-2 guess_num "> <button type="button" class="btn  zaly-border zaly-num-style new_game ">'.$startNum.'</button> </div>';
                 }
                 $startNum++;
             }
-            $webCode .= '</div>';
+            $webCode .= '</div></body></html>';
         }
-        $this->setGroupWebNoticeMsgByApiClient($chatSessionId, $siteSessionId,$siteUserId, $webCode, $hrefUrl, $height = 21);
+        error_log(" webCode === " . $webCode);
+        $height = 0;
+        switch ($gameType) {
+            case 4:
+                $height = 400;
+                break;
+            case 9:
+                $height = 600;
+                break;
+            case 16:
+                $height = 800;
+                break;
+            default:
+                $height = 800;
+        }
+        $this->setGroupWebNoticeMsgByApiClient($chatSessionId, $siteSessionId,$siteUserId, $webCode, $hrefUrl, $height);
     }
 
-    public function getUserAvatar($siteUserId)
+    public function getUserAvatar($siteUserId, $siteSessionId)
     {
+        $this->getAkaxinPluginApiClient($siteSessionId);
         $requestAvatar = new Akaxin\Proto\Plugin\HaiUserAvatarRequest();
         $requestAvatar->setSiteUserId($siteUserId);
         $resultData = $this->akaxinApiClient->request("/hai/user/avatar", $requestAvatar);
@@ -431,8 +459,7 @@ class HeartAndSoul
         $responseAvatar->mergeFromString($resultData);
 
         $avatarContent = $responseAvatar->getPhotoContent();
-
-        return $avatarContent;
+        return base64_encode($avatarContent);
     }
     /**
      * 得到hrefUrl
@@ -713,7 +740,6 @@ if(isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] == "POST"){
     $chatSessionId = isset($_POST['chat_session_id']) ? $_POST['chat_session_id'] :"";
 }
 
-error_log(" post data is ==== ".json_encode($_POST));
 $httpCookie = isset($_COOKIE) ?  $_COOKIE : "";
 if(!$httpCookie) {
     return false;
@@ -763,7 +789,6 @@ switch ($pageType) {
         $gameUserInfo = [];
         if($gameNum) {
             $gameUserInfo = $heartAndSoulObj->getGameUserInfo($chatSessionId, $siteSessionId, $hrefType, $gameNum);
-            error_log(" game user info ===" .json_encode($gameUserInfo));
             if($gameUserInfo) {
                 $gameUserInfo = array_column($gameUserInfo, null, 'guess_num');
             }
