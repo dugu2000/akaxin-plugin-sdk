@@ -24,9 +24,9 @@ var Zaly = {
      * @param callbackName String  js执行完成之后，回调方法的名字
      */
     reqData : function reqData(reqUri, params, callbackName) {
-        if (this.osType == 'Android') {
+        if (this.getOsType() == 'Android') {
             Android.requestPost(reqUri, params, callbackName);
-        } else if (this.osType == 'IOS') {
+        } else if (this.getOsType() == 'IOS') {
             ios_requestPost(reqUri, params, callbackName);
         } else {
             this.tip('暂时不支持该设备');
@@ -40,9 +40,9 @@ var Zaly = {
      * @param params mix 请求参数
      */
     reqPage : function reqPage(reqUri, params) {
-        if (this.osType == 'Android') {
+        if (this.getOsType() == 'Android') {
             Android.requestPage(reqUri, params)
-        } else if (this.osType == 'IOS') {
+        } else if (this.getOsType() == 'IOS') {
             ios_requestPage(reqUri, params);
         } else {
             this.tip('暂时不支持该设备');
@@ -56,9 +56,9 @@ var Zaly = {
      * @param callback String js执行完成之后，回调方法的名字
      */
     reqImageUpload : function reqImageUpload(callback) {
-        if (this.osType == 'Android') {
+        if (this.getOsType() == 'Android') {
             Android.imageUpload(callback);
-        } else if (this.osType == 'IOS') {
+        } else if (this.getOsType() == 'IOS') {
             ios_imageUpload(callback);
         } else {
             this.tip('暂时不支持该设备');
@@ -72,9 +72,9 @@ var Zaly = {
      * @param callback String js执行完成之后，回调方法的名字
      */
     reqImageDownload : function reqImageDownload(imageId, callback) {
-        if (osType == 'Android') {
+        if (this.getOsType() == 'Android') {
             Android.imageDownload(imageId, callback);
-        } else if (osType == 'IOS') {
+        } else if (this.getOsType()  == 'IOS') {
             ios_imageDownload(imageId, callback);
         } else {
             this.tip('暂时不支持该设备');
@@ -87,9 +87,9 @@ var Zaly = {
      * @param strTipMsg
      */
     tip : function tip(strTipMsg) {
-        if (this.osType == 'Android') {
+        if (this.getOsType() == 'Android') {
             Android.showToast(strTipMsg);
-        } else if (this.osType == 'IOS') {
+        } else if (this.getOsType() == 'IOS') {
             $.toast(strTipMsg);
         } else {
             console.log(strTipMsg);
@@ -100,7 +100,7 @@ var Zaly = {
      * 刷新当前的页面
      */
     refreshCurrentPage : function refreshCurrentPage() {
-        if (this.osType == 'Android') {
+        if (this.getOsType() == 'Android') {
             Android.refreshCurrentPage();
         }
     },
@@ -111,9 +111,9 @@ var Zaly = {
      * @param url String 跳转地址
      */
     gotoPage : function gotoPage(gotoUrl) {
-        if (this.osType == 'Android') {
+        if (this.getOsType() == 'Android') {
             Android.gotoPage(gotoUrl);
-        } else if (this.osType == 'IOS') {
+        } else if (this.getOsType() == 'IOS') {
             ios_gotoPage(gotoUrl);
         }
     },
