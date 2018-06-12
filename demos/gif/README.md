@@ -7,7 +7,7 @@
 本教程使用的源码获取方式：
 
 >
-> 直接下载 https://github.com/akaxincom/akaxin-plugin-sdk/demo/gif-emotion.php
+> 直接下载 https://github.com/akaxincom/akaxin-plugin-sdk/tree/akaxin_demo/demos/gif/index.php
 >
 
 一、启动服务器
