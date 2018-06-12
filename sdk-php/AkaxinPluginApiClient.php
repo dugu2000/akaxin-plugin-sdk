@@ -35,7 +35,7 @@ class AkaxinReferer {
 
     private $params = array();
 
-    public function getInstance() {
+    public static function getInstance() {
         return new AkaxinReferer($_SERVER["HTTP_REFERER"]);
     }
 
@@ -72,6 +72,7 @@ class AkaxinReferer {
 
     // 获取SessionID，用于向Site获取用户资料
     public function getAkaxinSessionId() {
+        error_log(" akaxin_site_session_id === ". json_encode($_COOKIE));
         return $_COOKIE["akaxin_site_session_id"];
     }
 
@@ -82,15 +83,18 @@ class AkaxinReferer {
 
     public static function saveCookie() {
         $_sessionId = self::getInstance()->getAkaxinSessionId();
+        error_log(" saveCookie akaxin_site_session_id ". json_encode($_SERVER['HTTP_COOKIE']));
+
         if (!empty($_sessionId)) {
             setcookie("akaxin_site_session_id", $_sessionId);
         }
+        error_log(" saveCookie akaxin_site_session_id cookie is  ". json_encode($_SERVER['HTTP_COOKIE']));
+
     }
 }
 
 // 兼容iOS内页Cookie
 AkaxinReferer::saveCookie();
-
 
 
 /**

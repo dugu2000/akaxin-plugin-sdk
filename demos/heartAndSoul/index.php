@@ -9,7 +9,7 @@ class HeartAndSoul
     public $db;
     public $hrefUrl;
     public $dbName     = "openzaly_heartAndSoul.db";
-    public $expirtTime = 10;//10分钟过期
+    public $expirtTime = 10*60;//10分钟过期
     public $u2Type     = "u2_msg";
     public $groupType  = "group_msg";
     public $tableName  = "heart_and_soul";
@@ -239,7 +239,6 @@ class HeartAndSoul
                 $siteUserId  = $userProfile->getSiteUserId();
                 $sql = "select site_user_id, site_user_photo, guess_num, is_right from `$this->tableName` where (chat_session_id=? or chat_session_id = ?) and game_num = ? and is_sponsor = 0;";
                 $prepare = $this->db->prepare($sql);
-
                 $prepare->bindParam(1, $chatSessionId, \PDO::PARAM_STR);
                 $prepare->bindParam(2, $siteUserId, \PDO::PARAM_STR);
                 $prepare->bindParam(3, $gameNum, \PDO::PARAM_STR);
@@ -338,6 +337,7 @@ class HeartAndSoul
         error_log('chat_session_id === ' .$chatSessionId );
 
         error_log('gameNum === ' .$gameNum );
+        error_log("guess num === " .$guessNum);
 
         ////判断游戏是否是我开启的，自己开启的，无法参与
         if($gameNum) {
@@ -456,7 +456,7 @@ class HeartAndSoul
     public function sendSuccessMsg($chatSessionId, $siteSessionId, $siteUserId, $guessNum, $hrefType, $hrefUrl)
     {
 
-        $webCode = '<!DOCTYPE html> <html lang="en"> <head> <meta charset="UTF-8"> <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0"> <title>心有灵犀</title> </title> <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" /> <style > body, html {height: 100%; -webkit-tap-highlight-color: transparent; background-color: #F7CCE8; font-size: 10px; } .zaly-lable-fail{width:137px; height:23px; font-size:14px; font-family:STYuanti-SC-Regular; color:rgba(0,0,0,0.54); line-height:20px; } </style> </head> <body ontouchstart=""> <div class="p-2 d-flex  justify-content-center"> <p class="zaly-lable-fail">我猜是：'.$guessNum.' 猜对了！</p> </div> </body> </html>';
+        $webCode = '<!DOCTYPE html> <html lang="en"> <head> <meta charset="UTF-8"> <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0"> <title>心有灵犀</title> </title> <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" /> <style> body, html {height: 100%; -webkit-tap-highlight-color: transparent; background-color: #F7CCE8; font-size: 10px; } .zaly-lable-fail {text-align: center; width: 150px; height: 23px; font-size: 14px; font-family: STYuanti-SC-Regular; color: rgba(0, 0, 0, 0.54); line-height: 43px; } </style> </head> <body ontouchstart=""> <div class="p-2 d-flex  justify-content-center"> <p class="zaly-lable-fail">我猜是：'.$guessNum.' ，猜对了！</p> </div> </body> </html>';
         $this->setMsgByApiClient($chatSessionId, $siteSessionId, $siteUserId, $webCode, $hrefType, $hrefUrl);
     }
 
@@ -470,7 +470,7 @@ class HeartAndSoul
      */
     public function sendFailMsg($chatSessionId, $siteSessionId, $siteUserId, $guessNum, $hrefType, $hrefUrl)
     {
-        $webCode = '<!DOCTYPE html> <html lang="en"> <head> <meta charset="UTF-8"> <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0"> <title>心有灵犀</title> </title> <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" /> <style > body, html {height: 100%; -webkit-tap-highlight-color: transparent; background-color: #F7CCE8; font-size: 10px; } .zaly-lable-fail{width:137px; height:23px; font-size:14px; font-family:STYuanti-SC-Regular; color:rgba(0,0,0,0.54); line-height:20px; } </style> </head> <body ontouchstart=""> <div class="p-2 d-flex  justify-content-center"> <p class="zaly-lable-fail">我猜是：'.$guessNum.' 猜错了！</p> </div> </body> </html>';
+        $webCode = '<!DOCTYPE html> <html lang="en"> <head> <meta charset="UTF-8"> <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0"> <title>心有灵犀</title> </title> <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" /> <style> body, html {height: 100%; -webkit-tap-highlight-color: transparent; background-color: #F7CCE8; font-size: 10px; } .zaly-lable-fail {text-align: center; width: 150px; height: 23px; font-size: 14px; font-family: STYuanti-SC-Regular; color: rgba(0, 0, 0, 0.54); line-height: 43px; } </style> </head> <body ontouchstart=""> <div class="p-2 d-flex  justify-content-center"> <p class="zaly-lable-fail">我猜是：'.$guessNum.' ，猜错了！</p> </div> </body> </html>';
         $this->setMsgByApiClient($chatSessionId, $siteSessionId, $siteUserId, $webCode, $hrefType, $hrefUrl);
     }
 
@@ -649,7 +649,9 @@ if(isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] == "POST"){
     $chatSessionId = isset($_POST['chat_session_id']) ? $_POST['chat_session_id'] :"";
 }
 
+error_log(" post data is ==== ".json_encode($_POST));
 $httpCookie = isset( $_SERVER['HTTP_COOKIE']) ?  $_SERVER['HTTP_COOKIE'] : "";
+var_export($httpCookie);
 
 if(!$httpCookie) {
     return false;
@@ -699,6 +701,7 @@ switch ($pageType) {
         $gameUserInfo = [];
         if($gameNum) {
             $gameUserInfo = $heartAndSoulObj->getGameUserInfo($chatSessionId, $siteSessionId, $hrefType, $gameNum);
+            error_log(" game user info ===" .json_encode($gameUserInfo));
             if($gameUserInfo) {
                 $gameUserInfo = array_column($gameUserInfo, null, 'guess_num');
             }
