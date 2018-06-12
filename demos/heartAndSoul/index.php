@@ -117,7 +117,7 @@ class HeartAndSoul
      *
      * @author 尹少爷 2018.6.11
      */
-    public function insertGuessNum($siteUserId, $siteUserPhoto, $chatSessionId, $gameNum,$gameType,  $guessNum, $isSponsor, $isRight)
+    public function insertGuessNum($siteUserId, $siteUserPhoto, $chatSessionId, $gameNum, $gameType, $guessNum, $isSponsor, $isRight)
     {
         try{
             $createTime = date('Y-m-d H:i:s', time());
@@ -365,9 +365,6 @@ class HeartAndSoul
             $gameNum ++;
         }
 
-        error_log('isSponsor === ' .$isSponsor );
-        error_log('gameNum ==='.$gameNum );
-
         if($isSponsor) {
             $this->insertGuessNum($siteUserId, $siteUserPhoto, $chatSessionId, $gameNum, $gameType, $guessNum, $isSponsor, 0);
             $hrefUrl = $this->getHrefUrl($chatSessionId, $siteUserId, $gameNum, $gameType, $hrefType);
@@ -380,7 +377,8 @@ class HeartAndSoul
             $isRight = $guessNum == $sponsorGuessNum ? 1 : 0;
             if($isRight) {
                 $this->insertGuessNum($siteUserId,  $siteUserPhoto,  $chatSessionId, $gameNum, $gameType, $guessNum, $isSponsor, 1);
-                $this->sendSuccessMsg($chatSessionId, $siteSessionId, $siteUserId, $guessNum, $hrefType,$hrefUrl);
+//                $this->sendSuccessMsg($chatSessionId, $siteSessionId, $siteUserId, $guessNum, $hrefType,$hrefUrl);
+                $this->sendSuccessMsgNotice($chatSessionId, $siteSessionId, $siteUserId, $gameNum, $gameType, $hrefType, $hrefUrl);
                 return json_encode(['error_code' => 'success', 'game_num' => $gameNum, 'is_right' => $isRight, 'site_user_photo' => $siteUserPhoto]);
             }
             $this->insertGuessNum($siteUserId,  $siteUserPhoto,  $chatSessionId, $gameNum, $gameType, $guessNum, $isSponsor, 0);
@@ -390,7 +388,52 @@ class HeartAndSoul
         return json_encode(['error_code' => 'success', 'game_num' => $gameNum, 'is_right' => 0, 'site_user_photo' => ""]);
     }
 
+    public function sendSuccessMsgNotice($chatSessionId, $siteSessionId, $siteUserId, $gameNum,  $gameType, $hrefType, $hrefUrl)
+    {
+        $row_num = sqrt($gameType);
+        $webCode = "";
+        $gameUserInfo = $this->getGameUserInfo($chatSessionId, $siteSessionId, $hrefType, $gameNum);
+        error_log(" sendSuccessMsgNotice  game user info ===" .json_encode($gameUserInfo));
+        if($gameUserInfo) {
+            $gameUserInfo = array_column($gameUserInfo, null, 'guess_num');
+        }
+        $startNum = 1;
 
+        for($i=0; $i<$row_num; $i++) {
+            $webCode .= '<div class="d-flex flex-row justify-content-center" >';
+            for($j=0; $j<$row_num; $j++) {
+                if(isset($gameUserInfo[$startNum]) && $gameUserInfo[$startNum]>0 ) {
+                    $avatarContent = $this->getUserAvatar($siteUserId);
+                    $webCode .= '<div class="p-2  guess_num ">';
+                    if(isset($gameUserInfo[$startNum]['is_right']) && $gameUserInfo[$startNum]['is_right']>0 ) {
+                        $webCode .= '<div class="zaly-border zaly-num-right-style " ><img  src="data:image/png;base64,'.$avatarContent.'" style="height:38px; width:38px;border-radius:50%; text-align: center;margin-top: 3px;" " /></div>';
+                    } else {
+                        $webCode .= '<div class="zaly-border zaly-num-wrong-style" ><img  src="data:image/png;base64,'.$avatarContent.'" style="height:38px; width:38px;border-radius:50%; text-align: center;margin-top: 3px;" " /></div>';
+                    }
+                    $webCode .= '</div>';
+                } else {
+                    $webCode .= '<div class="p-2  guess_num "> <button type="button" class="btn zaly-border zaly-num-style new_game ">$startNum</button> </div>';
+                }
+                $startNum++;
+            }
+            $webCode .= '</div>';
+        }
+        $this->setGroupWebNoticeMsgByApiClient($chatSessionId, $siteSessionId,$siteUserId, $webCode, $hrefUrl, $height = 21);
+    }
+
+    public function getUserAvatar($siteUserId)
+    {
+        $requestAvatar = new Akaxin\Proto\Plugin\HaiUserAvatarRequest();
+        $requestAvatar->setSiteUserId($siteUserId);
+        $resultData = $this->akaxinApiClient->request("/hai/user/avatar", $requestAvatar);
+
+        $responseAvatar = new Akaxin\Proto\Plugin\HaiUserAvatarResponse();
+        $responseAvatar->mergeFromString($resultData);
+
+        $avatarContent = $responseAvatar->getPhotoContent();
+
+        return $avatarContent;
+    }
     /**
      * 得到hrefUrl
      *
@@ -455,7 +498,6 @@ class HeartAndSoul
      */
     public function sendSuccessMsg($chatSessionId, $siteSessionId, $siteUserId, $guessNum, $hrefType, $hrefUrl)
     {
-
         $webCode = '<!DOCTYPE html> <html lang="en"> <head> <meta charset="UTF-8"> <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0"> <title>心有灵犀</title> </title> <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" /> <style> body, html {height: 100%; -webkit-tap-highlight-color: transparent; background-color: #F7CCE8; font-size: 10px; } .zaly-lable-fail {text-align: center; width: 150px; height: 23px; font-size: 14px; font-family: STYuanti-SC-Regular; color: rgba(0, 0, 0, 0.54); line-height: 43px; } </style> </head> <body ontouchstart=""> <div class="p-2 d-flex  justify-content-center"> <p class="zaly-lable-fail">我猜是：'.$guessNum.' ，猜对了！</p> </div> </body> </html>';
         $this->setMsgByApiClient($chatSessionId, $siteSessionId, $siteUserId, $webCode, $hrefType, $hrefUrl);
     }
@@ -507,6 +549,28 @@ class HeartAndSoul
         $message = new Akaxin\Proto\Site\ImCtsMessageRequest();
         $message->setType(\Akaxin\Proto\Core\MsgType::GROUP_WEB);
         $message->setGroupWeb($groupWeb);
+
+        $requestMessage = new Akaxin\Proto\Plugin\HaiMessageProxyRequest();
+        $requestMessage->setProxyMsg($message);
+        $this->getAkaxinPluginApiClient($siteSessionId);
+        $this->akaxinApiClient->request("/hai/message/proxy", $requestMessage);
+
+    }
+
+    public function setGroupWebNoticeMsgByApiClient($chatSessionId, $siteSessionId,$siteUserId, $webCode, $hrefUrl, $height = 21)
+    {
+        $msgId = $this->generateMsgId($this->msg_type_group, $siteUserId);
+        $groupWebNotice = new Akaxin\Proto\Core\GroupWebNotice();
+        $groupWebNotice->setSiteUserId($siteUserId);
+        $groupWebNotice->setSiteGroupId($chatSessionId);
+        $groupWebNotice->setMsgId($msgId);
+        $groupWebNotice->setHrefUrl($hrefUrl);
+        $groupWebNotice->setHeight($height);
+        $groupWebNotice->setWebCode($webCode);
+
+        $message = new Akaxin\Proto\Site\ImCtsMessageRequest();
+        $message->setType(\Akaxin\Proto\Core\MsgType::GROUP_WEB_NOTICE);
+        $message->setGroupWebNotice($groupWebNotice);
 
         $requestMessage = new Akaxin\Proto\Plugin\HaiMessageProxyRequest();
         $requestMessage->setProxyMsg($message);
@@ -662,10 +726,7 @@ if(!isset($siteSessionId['akaxin_site_session_id'])) {
 
 $siteSessionId = isset($siteSessionId['akaxin_site_session_id']) ? $siteSessionId['akaxin_site_session_id'] : '';
 
-echo $siteSessionId;
-
 $httpReferer = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : '';
-
 
 ////第一次进来需要处理chatSession, 以及hrefType, akaxin_param其他的时候
 $urlParams   = $heartAndSoulObj->parseUrl($httpReferer);
