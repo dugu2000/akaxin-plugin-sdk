@@ -19,7 +19,7 @@ $param = array(
         "正确的",
         600,
         600,
-        "zaly://{$siteHost}/goto?page=plugin_for_group_chat&plugin_id={$pluginId}&site_group_id={$rightGroupId}"
+        "zaly://{$siteHost}/goto?page=plugin_for_group_chat&plugin_id={$pluginId}&site_group_id={$rightGroupId}&param=%7Bname%25hello%7D"
     ),
 
     array(

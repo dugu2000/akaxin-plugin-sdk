@@ -30,9 +30,14 @@ function autoloadForAkaxinProtoSDK($className) {
 }
 spl_autoload_register("autoloadForAkaxinProtoSDK");
 
+
 class AkaxinReferer {
 
     private $params = array();
+
+    public function getInstance() {
+        return new AkaxinReferer($_SERVER["HTTP_REFERER"]);
+    }
 
     public function __construct($url) {
         $ret = parse_url($url, PHP_URL_QUERY);
@@ -69,7 +74,22 @@ class AkaxinReferer {
     public function getAkaxinSessionId() {
         return $_COOKIE["akaxin_site_session_id"];
     }
+
+    // 返回自定义启动参数
+    public function getAkaxinParam() {
+        return isset($this->params["akaxin_param"]) ? $this->params["akaxin_param"] : "";
+    }
+
+    public static function saveCookie() {
+        $_sessionId = self::getInstance()->getAkaxinSessionId();
+        if (!empty($_sessionId)) {
+            setcookie("akaxin_site_session_id", $_sessionId);
+        }
+    }
 }
+
+// 兼容iOS内页Cookie
+AkaxinReferer::saveCookie();
 
 
 
@@ -103,6 +123,11 @@ class AkaxinPluginApiClient {
         $this->apiPort = $apiPort;
         $this->pluginId = $pluginId;
         $this->authkey = $authkey;
+    }
+
+    // 获取用户从客户端点击到扩展页面，传递进来的业务参数
+    public function getAkaxinParam() {
+        return AkaxinReferer::getInstance()->getAkaxinParam();
     }
 
     /**
