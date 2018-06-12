@@ -57,14 +57,15 @@
 <script type="text/javascript" src="<?php echo $http_domain;?>/Public/js/zaly.js"></script>
 
 <script type="text/javascript">
+    var chatSesssionId = $('.chat_session_id').attr('data');
+    var guessNum  = $(this).attr('guess-num');
+    var hrefType  = $('.href_type').attr('data');
+    var isSponsor = $('.is_sponsor').attr('data');
+    var gameType  = $('.game_type').attr('data');
 
     $(document).on("click", ".guess_num", function(){
-        var guessNum  = $(this).attr('guess-num');
-        var hrefType  = $('.href_type').attr('data');
-        var isSponsor = $('.is_sponsor').attr('data');
-        var gameType  = $('.game_type').attr('data');
+
         var gameNum   = $('.game_num').attr('data');
-        var chatSesssionId = $('.chat_session_id').attr('data');
         var obj = $(this);
         $.ajax({
             method: "POST",

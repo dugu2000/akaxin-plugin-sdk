@@ -1,6 +1,6 @@
 <?php
 
-require_once(__DIR__ . "/sdk-php/AkaxinPluginApiClient.php");
+require_once(__DIR__ . "/../../sdk-php/AkaxinPluginApiClient.php");
 
 
 class HeartAndSoul
@@ -26,8 +26,6 @@ class HeartAndSoul
     public $msg_type_notice = 3;
     public $akaxinApiClient;
     public $httpDomain = "http://192.168.3.43:5160";
-
-    public $emojiArr = ["1️⃣", "2️⃣", "3️⃣", "4️⃣", "5️⃣","6️⃣", "7️⃣", "8️⃣", "9️⃣", "10️⃣","11️⃣", "12️⃣", "13️⃣", "14️⃣", "15️⃣", "16️⃣"];
 
     public function checkoutDB()
     {
@@ -344,6 +342,7 @@ class HeartAndSoul
         ////判断游戏是否是我开启的，自己开启的，无法参与
         if($gameNum) {
             $isSponsorMaster = $this->checkIsMineGame($chatSessionId, $siteUserId, $gameNum);
+
             if($isSponsorMaster) {
                 return json_encode(['error_code' => 'fail', 'error_msg' => '无法参与自己开局的游戏']);
             }
@@ -410,7 +409,6 @@ class HeartAndSoul
             'game_num'   => $gameNum,
             'game_type'  => $gameType,
         ];
-
         if($hrefType == $this->u2Type) {
             $hrefUrl = str_replace("chatSessionId", $siteUserId, $this->u2HrefUrl);
         } else {
@@ -664,13 +662,10 @@ if(!isset($siteSessionId['akaxin_site_session_id'])) {
 $siteSessionId = isset($siteSessionId['akaxin_site_session_id']) ? $siteSessionId['akaxin_site_session_id'] : '';
 
 $httpReferer = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : '';
+
+
+////第一次进来需要处理chatSession, 以及hrefType, akaxin_param
 $urlParams   = $heartAndSoulObj->parseUrl($httpReferer);
-if(!isset($urlParams['chat_session_id'])) {
-    return false;
-}
-if(!isset($urlParams['href_type'])) {
-    return false;
-}
 
 if(isset($urlParams['akaxin_param']) && $urlParams['akaxin_param']) {
     $params = json_decode($urlParams['akaxin_param'], true);
@@ -678,8 +673,9 @@ if(isset($urlParams['akaxin_param']) && $urlParams['akaxin_param']) {
     $isSponsor = $params['is_sponsor'];
     $gameType  = $params['game_type'];
     $gameNum   = $params['game_num'];
+    $chatSessionId = $urlParams['chat_session_id'];
+    $hrefType = $urlParams['href_type'];
 }
-
 switch ($pageType) {
     case "first":
         $urlParams['http_domain'] = $heartAndSoulObj->httpDomain;
