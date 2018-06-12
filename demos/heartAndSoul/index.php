@@ -664,7 +664,7 @@ $siteSessionId = isset($siteSessionId['akaxin_site_session_id']) ? $siteSessionI
 $httpReferer = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : '';
 
 
-////第一次进来需要处理chatSession, 以及hrefType, akaxin_param
+////第一次进来需要处理chatSession, 以及hrefType, akaxin_param其他的时候
 $urlParams   = $heartAndSoulObj->parseUrl($httpReferer);
 
 if(isset($urlParams['akaxin_param']) && $urlParams['akaxin_param']) {
@@ -673,15 +673,17 @@ if(isset($urlParams['akaxin_param']) && $urlParams['akaxin_param']) {
     $isSponsor = $params['is_sponsor'];
     $gameType  = $params['game_type'];
     $gameNum   = $params['game_num'];
+    $hrefType  = $urlParams['href_type'];
     $chatSessionId = $urlParams['chat_session_id'];
-    $hrefType = $urlParams['href_type'];
 }
+
 switch ($pageType) {
     case "first":
         $urlParams['http_domain'] = $heartAndSoulObj->httpDomain;
         $urlParams['href_url'] = $heartAndSoulObj->httpDomain."/heartAndSoul/?is_sponsor=1&page_type=second&chat_session_id=".$urlParams['chat_session_id']."&href_type=".$urlParams['href_type'];
         echo $heartAndSoulObj->render("heartAndSoul", $urlParams);
         break;
+
     case "second":
         $urlParams = [
             'four_url'    => $heartAndSoulObj->httpDomain."/heartAndSoul/?is_sponsor=".$isSponsor."&page_type=third&game_type=4&chat_session_id=".$chatSessionId."&href_type=".$hrefType,
@@ -691,6 +693,7 @@ switch ($pageType) {
         ];
         echo $heartAndSoulObj->render("chooseGameType", $urlParams);
         break;
+
     case "third":
         $rowNum    = sqrt($gameType);
         $gameUserInfo = [];
@@ -703,6 +706,7 @@ switch ($pageType) {
         $guessType = ['game_type' => $gameType, 'game_user_info' => $gameUserInfo, 'game_num' => $gameNum,'row_num' => $rowNum, "start_num" => 1, 'href_type' => $hrefType, 'chat_session_id' => $chatSessionId, 'is_sponsor' => $isSponsor, 'http_domain' => $heartAndSoulObj->httpDomain];
         echo $heartAndSoulObj->render("chooseNumForGame", $guessType);
         break;
+
     case "four":
         echo $heartAndSoulObj->handleGuessNum($siteSessionId, $chatSessionId, $guessNum, $gameType, $gameNum, $hrefType, $isSponsor);
         break;
