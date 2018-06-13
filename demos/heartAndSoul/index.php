@@ -346,7 +346,6 @@ class HeartAndSoul
      */
     public function setMsgByApiClient($chatSessionId, $siteSessionId,$siteUserId, $webCode,  $hrefType, $hrefUrl, $height = 30, $width = 160)
     {
-        error_log(" send web msg to === " . $hrefType);
         if($hrefType == $this->u2Type) {
             $this->zalyHelper->setU2WebMsgByApiClient($chatSessionId, $siteSessionId,$siteUserId, $webCode, $hrefUrl, $height, $width );
             return;

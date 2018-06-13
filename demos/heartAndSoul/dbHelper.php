@@ -6,12 +6,14 @@ class DBHelper
     public $tableName  = "heart_and_soul";
     public $u2Type     = "u2_msg";
     public $groupType  = "group_msg";
-    public $expirtTime = 10;//10分钟过期
+    public $expirtTime = 10*60;//10分钟过期
     public static $instance = null;
 
     protected function __construct()
     {
         $this->db = new \PDO("sqlite:./".$this->dbName);
+        $config  = parse_ini_file(__DIR__.'/heart.ini');
+        $this->expirtTime = $config['game_expire_time'];
     }
 
     public static function getInstance()
@@ -258,7 +260,6 @@ class DBHelper
             $prepare->bindParam(2, $siteUserId, \PDO::PARAM_STR);
             $prepare->execute();
             $results = $prepare->fetch(\PDO::FETCH_ASSOC);
-            error_log(json_encode($results));
 
             if(isset($results) && is_array($results) && count($results)) {
                 if($results['is_right'] == 1) {
@@ -274,8 +275,6 @@ class DBHelper
             }
             $query   = $this->db->query($sql);
             $results = $query->fetch(\PDO::FETCH_ASSOC);
-            error_log("sql ====$sql");
-            error_log("results ===".json_encode($results));
             if(isset($results) && is_array($results) && count($results)) {
                 if(time()-strtotime($results['create_time'])<$this->expirtTime) {
                     return false;

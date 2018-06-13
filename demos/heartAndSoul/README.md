@@ -36,6 +36,9 @@
 		<td> plugin_http_domain </td>
 		<td> 扩展服务器地址 </td>
 	</tr>
-	
+	<tr>
+    		<td> game_expire_time </td>
+    		<td> 在无人猜对的情况下，两局游戏的间隔，单位秒 </td>
+    	</tr>
 	</tabel>
 		
