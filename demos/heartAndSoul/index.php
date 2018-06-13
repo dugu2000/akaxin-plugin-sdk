@@ -365,7 +365,7 @@ class HeartAndSoul
             $isRight = $guessNum == $sponsorGuessNum ? 1 : 0;
             if($isRight) {
                 $this->insertGuessNum($siteUserId,  $siteUserPhoto,  $chatSessionId, $gameNum, $gameType, $guessNum, $isSponsor, 1);
-                ///$this->sendSuccessMsg($chatSessionId, $siteSessionId, $siteUserId, $guessNum, $hrefType,$hrefUrl);
+                $this->sendSuccessMsg($chatSessionId, $siteSessionId, $siteUserId, $guessNum, $hrefType,$hrefUrl);
                 $this->sendSuccessMsgNotice($chatSessionId, $siteSessionId, $siteUserId, $gameNum, $gameType, $hrefType, $hrefUrl);
                 return json_encode(['error_code' => 'success', 'game_num' => $gameNum, 'is_right' => $isRight, 'site_user_photo' => $siteUserPhoto]);
             }
@@ -404,7 +404,6 @@ class HeartAndSoul
             for($j=0; $j<$row_num; $j++) {
                 if(isset($gameUserInfo[$startNum]) && $gameUserInfo[$startNum]>0 ) {
                     $gameSiteUserId = $gameUserInfo[$startNum]['site_user_id'];
-                    $avatarBase64Content = $this->getUserBase64Avatar($gameSiteUserId, $siteSessionId);
                     $webCode .= '<div class="p-2  guess_num ">';
                     if(isset($gameUserInfo[$startNum]['is_right']) && $gameUserInfo[$startNum]['is_right']>0 ) {
                         $webCode .= '<div class="zaly_border zaly-num-right-style " ><img  src="'.$this->httpDomain.'/heartAndSoul/?page_type=imageDownload&game_site_user_id='.$gameSiteUserId.'" style="height:38px; width:38px;border-radius:50%; text-align: center;margin-top: 3px;" " /></div>';
@@ -434,7 +433,11 @@ class HeartAndSoul
             default:
                 $height = 800;
         }
-        $this->setGroupWebNoticeMsgByApiClient($chatSessionId, $siteSessionId,$siteUserId, $webCode, $hrefUrl, $height);
+        if($hrefType == $this->u2Type) {
+            $this->setU2WebNoticeMsgByApiClient($chatSessionId, $siteSessionId,$siteUserId, $webCode, $hrefUrl, $height);
+        } else {
+            $this->setGroupWebNoticeMsgByApiClient($chatSessionId, $siteSessionId,$siteUserId, $webCode, $hrefUrl, $height);
+        }
     }
 
     /**
@@ -629,7 +632,41 @@ class HeartAndSoul
         $this->getAkaxinPluginApiClient($siteSessionId);
         $this->akaxinApiClient->request("/hai/message/proxy", $requestMessage);
         error_log(" setGroupWebNoticeMsgByApiClient end=== ");
+    }
 
+    /**
+     * 发送groupWebNotice
+     *
+     * @param $chatSessionId
+     * @param $siteSessionId
+     * @param $siteUserId
+     * @param $webCode
+     * @param $hrefUrl
+     * @param int $height
+     *
+     * @author 尹少爷 2018.6.12
+     */
+    public function setU2WebNoticeMsgByApiClient($chatSessionId, $siteSessionId,$siteUserId, $webCode, $hrefUrl, $height = 21)
+    {
+        error_log(" setGroupWebNoticeMsgByApiClient ");
+        $msgId = $this->generateMsgId($this->msg_type_notice, $siteUserId);
+        $u2WebNotice = new Akaxin\Proto\Core\U2WebNotice();
+        $u2WebNotice->setSiteUserId($siteUserId);
+        $u2WebNotice->setSiteGroupId($chatSessionId);
+        $u2WebNotice->setMsgId($msgId);
+        $u2WebNotice->setHrefUrl($hrefUrl);
+        $u2WebNotice->setHeight($height);
+        $u2WebNotice->setWebCode($webCode);
+
+        $message = new Akaxin\Proto\Site\ImCtsMessageRequest();
+        $message->setType(\Akaxin\Proto\Core\MsgType::U2_WEB_NOTICE);
+        $message->setU2MsgNotice($u2WebNotice);
+
+        $requestMessage = new Akaxin\Proto\Plugin\HaiMessageProxyRequest();
+        $requestMessage->setProxyMsg($message);
+        $this->getAkaxinPluginApiClient($siteSessionId);
+        $this->akaxinApiClient->request("/hai/message/proxy", $requestMessage);
+        error_log(" setGroupWebNoticeMsgByApiClient end=== ");
     }
 
     /**
