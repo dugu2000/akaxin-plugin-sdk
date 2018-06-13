@@ -9,7 +9,7 @@ class HeartAndSoul
     public $db;
     public $hrefUrl;
     public $dbName     = "openzaly_heartAndSoul.db";
-    public $expirtTime = 10;//10分钟过期
+    public $expirtTime = 10*60;//10分钟过期
     public $u2Type     = "u2_msg";
     public $groupType  = "group_msg";
     public $tableName  = "heart_and_soul";
@@ -175,7 +175,7 @@ class HeartAndSoul
      * @param $chatSessionId
      * @return bool
      */
-    public function checkGameJurisdiction($siteUserId, $chatSessionId)
+    public function checkGameJurisdiction($siteUserId, $chatSessionId, $hrefType)
     {
         try{
             /////是否上一局是猜对者
@@ -192,9 +192,16 @@ class HeartAndSoul
                 return true;
             }
             /////判断时间是否已经超时
-            $query   = $this->db->query("select  site_user_id, create_time from `$this->tableName` where chat_session_id='$chatSessionId' and is_sponsor=1 order by _id desc LIMIT 1;");
+            ///
+            if($hrefType == $this->u2Type) {
+                $sql = "select  site_user_id,chat_session_id, create_time from `$this->tableName` where ((chat_session_id='$chatSessionId' and site_user_id='$siteUserId') or (chat_session_id='$siteUserId' and site_user_id='$chatSessionId')) and is_sponsor=1 order by _id desc LIMIT 1;";
+
+            } else {
+                $sql   = "select  site_user_id,chat_session_id, create_time from `$this->tableName` where chat_session_id='$chatSessionId' and is_sponsor=1 order by _id desc LIMIT 1;";
+            }
+            $query   = $this->db->query($sql);
             $results = $query->fetch(\PDO::FETCH_ASSOC);
-            error_log("sql ===="."select site_user_id, create_time from `$this->tableName` where chat_session_id='$chatSessionId' and is_sponsor=1 order by _id desc LIMIT 1;");
+            error_log("sql ====$sql");
             if(isset($results) && is_array($results) && count($results)) {
                 if(time()-strtotime($results['create_time'])<$this->expirtTime) {
                     return false;
@@ -219,7 +226,7 @@ class HeartAndSoul
             if($hrefType == $this->u2Type) {
                 $userProfile = $this->getSiteUserProfile($siteSessionId);
                 $siteUserId  = $userProfile->getSiteUserId();
-                $sql = "select site_user_id, site_user_photo, guess_num, is_right from `$this->tableName` where  ((chat_session_id=? and site_user_id=?) or (chat_session_id=? and site_user_id=?)) and game_num = ? and is_sponsor = 0;";
+                $sql = "select site_user_id, site_user_photo, guess_num, is_right from `$this->tableName` where ((chat_session_id=? and  site_user_id=?) or (chat_session_id=? and  site_user_id=?)) and game_num = ? and is_sponsor = 0;";
                 $prepare = $this->db->prepare($sql);
                 $prepare->bindParam(1, $chatSessionId, \PDO::PARAM_STR);
                 $prepare->bindParam(2, $siteUserId, \PDO::PARAM_STR);
@@ -262,7 +269,6 @@ class HeartAndSoul
             error_log(" sql === select site_user_id, create_time from `$this->tableName` where chat_session_id=$chatSessionId and game_num=$gameNum and is_sponsor =1 order by _id desc limit 1 ;");
             $prepare->execute();
             $results = $prepare->fetch(\PDO::FETCH_ASSOC);
-            error_log(json_encode($results));
 
             if(isset($results) && is_array($results) && count($results)) {
                 if($results['site_user_id'] == $siteUserId) {
@@ -338,7 +344,7 @@ class HeartAndSoul
 
         ////判断是否可以作为新开局
         if($isSponsor) {
-            $isJuisdiction = $this->checkGameJurisdiction($siteUserId, $chatSessionId);
+            $isJuisdiction = $this->checkGameJurisdiction($siteUserId, $chatSessionId, $hrefType);
             if(!$isJuisdiction) {
                 error_log('你不是上一局猜对的人，或者距离上一局没有超过10分钟，暂时无法开局！' );
                 return json_encode(['error_code' => 'fail', 'error_msg' => '暂时无法开局！']);
@@ -413,7 +419,7 @@ class HeartAndSoul
             }
             $webCode .= '</div>';
         }
-        
+
         $height = 0;
         switch ($gameType) {
             case 4:
@@ -821,7 +827,6 @@ switch ($pageType) {
                 $gameUserInfo = array_column($gameUserInfo, null, 'guess_num');
             }
         }
-
         $guessType = ['game_type' => $gameType, 'game_user_info' => $gameUserInfo, 'game_num' => $gameNum,'row_num' => $rowNum, "start_num" => 1, 'href_type' => $hrefType, 'chat_session_id' => $chatSessionId, 'is_sponsor' => $isSponsor, 'http_domain' => $heartAndSoulObj->httpDomain];
         echo $heartAndSoulObj->render("chooseNumForGame", $guessType);
         break;
