@@ -90,7 +90,7 @@ var Zaly = {
         if (this.getOsType() == 'Android') {
             Android.showToast(strTipMsg);
         } else if (this.getOsType() == 'IOS') {
-            ios_toast(strTipMsg);
+            alert(strTipMsg);
         } else {
             console.log(strTipMsg);
         }
