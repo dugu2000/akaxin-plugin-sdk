@@ -13,8 +13,8 @@ class HeartAndSoul
     public $u2Type     = "u2_msg";
     public $groupType  = "group_msg";
     public $tableName  = "heart_and_soul";
-    public $u2HrefUrl    = "zaly://192.168.3.43:2021/goto?page=plugin_for_u2_chat&site_user_id=chatSessionId&plugin_id=8&param=";
-    public $groupHrefUrl = "zaly://192.168.3.43:2021/goto?page=plugin_for_group_chat&site_group_id=chatSessionId&plugin_id=8&&param=";
+    public $u2HrefUrl    = "zaly://192.168.1.103:2021/goto?page=plugin_for_u2_chat&site_user_id=chatSessionId&plugin_id=8&param=";
+    public $groupHrefUrl = "zaly://192.168.1.103:2021/goto?page=plugin_for_group_chat&site_group_id=chatSessionId&plugin_id=8&&param=";
 
     public $pluginApiHost = "127.0.0.1";        // 对应启动服务器时的 -Dhttp.address 参数
     public $pluginApiPort = 8280;               // 对应启动服务器时的 -Dhttp.port 参数
@@ -377,7 +377,7 @@ class HeartAndSoul
             if($isRight) {
                 $this->insertGuessNum($siteUserId,  $siteUserPhoto,  $chatSessionId, $gameNum, $gameType, $guessNum, $isSponsor, 1);
                 $this->sendSuccessMsg($chatSessionId, $siteSessionId, $siteUserId, $guessNum, $hrefType,$hrefUrl);
-                $this->sendSuccessMsgNotice($chatSessionId, $siteSessionId, $siteUserId, $gameNum, $gameType, $hrefType, $hrefUrl);
+                ////$this->sendSuccessMsgNotice($chatSessionId, $siteSessionId, $siteUserId, $gameNum, $gameType, $hrefType, $hrefUrl);
                 return json_encode(['error_code' => 'success', 'game_num' => $gameNum, 'is_right' => $isRight, 'site_user_photo' => $siteUserPhoto]);
             }
             $this->insertGuessNum($siteUserId,  $siteUserPhoto,  $chatSessionId, $gameNum, $gameType, $guessNum, $isSponsor, 0);
@@ -414,23 +414,22 @@ class HeartAndSoul
             for($j=0; $j<$row_num; $j++) {
                 if(isset($gameUserInfo[$startNum]) && $gameUserInfo[$startNum]>0 ) {
                     $gameSiteUserId = $gameUserInfo[$startNum]['site_user_id'];
-                    error_log("  gameSiteUserId === " . $gameSiteUserId);
-                    $avatarContent = $this->getUserAvatar($gameSiteUserId, $siteSessionId);
-                    error_log(" avatarContent === ".$avatarContent);
+                    $avatarBase64Content = $this->getUserBase64Avatar($gameSiteUserId, $siteSessionId);
                     $webCode .= '<div class="p-2  guess_num ">';
                     if(isset($gameUserInfo[$startNum]['is_right']) && $gameUserInfo[$startNum]['is_right']>0 ) {
-                        $webCode .= '<div class="zaly_border zaly-num-right-style " ><img  src="data:image/png;base64,'.$avatarContent.'" style="height:38px; width:38px;border-radius:50%; text-align: center;margin-top: 3px;" " /></div>';
+                        $webCode .= '<div class="zaly_border zaly-num-right-style " ><img  src="data:image/png;base64,'.$avatarBase64Content.'" style="height:38px; width:38px;border-radius:50%; text-align: center;margin-top: 3px;" " /></div>';
                     } else {
-                        $webCode .= '<div class="zaly_border zaly-num-wrong-style" ><img  src="data:image/png;base64,'.$avatarContent.'" style="height:38px; width:38px;border-radius:50%; text-align: center;margin-top: 3px;" " /></div>';                    }
+                        $webCode .= '<div class="zaly_border zaly-num-wrong-style" ><img  src="data:image/png;base64,'.$avatarBase64Content.'" style="height:38px; width:38px;border-radius:50%; text-align: center;margin-top: 3px;" " /></div>';
+                    }
                     $webCode .= '</div>';
                 } else {
                     $webCode .= '<div class=" p-2 guess_num "> <button type="button" class="btn  zaly-border zaly-num-style new_game ">'.$startNum.'</button> </div>';
                 }
                 $startNum++;
             }
-            $webCode .= '</div></body></html>';
+            $webCode .= '</div>';
         }
-        error_log(" webCode === " . $webCode);
+        $webCode .= "</body></html>";
         $height = 0;
         switch ($gameType) {
             case 4:
@@ -448,7 +447,16 @@ class HeartAndSoul
         $this->setGroupWebNoticeMsgByApiClient($chatSessionId, $siteSessionId,$siteUserId, $webCode, $hrefUrl, $height);
     }
 
-    public function getUserAvatar($siteUserId, $siteSessionId)
+    /**
+     * 获取头像
+     *
+     * @param $siteUserId
+     * @param $siteSessionId
+     * @return base64 string
+     * @throws \Google\Protobuf\Internal\Exception
+     *
+     */
+    public function getUserBase64Avatar($siteUserId, $siteSessionId)
     {
         $this->getAkaxinPluginApiClient($siteSessionId);
         $requestAvatar = new Akaxin\Proto\Plugin\HaiUserAvatarRequest();
@@ -502,13 +510,13 @@ class HeartAndSoul
     {
         switch ($gameType) {
             case 4:
-                $webCode ='<!DOCTYPE html> <html lang="en"> <head> <meta charset="UTF-8"> <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0"> <title>心有灵犀</title> </title> <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" /> <link rel="stylesheet" href="http://192.168.3.43:5160/Public/css/zaly_web.css" /> </head> <body ontouchstart=""> <div class="d-flex flex-column "> <div class="p-2 d-flex   zaly-margin-16px justify-content-center"> <label style="text-align: center;">我发起了一场心有灵犀：四猜一</label> </div> <div class="p-2 d-flex  justify-content-center"> <button type="button" class="btn zaly-btn zaly-btn-font">来猜我的神秘数字吧</button> </div> </div> </body> </html>';
+                $webCode ='<!DOCTYPE html> <html lang="en"> <head> <meta charset="UTF-8"> <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0"> <title>心有灵犀</title> </title> <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" /> <link rel="stylesheet" href="'.$this->httpDomain.'/Public/css/zaly_web.css" /> </head> <body ontouchstart=""> <div class="d-flex flex-column "> <div class="p-2 d-flex   zaly-margin-16px justify-content-center"> <label style="text-align: center;">我发起了一场心有灵犀：四猜一</label> </div> <div class="p-2 d-flex  justify-content-center"> <button type="button" class="btn zaly-btn zaly-btn-font">来猜我的神秘数字吧</button> </div> </div> </body> </html>';
                 break;
             case 9:
-                $webCode ='<!DOCTYPE html> <html lang="en"> <head> <meta charset="UTF-8"> <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0"> <title>心有灵犀</title> </title> <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" /> <link rel="stylesheet" href="http://192.168.3.43:5160/Public/css/zaly_web.css" /> </head> <body ontouchstart=""> <div class="d-flex flex-column "> <div class="p-2 d-flex   zaly-margin-16px justify-content-center"> <label style="text-align: center;">我发起了一场心有灵犀：九猜一</label> </div> <div class="p-2 d-flex  justify-content-center"> <button type="button" class="btn zaly-btn zaly-btn-font">来猜我的神秘数字吧</button> </div> </div> </body> </html>';
+                $webCode ='<!DOCTYPE html> <html lang="en"> <head> <meta charset="UTF-8"> <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0"> <title>心有灵犀</title> </title> <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" /> <link rel="stylesheet" href="'.$this->httpDomain.'/Public/css/zaly_web.css" /> </head> <body ontouchstart=""> <div class="d-flex flex-column "> <div class="p-2 d-flex   zaly-margin-16px justify-content-center"> <label style="text-align: center;">我发起了一场心有灵犀：九猜一</label> </div> <div class="p-2 d-flex  justify-content-center"> <button type="button" class="btn zaly-btn zaly-btn-font">来猜我的神秘数字吧</button> </div> </div> </body> </html>';
                 break;
             case 16:
-                $webCode ='<!DOCTYPE html> <html lang="en"> <head> <meta charset="UTF-8"> <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0"> <title>心有灵犀</title> </title> <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" /> <link rel="stylesheet" href="http://192.168.3.43:5160/Public/css/zaly_web.css" /> </head> <body ontouchstart=""> <div class="d-flex flex-column "> <div class="p-2 d-flex   zaly-margin-16px justify-content-center"> <label style="text-align: center;">我发起了一场心有灵犀：十六猜一</label> </div> <div class="p-2 d-flex  justify-content-center"> <button type="button" class="btn zaly-btn zaly-btn-font">来猜我的神秘数字吧</button> </div> </div> </body> </html>';
+                $webCode ='<!DOCTYPE html> <html lang="en"> <head> <meta charset="UTF-8"> <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0"> <title>心有灵犀</title> </title> <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" /> <link rel="stylesheet" href="'.$this->httpDomain.'/Public/css/zaly_web.css" /> </head> <body ontouchstart=""> <div class="d-flex flex-column "> <div class="p-2 d-flex   zaly-margin-16px justify-content-center"> <label style="text-align: center;">我发起了一场心有灵犀：十六猜一</label> </div> <div class="p-2 d-flex  justify-content-center"> <button type="button" class="btn zaly-btn zaly-btn-font">来猜我的神秘数字吧</button> </div> </div> </body> </html>';
                 break;
         }
 
@@ -543,14 +551,28 @@ class HeartAndSoul
         $this->setMsgByApiClient($chatSessionId, $siteSessionId, $siteUserId, $webCode, $hrefType, $hrefUrl);
     }
 
+    /**
+     * plugin 发送web消息
+     *
+     * @param $chatSessionId
+     * @param $siteSessionId
+     * @param $siteUserId
+     * @param $webCode
+     * @param $hrefType
+     * @param $hrefUrl
+     * @param int $height
+     * @param int $width
+     *
+     * @author 尹少爷 2018.6.11
+     */
     public function setMsgByApiClient($chatSessionId, $siteSessionId,$siteUserId, $webCode,  $hrefType, $hrefUrl, $height = 21, $width = 160)
     {
         error_log(" send web msg to === " . $hrefType);
         if($hrefType == $this->u2Type) {
-            $this->setU2MsgByApiClient($chatSessionId, $siteSessionId,$siteUserId, $webCode, $hrefUrl, $height, $width );
+            $this->setU2WebMsgByApiClient($chatSessionId, $siteSessionId,$siteUserId, $webCode, $hrefUrl, $height, $width );
             return;
         }
-        $this->setGroupMsgByApiClient($chatSessionId, $siteSessionId,$siteUserId, $webCode, $hrefUrl, $height, $width);
+        $this->setGroupWebMsgByApiClient($chatSessionId, $siteSessionId,$siteUserId, $webCode, $hrefUrl, $height, $width);
     }
     /**
      * 站点代发消息
@@ -561,7 +583,7 @@ class HeartAndSoul
      *
      * @author 尹少爷 2018.6.11
      */
-    public function setGroupMsgByApiClient($chatSessionId, $siteSessionId,$siteUserId, $webCode, $hrefUrl, $height = 21, $width = 160)
+    public function setGroupWebMsgByApiClient($chatSessionId, $siteSessionId,$siteUserId, $webCode, $hrefUrl, $height = 21, $width = 160)
     {
         $msgId = $this->generateMsgId($this->msg_type_group, $siteUserId);
         $groupWeb = new Akaxin\Proto\Core\GroupWeb();
@@ -584,9 +606,22 @@ class HeartAndSoul
 
     }
 
+    /**
+     * 发送groupWebNotice
+     *
+     * @param $chatSessionId
+     * @param $siteSessionId
+     * @param $siteUserId
+     * @param $webCode
+     * @param $hrefUrl
+     * @param int $height
+     *
+     * @author 尹少爷 2018.6.12
+     */
     public function setGroupWebNoticeMsgByApiClient($chatSessionId, $siteSessionId,$siteUserId, $webCode, $hrefUrl, $height = 21)
     {
-        $msgId = $this->generateMsgId($this->msg_type_group, $siteUserId);
+        error_log(" setGroupWebNoticeMsgByApiClient ");
+        $msgId = $this->generateMsgId($this->msg_type_notice, $siteUserId);
         $groupWebNotice = new Akaxin\Proto\Core\GroupWebNotice();
         $groupWebNotice->setSiteUserId($siteUserId);
         $groupWebNotice->setSiteGroupId($chatSessionId);
@@ -603,6 +638,7 @@ class HeartAndSoul
         $requestMessage->setProxyMsg($message);
         $this->getAkaxinPluginApiClient($siteSessionId);
         $this->akaxinApiClient->request("/hai/message/proxy", $requestMessage);
+        error_log(" setGroupWebNoticeMsgByApiClient end=== ");
 
     }
 
@@ -615,7 +651,7 @@ class HeartAndSoul
      *
      * @author 尹少爷 2018.6.11
      */
-    public function setU2MsgByApiClient($chatSessionId, $siteSessionId, $siteUserId, $webCode, $hrefUrl, $height = 21, $width = 160)
+    public function setU2WebMsgByApiClient($chatSessionId, $siteSessionId, $siteUserId, $webCode, $hrefUrl, $height = 21, $width = 160)
     {
         $msgId = $this->generateMsgId($this->msg_type_u2, $siteUserId);
         $u2Web = new Akaxin\Proto\Core\U2Web();
@@ -745,7 +781,6 @@ if(!$httpCookie) {
     return false;
 }
 $siteSessionId = $httpCookie;
-//parse_str($httpCookie, $siteSessionId);
 if(!isset($siteSessionId['akaxin_site_session_id'])) {
     return false;
 }
