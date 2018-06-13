@@ -90,7 +90,10 @@ class AkaxinReferer {
 }
 
 // 兼容iOS内页Cookie
-AkaxinReferer::saveCookie();
+
+if(isset($_SERVER["HTTP_REFERER"])) {
+    AkaxinReferer::saveCookie();
+}
 
 
 /**
@@ -144,6 +147,7 @@ class AkaxinPluginApiClient {
         $this->lastErrorCode = "";
         $this->lastErrorInfo = "";
 
+
         $requestPackage = new Akaxin\Proto\Core\ProxyPluginPackage();
         $data = $requestMessage->serializeToString();
         $data = base64_encode($data); //千万不要忘了这一步！
@@ -151,11 +155,12 @@ class AkaxinPluginApiClient {
         $requestPackage->setPluginHeader($this->makeRequestHeader());
 
         $responsePackage = $this->curlRequest($actionName, $requestPackage);
+
         if (false === $responsePackage) {
             return false;
         }
-
         $errorInfo = $responsePackage->getErrorInfo();
+
         if ($errorInfo instanceof Akaxin\Proto\Core\ErrorInfo) {
             $this->lastErrorCode = $errorInfo->getCode();
             $this->lastErrorInfo = $errorInfo->getInfo();
