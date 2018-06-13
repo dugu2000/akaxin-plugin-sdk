@@ -13,8 +13,8 @@ class HeartAndSoul
     public $u2Type     = "u2_msg";
     public $groupType  = "group_msg";
     public $tableName  = "heart_and_soul";
-    public $u2HrefUrl    = "zaly://192.168.1.103:2021/goto?page=plugin_for_u2_chat&site_user_id=chatSessionId&plugin_id=8&param=";
-    public $groupHrefUrl = "zaly://192.168.1.103:2021/goto?page=plugin_for_group_chat&site_group_id=chatSessionId&plugin_id=8&&param=";
+    public $u2HrefUrl    = "zaly://192.168.3.43:2021/goto?page=plugin_for_u2_chat&site_user_id=chatSessionId&plugin_id=8&akaxin_param=";
+    public $groupHrefUrl = "zaly://192.168.3.43:2021/goto?page=plugin_for_group_chat&site_group_id=chatSessionId&plugin_id=8&&akaxin_param=";
 
     public $pluginApiHost = "127.0.0.1";        // 对应启动服务器时的 -Dhttp.address 参数
     public $pluginApiPort = 8280;               // 对应启动服务器时的 -Dhttp.port 参数
@@ -58,25 +58,6 @@ class HeartAndSoul
 
         if ($params) {
             extract($params, EXTR_SKIP);
-        }
-        $htmlCode = file_get_contents($path);
-        preg_match_all('/href-data="Public\/css\/(.*?)"/', $htmlCode, $matches, PREG_PATTERN_ORDER);
-        $cssPath = array_pop($matches);
-        if(isset($cssPath[0])) {
-            $cssFile = dirname(__DIR__)."/".basename(__DIR__).'/Public/css/'.$cssPath[0];
-            $cssCode = file_get_contents($cssFile);
-            if ($cssCode) {
-                extract(['css_code' => $cssCode], EXTR_SKIP);
-            }
-        }
-        preg_match_all('/href-data="Public\/js\/(.*?)"/', $htmlCode, $matches, PREG_PATTERN_ORDER);
-        $jsPath = array_pop($matches);
-        if(isset($jsPath[0])) {
-            $jsFile = dirname(__DIR__)."/".basename(__DIR__).'/Public/js/'.$jsPath[0];
-            $jsCode = file_get_contents($jsFile);
-            if ($jsCode) {
-                extract(['js_code' => $jsCode], EXTR_SKIP);
-            }
         }
 
         include($path);
@@ -154,7 +135,6 @@ class HeartAndSoul
         $prepare->bindParam(1, $chatSessionId, \PDO::PARAM_STR);
         $prepare->execute();
         $results = $prepare->fetch(\PDO::FETCH_ASSOC);
-        error_log(json_encode($results));
         if(is_array($results) && count($results)) {
             return $results['game_num'];
         }
@@ -172,11 +152,13 @@ class HeartAndSoul
     public function getSponsorGuessNum($chatSessionId, $siteUserId, $hrefType, $gameNum)
     {
         if($hrefType == $this->u2Type) {
-            $sql = "select guess_num from `$this->tableName` where (chat_session_id=? or chat_session_id=?) and game_num = ? and is_sponsor = 1;";
+            $sql = "select guess_num from `$this->tableName` where ((chat_session_id=? and site_user_id=?) or (chat_session_id=? and site_user_id=?)) and game_num = ? and is_sponsor = 1;";
             $prepare = $this->db->prepare($sql);
             $prepare->bindParam(1, $chatSessionId, \PDO::PARAM_STR);
             $prepare->bindParam(2, $siteUserId, \PDO::PARAM_STR);
-            $prepare->bindParam(3, $gameNum, \PDO::PARAM_STR);
+            $prepare->bindParam(3, $siteUserId, \PDO::PARAM_STR);
+            $prepare->bindParam(4, $chatSessionId, \PDO::PARAM_STR);
+            $prepare->bindParam(5, $gameNum, \PDO::PARAM_STR);
         }else {
             $sql = "select guess_num from `$this->tableName` where chat_session_id=? and game_num = ? and is_sponsor = 1;";
             $prepare = $this->db->prepare($sql);
@@ -237,11 +219,13 @@ class HeartAndSoul
             if($hrefType == $this->u2Type) {
                 $userProfile = $this->getSiteUserProfile($siteSessionId);
                 $siteUserId  = $userProfile->getSiteUserId();
-                $sql = "select site_user_id, site_user_photo, guess_num, is_right from `$this->tableName` where (chat_session_id=? or chat_session_id = ?) and game_num = ? and is_sponsor = 0;";
+                $sql = "select site_user_id, site_user_photo, guess_num, is_right from `$this->tableName` where  ((chat_session_id=? and site_user_id=?) or (chat_session_id=? and site_user_id=?)) and game_num = ? and is_sponsor = 0;";
                 $prepare = $this->db->prepare($sql);
                 $prepare->bindParam(1, $chatSessionId, \PDO::PARAM_STR);
                 $prepare->bindParam(2, $siteUserId, \PDO::PARAM_STR);
-                $prepare->bindParam(3, $gameNum, \PDO::PARAM_STR);
+                $prepare->bindParam(3, $siteUserId, \PDO::PARAM_STR);
+                $prepare->bindParam(4, $chatSessionId, \PDO::PARAM_STR);
+                $prepare->bindParam(5, $gameNum, \PDO::PARAM_STR);
             }else {
                 $sql = "select site_user_id, site_user_photo, guess_num, is_right from `$this->tableName` where chat_session_id=? and game_num = ? and is_sponsor = 0;";
                 $prepare = $this->db->prepare($sql);
@@ -348,7 +332,6 @@ class HeartAndSoul
             /////判断是否已经参与过本局游戏了
             $isGuess = $this->checkoutIsGuess($chatSessionId, $siteUserId, $gameNum);
             if($isGuess) {
-                error_log('你已经参与过本局了！' );
                 return json_encode(['error_code' => 'fail', 'error_msg' => '你已经参与过本局了！']);
             }
         }
@@ -376,8 +359,8 @@ class HeartAndSoul
             $isRight = $guessNum == $sponsorGuessNum ? 1 : 0;
             if($isRight) {
                 $this->insertGuessNum($siteUserId,  $siteUserPhoto,  $chatSessionId, $gameNum, $gameType, $guessNum, $isSponsor, 1);
-                $this->sendSuccessMsg($chatSessionId, $siteSessionId, $siteUserId, $guessNum, $hrefType,$hrefUrl);
-                ////$this->sendSuccessMsgNotice($chatSessionId, $siteSessionId, $siteUserId, $gameNum, $gameType, $hrefType, $hrefUrl);
+                ///$this->sendSuccessMsg($chatSessionId, $siteSessionId, $siteUserId, $guessNum, $hrefType,$hrefUrl);
+                $this->sendSuccessMsgNotice($chatSessionId, $siteSessionId, $siteUserId, $gameNum, $gameType, $hrefType, $hrefUrl);
                 return json_encode(['error_code' => 'success', 'game_num' => $gameNum, 'is_right' => $isRight, 'site_user_photo' => $siteUserPhoto]);
             }
             $this->insertGuessNum($siteUserId,  $siteUserPhoto,  $chatSessionId, $gameNum, $gameType, $guessNum, $isSponsor, 0);
@@ -400,6 +383,7 @@ class HeartAndSoul
      */
     public function sendSuccessMsgNotice($chatSessionId, $siteSessionId, $siteUserId, $gameNum,  $gameType, $hrefType, $hrefUrl)
     {
+        error_log('sendSuccessMsgNotice === ');
         $row_num = sqrt($gameType);
 
         $gameUserInfo = $this->getGameUserInfo($chatSessionId, $siteSessionId, $hrefType, $gameNum);
@@ -417,9 +401,9 @@ class HeartAndSoul
                     $avatarBase64Content = $this->getUserBase64Avatar($gameSiteUserId, $siteSessionId);
                     $webCode .= '<div class="p-2  guess_num ">';
                     if(isset($gameUserInfo[$startNum]['is_right']) && $gameUserInfo[$startNum]['is_right']>0 ) {
-                        $webCode .= '<div class="zaly_border zaly-num-right-style " ><img  src="data:image/png;base64,'.$avatarBase64Content.'" style="height:38px; width:38px;border-radius:50%; text-align: center;margin-top: 3px;" " /></div>';
+                        $webCode .= '<div class="zaly_border zaly-num-right-style " ><img  src="'.$this->httpDomain.'/heartAndSoul/?page_type=imageDownload&game_site_user_id='.$gameSiteUserId.'" style="height:38px; width:38px;border-radius:50%; text-align: center;margin-top: 3px;" " /></div>';
                     } else {
-                        $webCode .= '<div class="zaly_border zaly-num-wrong-style" ><img  src="data:image/png;base64,'.$avatarBase64Content.'" style="height:38px; width:38px;border-radius:50%; text-align: center;margin-top: 3px;" " /></div>';
+                        $webCode .= '<div class="zaly_border zaly-num-wrong-style" ><img  src="'.$this->httpDomain.'/heartAndSoul/?page_type=imageDownload&game_site_user_id='.$gameSiteUserId.'" style="height:38px; width:38px;border-radius:50%; text-align: center;margin-top: 3px;" " /></div>';
                     }
                     $webCode .= '</div>';
                 } else {
@@ -429,7 +413,7 @@ class HeartAndSoul
             }
             $webCode .= '</div>';
         }
-        $webCode .= "</body></html>";
+        
         $height = 0;
         switch ($gameType) {
             case 4:
@@ -456,9 +440,9 @@ class HeartAndSoul
      * @throws \Google\Protobuf\Internal\Exception
      *
      */
-    public function getUserBase64Avatar($siteUserId, $siteSessionId)
+    public function getUserAvatar($siteUserId)
     {
-        $this->getAkaxinPluginApiClient($siteSessionId);
+        $this->getAkaxinPluginApiClient('');
         $requestAvatar = new Akaxin\Proto\Plugin\HaiUserAvatarRequest();
         $requestAvatar->setSiteUserId($siteUserId);
         $resultData = $this->akaxinApiClient->request("/hai/user/avatar", $requestAvatar);
@@ -467,7 +451,7 @@ class HeartAndSoul
         $responseAvatar->mergeFromString($resultData);
 
         $avatarContent = $responseAvatar->getPhotoContent();
-        return base64_encode($avatarContent);
+        return $avatarContent;
     }
     /**
      * 得到hrefUrl
@@ -493,7 +477,7 @@ class HeartAndSoul
             $hrefUrl = str_replace("chatSessionId", $chatSessionId, $this->groupHrefUrl);
         }
 
-        $hrefUrl .= json_encode($params);
+        $hrefUrl .= urlencode(json_encode($params));
         return $hrefUrl;
     }
 
@@ -682,7 +666,7 @@ class HeartAndSoul
      */
     public function getAkaxinPluginApiClient($siteSessionId){
         $this->akaxinApiClient = new AkaxinPluginApiClient($this->pluginApiHost, $this->pluginApiPort, $this->pluginId, $this->pluginAuthKey);
-        $this->akaxinApiClient->setSessionSiteUserId($siteSessionId);
+//        $this->akaxinApiClient->setSessionSiteUserId($siteSessionId);
     }
 
     /**
@@ -753,6 +737,7 @@ class HeartAndSoul
     }
 }
 
+
 $heartAndSoulObj = new HeartAndSoul();
 $heartAndSoulObj->checkoutDB();
 
@@ -764,6 +749,15 @@ $guessNum  = isset($_GET['guess_num']) ? $_GET['guess_num'] : "";
 $isSponsor = isset($_GET['is_sponsor']) ? $_GET['is_sponsor'] : 0;
 
 $chatSessionId = isset($_GET['chat_session_id']) ? $_GET['chat_session_id'] :"";
+
+////如果是下载图片，则直接返回数据
+if($pageType == 'imageDownload') {
+    $gameSiteUserId = isset($_GET['game_site_user_id']) ? $_GET['game_site_user_id'] : "";
+    $userAvatar     = $heartAndSoulObj->getUserAvatar($gameSiteUserId);
+    header('Content-Type: image/png');
+    echo $userAvatar;
+    return false;
+}
 
 /////默认第四步骤是post请求
 if(isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] == "POST"){
@@ -791,7 +785,6 @@ $httpReferer = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : '';
 
 ////第一次进来需要处理chatSession, 以及hrefType, akaxin_param其他的时候
 $urlParams   = $heartAndSoulObj->parseUrl($httpReferer);
-
 if(isset($urlParams['akaxin_param']) && $urlParams['akaxin_param']) {
     $params = json_decode($urlParams['akaxin_param'], true);
     $pageType  = isset($params['page_type']) ? $params['page_type'] : "third" ;
@@ -828,6 +821,7 @@ switch ($pageType) {
                 $gameUserInfo = array_column($gameUserInfo, null, 'guess_num');
             }
         }
+
         $guessType = ['game_type' => $gameType, 'game_user_info' => $gameUserInfo, 'game_num' => $gameNum,'row_num' => $rowNum, "start_num" => 1, 'href_type' => $hrefType, 'chat_session_id' => $chatSessionId, 'is_sponsor' => $isSponsor, 'http_domain' => $heartAndSoulObj->httpDomain];
         echo $heartAndSoulObj->render("chooseNumForGame", $guessType);
         break;
@@ -835,4 +829,5 @@ switch ($pageType) {
     case "four":
         echo $heartAndSoulObj->handleGuessNum($siteSessionId, $chatSessionId, $guessNum, $gameType, $gameNum, $hrefType, $isSponsor);
         break;
+
 }
