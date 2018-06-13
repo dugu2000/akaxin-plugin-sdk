@@ -5,12 +5,11 @@ require_once(__DIR__ . "/dbHelper.php");
 require_once(__DIR__ . "/zalyHelper.php");
 
 
-class HeartAndSoul
+class GuessNum
 {
 
     public $db;
     public $hrefUrl;
-    public $dbName     = "openzaly_heartAndSoul.db";
     public $u2Type     = "u2_msg";
     public $groupType  = "group_msg";
     public $tableName  = "heart_and_soul";
@@ -26,14 +25,14 @@ class HeartAndSoul
     public $zalyHelper;
 
     /**
-     * @return HeartAndSoul|null
+     * @return GuessNum|null
      *
      * @author 尹少爷 2018.6.13
      */
     public static function getInstance()
     {
         if(!self::$instance) {
-            self::$instance = new HeartAndSoul();
+            self::$instance = new GuessNum();
         }
         return self::$instance;
     }
@@ -213,9 +212,9 @@ class HeartAndSoul
                     $gameSiteUserId = $gameUserInfo[$startNum]['site_user_id'];
                     $webCode .= '<div class="p-2  guess_num ">';
                     if(isset($gameUserInfo[$startNum]['is_right']) && $gameUserInfo[$startNum]['is_right']>0 ) {
-                        $webCode .= '<div class="zaly_border zaly-num-right-style " ><img  src="'.$this->pluginHttpDomain.'/heartAndSoul/?page_type=imageDownload&game_site_user_id='.$gameSiteUserId.'" style="height:38px; width:38px;border-radius:50%; text-align: center;margin-top: 3px;" " /></div>';
+                        $webCode .= '<div class="zaly_border zaly-num-right-style " ><img  src="'.$this->pluginHttpDomain.'/?page_type=imageDownload&game_site_user_id='.$gameSiteUserId.'" style="height:38px; width:38px;border-radius:50%; text-align: center;margin-top: 3px;" " /></div>';
                     } else {
-                        $webCode .= '<div class="zaly_border zaly-num-wrong-style" ><img  src="'.$this->pluginHttpDomain.'/heartAndSoul/?page_type=imageDownload&game_site_user_id='.$gameSiteUserId.'" style="height:38px; width:38px;border-radius:50%; text-align: center;margin-top: 3px;" " /></div>';
+                        $webCode .= '<div class="zaly_border zaly-num-wrong-style" ><img  src="'.$this->pluginHttpDomain.'/?page_type=imageDownload&game_site_user_id='.$gameSiteUserId.'" style="height:38px; width:38px;border-radius:50%; text-align: center;margin-top: 3px;" " /></div>';
                     }
                     $webCode .= '</div>';
                 } else {
@@ -355,8 +354,8 @@ class HeartAndSoul
 }
 
 
-$heartAndSoulObj =  HeartAndSoul::getInstance();
-$heartAndSoulObj->checkoutDB();
+$guessNumObj =  GuessNum::getInstance();
+$guessNumObj->checkoutDB();
 
 $pageType  = isset($_GET['page_type']) ? $_GET['page_type'] : "first";
 $gameType  = isset($_GET['game_type']) ? $_GET['game_type'] : 4;
@@ -370,7 +369,7 @@ $chatSessionId = isset($_GET['chat_session_id']) ? $_GET['chat_session_id'] :"";
 ////如果是下载图片，则直接返回数据
 if($pageType == 'imageDownload') {
     $gameSiteUserId = isset($_GET['game_site_user_id']) ? $_GET['game_site_user_id'] : "";
-    $userAvatar     = $heartAndSoulObj->zalyHelper->getUserAvatar($gameSiteUserId);
+    $userAvatar     = $guessNumObj->zalyHelper->getUserAvatar($gameSiteUserId);
     header('Content-Type: image/png');
     echo $userAvatar;
     return false;
@@ -401,7 +400,7 @@ $siteSessionId = isset($siteSessionId['akaxin_site_session_id']) ? $siteSessionI
 $httpReferer = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : '';
 
 ////第一次进来需要处理chatSession, 以及hrefType, akaxin_param其他的时候
-$urlParams   = $heartAndSoulObj->parseUrl($httpReferer);
+$urlParams   = $guessNumObj->parseUrl($httpReferer);
 if(isset($urlParams['akaxin_param']) && $urlParams['akaxin_param']) {
     $params = json_decode($urlParams['akaxin_param'], true);
     $pageType  = isset($params['page_type']) ? $params['page_type'] : "third" ;
@@ -414,38 +413,38 @@ if(isset($urlParams['akaxin_param']) && $urlParams['akaxin_param']) {
 
 switch ($pageType) {
     case "first":
-        $urlParams['http_domain'] = $heartAndSoulObj->pluginHttpDomain;
-        $urlParams['href_url'] = $heartAndSoulObj->pluginHttpDomain."/heartAndSoul/?is_sponsor=1&page_type=second&chat_session_id=".$urlParams['chat_session_id']."&href_type=".$urlParams['href_type'];
-        echo $heartAndSoulObj->render("heartAndSoul", $urlParams);
+        $urlParams['http_domain'] = $guessNumObj->pluginHttpDomain;
+        $urlParams['href_url'] = $guessNumObj->pluginHttpDomain."?is_sponsor=1&page_type=second&chat_session_id=".$urlParams['chat_session_id']."&href_type=".$urlParams['href_type'];
+        echo $guessNumObj->render("guessNum", $urlParams);
         break;
 
     case "second":
         $urlParams = [
-            'four_url'    => $heartAndSoulObj->pluginHttpDomain."/heartAndSoul/?is_sponsor=".$isSponsor."&page_type=third&game_type=4&chat_session_id=".$chatSessionId."&href_type=".$hrefType,
-            'nine_url'    => $heartAndSoulObj->pluginHttpDomain."/heartAndSoul/?is_sponsor=".$isSponsor."&page_type=third&game_type=9&chat_session_id=".$chatSessionId."&href_type=".$hrefType,
-            'sixteen_url' => $heartAndSoulObj->pluginHttpDomain."/heartAndSoul/?is_sponsor=".$isSponsor."&page_type=third&game_type=16&chat_session_id=".$chatSessionId."&href_type=".$hrefType,
-            'http_domain' => $heartAndSoulObj->pluginHttpDomain,
+            'four_url'    => $guessNumObj->pluginHttpDomain."?is_sponsor=".$isSponsor."&page_type=third&game_type=4&chat_session_id=".$chatSessionId."&href_type=".$hrefType,
+            'nine_url'    => $guessNumObj->pluginHttpDomain."?is_sponsor=".$isSponsor."&page_type=third&game_type=9&chat_session_id=".$chatSessionId."&href_type=".$hrefType,
+            'sixteen_url' => $guessNumObj->pluginHttpDomain."?is_sponsor=".$isSponsor."&page_type=third&game_type=16&chat_session_id=".$chatSessionId."&href_type=".$hrefType,
+            'http_domain' => $guessNumObj->pluginHttpDomain,
         ];
-        echo $heartAndSoulObj->render("chooseGameType", $urlParams);
+        echo $guessNumObj->render("chooseGameType", $urlParams);
         break;
 
     case "third":
         $rowNum    = sqrt($gameType);
         $gameUserInfo = [];
         if($gameNum) {
-            $userProfile = $heartAndSoulObj->zalyHelper->getSiteUserProfile($siteSessionId);
+            $userProfile = $guessNumObj->zalyHelper->getSiteUserProfile($siteSessionId);
             $siteUserId  = $userProfile->getSiteUserId();
-            $gameUserInfo = $heartAndSoulObj->dbHelper->getGameUserInfo($chatSessionId, $siteUserId, $hrefType, $gameNum);
+            $gameUserInfo = $guessNumObj->dbHelper->getGameUserInfo($chatSessionId, $siteUserId, $hrefType, $gameNum);
             if($gameUserInfo) {
                 $gameUserInfo = array_column($gameUserInfo, null, 'guess_num');
             }
         }
-        $guessType = ['game_type' => $gameType, 'game_user_info' => $gameUserInfo, 'game_num' => $gameNum,'row_num' => $rowNum, "start_num" => 1, 'href_type' => $hrefType, 'chat_session_id' => $chatSessionId, 'is_sponsor' => $isSponsor, 'http_domain' => $heartAndSoulObj->pluginHttpDomain];
-        echo $heartAndSoulObj->render("chooseNumForGame", $guessType);
+        $guessType = ['game_type' => $gameType, 'game_user_info' => $gameUserInfo, 'game_num' => $gameNum,'row_num' => $rowNum, "start_num" => 1, 'href_type' => $hrefType, 'chat_session_id' => $chatSessionId, 'is_sponsor' => $isSponsor, 'http_domain' => $guessNumObj->pluginHttpDomain];
+        echo $guessNumObj->render("chooseNumForGame", $guessType);
         break;
 
     case "four":
-        echo $heartAndSoulObj->handleGuessNum($siteSessionId, $chatSessionId, $guessNum, $gameType, $gameNum, $hrefType, $isSponsor);
+        echo $guessNumObj->handleGuessNum($siteSessionId, $chatSessionId, $guessNum, $gameType, $gameNum, $hrefType, $isSponsor);
         break;
 
 }

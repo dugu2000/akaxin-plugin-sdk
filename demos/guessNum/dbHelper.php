@@ -2,8 +2,8 @@
 class DBHelper
 {
     public $db;
-    public $dbName = "openzaly_heartAndSoul.db";
-    public $tableName  = "heart_and_soul";
+    public $dbName = "openzaly_guessNum.db";
+    public $tableName  = "guess_num";
     public $u2Type     = "u2_msg";
     public $groupType  = "group_msg";
     public $expirtTime = 10*60;//10分钟过期
@@ -25,7 +25,7 @@ class DBHelper
     }
 
     public function checkDBExists(){
-        $createDBString = " CREATE TABLE IF NOT EXISTS  heart_and_soul (".
+        $createDBString = " CREATE TABLE IF NOT EXISTS ". $this->tableName ."(".
         " _id INTEGER PRIMARY KEY, ".
         " site_user_id VARCHAR(100)  NOT NULL ,".
         " site_user_photo VARCHAR(100)  NOT NULL ,".

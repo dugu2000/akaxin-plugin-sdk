@@ -52,8 +52,6 @@
 </div>
 
 <script type="text/javascript" src="https://cdn.bootcss.com/jquery/2.2.4/jquery.js"></script>
-<script type="text/javascript" src="https://res.wx.qq.com/open/libs/weuijs/1.1.3/weui.min.js"></script>
-<script type="text/javascript" src="https://cdn.bootcss.com/jquery-weui/1.2.0/js/jquery-weui.js"></script>
 <script type="text/javascript" src="<?php echo $http_domain;?>/Public/js/zaly.js"></script>
 
 <script type="text/javascript">
@@ -70,7 +68,7 @@
 
         $.ajax({
             method: "POST",
-            url:"<?php echo $http_domain;?>/heartAndSoul/",
+            url:"<?php echo $http_domain;?>",
             data: { page_type: "four", chat_session_id : chatSesssionId , href_type:hrefType, guess_num:guessNum, is_sponsor:isSponsor, game_type:gameType, game_num:gameNum},
             success:function (data) {
                 if(data.length>1) {
