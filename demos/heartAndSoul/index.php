@@ -129,7 +129,7 @@ class HeartAndSoul
             }
 
             ///check 该局是否已经结束
-            $isGameOver = $this->dbHelper->checkIsGameOver($chatSessionId, $gameNum);
+            $isGameOver = $this->dbHelper->checkIsGameOver($chatSessionId, $siteUserId, $hrefType, $gameNum);
             if($isGameOver) {
                 return json_encode(['error_code' => 'fail', 'error_msg' => '该局游戏已经结束！']);
             }

@@ -180,12 +180,23 @@ class DBHelper
         return false;
     }
 
-    public function checkIsGameOver($chatSessionId, $gameNum)
+    public function checkIsGameOver($chatSessionId, $siteUserId, $hrefType, $gameNum)
     {
-        $sql = "select _id from `$this->tableName` where chat_session_id=? and game_num = ? and is_right=1 order by _id desc limit 1 ;";
-        $prepare = $this->db->prepare($sql);
-        $prepare->bindParam(1, $chatSessionId, \PDO::PARAM_STR);
-        $prepare->bindParam(2, $gameNum, \PDO::PARAM_STR);
+        if($hrefType == $this->u2Type) {
+            $sql = "select _id from `$this->tableName` where ((chat_session_id=? and site_user_id =?) or (chat_session_id=? and site_user_id =?)) and game_num = ? and is_right=1 order by _id desc limit 1 ;";
+            $prepare = $this->db->prepare($sql);
+            $prepare->bindParam(1, $chatSessionId, \PDO::PARAM_STR);
+            $prepare->bindParam(2, $siteUserId, \PDO::PARAM_STR);
+            $prepare->bindParam(3, $chatSessionId, \PDO::PARAM_STR);
+            $prepare->bindParam(4, $siteUserId, \PDO::PARAM_STR);
+            $prepare->bindParam(5, $gameNum, \PDO::PARAM_STR);
+        }else {
+            $sql = "select _id from `$this->tableName` where chat_session_id=? and game_num = ? and is_right=1 order by _id desc limit 1 ;";
+            $prepare = $this->db->prepare($sql);
+            $prepare->bindParam(1, $chatSessionId, \PDO::PARAM_STR);
+            $prepare->bindParam(2, $gameNum, \PDO::PARAM_STR);
+        }
+
         $prepare->execute();
         $results = $prepare->fetch(\PDO::FETCH_ASSOC);
         if(isset($results) && is_array($results) && count($results)) {
