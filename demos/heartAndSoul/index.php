@@ -289,7 +289,7 @@ class HeartAndSoul
      * @param $gameNum
      * @return bool
      */
-    protected  function checkoutIsGuess($chatSessionId, $siteUserId, $gameNum)
+    protected  function checkIsGuess($chatSessionId, $siteUserId, $gameNum)
     {
         $sql = "select _id from `$this->tableName` where chat_session_id=? and  site_user_id = ? and game_num = ?  order by _id desc limit 1 ;";
         $prepare = $this->db->prepare($sql);
@@ -303,6 +303,44 @@ class HeartAndSoul
         }
         return false;
     }
+
+    /**
+     * 检查该数字是否已经被人选择过了
+     *
+     * @param $chatSessionId
+     * @param $gameNum
+     * @param $guessNum
+     * @return bool
+     */
+    protected  function checkIsNumGuess($chatSessionId, $gameNum, $guessNum)
+    {
+        $sql = "select _id from `$this->tableName` where chat_session_id=? and game_num = ? and guess_num = ? and is_sponsor=0 order by _id desc limit 1 ;";
+        $prepare = $this->db->prepare($sql);
+        $prepare->bindParam(1, $chatSessionId, \PDO::PARAM_STR);
+        $prepare->bindParam(2, $gameNum, \PDO::PARAM_STR);
+        $prepare->bindParam(3, $guessNum, \PDO::PARAM_STR);
+        $prepare->execute();
+        $results = $prepare->fetch(\PDO::FETCH_ASSOC);
+        if(isset($results) && is_array($results) && count($results)) {
+            return true;
+        }
+        return false;
+    }
+
+    protected function checkIsGameOver($chatSessionId, $gameNum)
+    {
+        $sql = "select _id from `$this->tableName` where chat_session_id=? and game_num = ? and is_right=1 order by _id desc limit 1 ;";
+        $prepare = $this->db->prepare($sql);
+        $prepare->bindParam(1, $chatSessionId, \PDO::PARAM_STR);
+        $prepare->bindParam(2, $gameNum, \PDO::PARAM_STR);
+        $prepare->execute();
+        $results = $prepare->fetch(\PDO::FETCH_ASSOC);
+        if(isset($results) && is_array($results) && count($results)) {
+            return true;
+        }
+        return false;
+    }
+
 
     /**
      * 处理猜测的数字
@@ -328,18 +366,31 @@ class HeartAndSoul
         error_log('gameNum === ' .$gameNum );
         error_log("guess num === " .$guessNum);
 
-        ////判断游戏是否是我开启的，自己开启的，无法参与
         if($gameNum) {
+            ////判断游戏是否是我开启的，自己开启的，无法参与
             $isSponsorMaster = $this->checkIsMineGame($chatSessionId, $siteUserId, $gameNum);
-
             if($isSponsorMaster) {
                 return json_encode(['error_code' => 'fail', 'error_msg' => '无法参与自己开局的游戏']);
             }
+
+            ///check 该局是否已经结束
+            $isGameOver = $this->checkIsGameOver($chatSessionId, $gameNum);
+            if($isGameOver) {
+                return json_encode(['error_code' => 'fail', 'error_msg' => '该局游戏已经结束！']);
+            }
+
             /////判断是否已经参与过本局游戏了
-            $isGuess = $this->checkoutIsGuess($chatSessionId, $siteUserId, $gameNum);
+            $isGuess = $this->checkIsGuess($chatSessionId, $siteUserId, $gameNum);
             if($isGuess) {
                 return json_encode(['error_code' => 'fail', 'error_msg' => '你已经参与过本局了！']);
             }
+
+            ////check该数字是否已经被人选择过
+            $isNumGuess = $this->checkIsNumGuess($chatSessionId, $gameNum, $guessNum);
+            if($isNumGuess) {
+                return json_encode(['error_code' => 'fail', 'error_msg' => '该数字已经被人选择过了！']);
+            }
+
         }
 
         ////判断是否可以作为新开局
