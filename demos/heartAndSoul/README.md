@@ -17,11 +17,11 @@
 		<td> 对应的站点地址 </td>
 	</tr>
 	<tr>
-		<td> plugin_api_host </td>
+		<td> inner_api_host </td>
 		<td>对应启动服务器时的 -Dhttp.address 参数</td>
 	</tr>
 	<tr>
-		<td> plugin_api_port </td>
+		<td> inner_api_port </td>
 		<td>对应启动服务器时的 -Dhttp.port 参数</td>
 	</tr>
 	<tr>

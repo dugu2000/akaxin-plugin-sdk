@@ -12,6 +12,8 @@ class ZalyHelper
 
     public $akxinApiClient;
     public static $instance;
+    public $innerApiHost;
+    public $innerApiPort;
 
     public static function getInstance()
     {
@@ -31,9 +33,9 @@ class ZalyHelper
         $config = parse_ini_file(__DIR__."/heart.ini");
         $this->pluginId      = $config['plugin_id'];
         $this->pluginAuthKey = $config['plugin_auth_key'];
-        $this->pluginApiHost = $config['plugin_api_host'];
-        $this->pluginApiPort = $config['plugin_api_port'];
-        $this->akaxinApiClient = new AkaxinPluginApiClient($this->pluginApiHost, $this->pluginApiPort, $this->pluginId, $this->pluginAuthKey);
+        $this->innerApiHost = $config['inner_api_host'];
+        $this->innerApiPort = $config['inner_api_port'];
+        $this->akaxinApiClient = new AkaxinPluginApiClient($this->innerApiHost, $this->innerApiPort, $this->pluginId, $this->pluginAuthKey);
     }
 
     /**
