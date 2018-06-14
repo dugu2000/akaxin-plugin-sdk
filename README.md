@@ -43,7 +43,7 @@ var_dump($userProfileResponse->getUserProfile());
 常见问题
 ====
 
-### 如果代发Web消息
+### 如何代发Web消息
 
 > 1. 构造消息体
 > 2. 把消息体封装在ImCtsMessageRequest，完成封装
@@ -52,7 +52,7 @@ var_dump($userProfileResponse->getUserProfile());
 ### Web消息怎样点击到扩展
 
 > 1. 对于Web与WebNotice类消息，可以设置hrefUrl字段。
->   * https://www.akaxin.com/docs/plugin/url-jump/index.html
+>     * https://www.akaxin.com/docs/plugin/url-jump/index.html
 > 2. 构造 plugin_for_group_chat 或 plugin_for_u2_chat
 > 3. 设置在hrefUrl字段里，便可以完成跳转。
 
