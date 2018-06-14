@@ -1,0 +1,7 @@
+*.jar
+*.swp
+*openzalyDB.sqlite3.backup.*
+sdk-php/Testcase/site-file/
+sdk-php/Testcase/site-logs/
+workspace-for-phpunit/
+sdk-php/phpunit

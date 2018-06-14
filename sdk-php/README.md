@@ -60,6 +60,8 @@
     - [HaiUserProfileResponse](#class-akaxinprotopluginhaiuserprofileresponse)
 - [HaiUserUpdateRequest](#class-akaxinprotopluginhaiuserupdaterequest)
     - [HaiUserUpdateResponse](#class-akaxinprotopluginhaiuserupdateresponse)
+- [HaiUserAvatarRequest](#class-akaxinprotopluginhaiuseravatarrequest)
+    - [HaiUserAvatarResponse](#class-akaxinprotopluginhaiuseravatarresponse)
 
 <hr />
 
@@ -732,3 +734,31 @@
 
 | Visibility | Function |
 |:-----------|:---------|
+
+
+<hr />
+
+## Class: \\Akaxin\\Proto\\Plugin\\HaiUserAvatarRequest
+
+
+####  更新用户信息
+
+#### 接口名
+
+ /hai/user/update
+#### 错误码
+
+ - success
+ - error.alert
+
+| Visibility | Function |
+|:-----------|:---------|
+| public | <strong>setSiteUserId(</strong><em>string</em> <strong>$var</strong>)</strong> : <em>\Akaxin\Proto\Plugin\$this</em><br /><em>用户的siteUserId</em> |
+
+
+
+## Class: \\Akaxin\\Proto\\Plugin\\HaiUserAvatarResponse
+
+| Visibility | Function |
+|:-----------|:---------|
+| public | <strong>getPhotoContent()</strong> : <em>string</em><br /><em>图片二进制内容</em> |

@@ -1,8 +1,8 @@
 ZalyJs
 =====
 
-基本引入
-=====
+**基本引入**
+
 >
 >  引用 Zaly Js
 >
@@ -14,10 +14,10 @@ ZalyJs
 ```
 
 Zaly Js提供的方法
-=====
+----
 
-1. getOsType
-=====
+#### 1. getOsType
+
 >  
 > 获取机器类型
 > 
@@ -30,8 +30,8 @@ var osType = Zaly.osType();
 console.log(osType);
 ```
 
-2. reqData 请求数据
-=====
+#### 2. reqData 请求数据
+
 
 
 ```
@@ -66,8 +66,7 @@ Zaly.reqData(reqUri, params, callbackName);
 
 
 
-3. reqPage 加载渲染页面
-=====
+#### 3. reqPage 加载渲染页面
 
 
 ```
@@ -97,8 +96,7 @@ Zaly.reqUrl(reqUri, params);
 
 
 
-4. reqImageUpload 图片上传
-=====
+#### 4. reqImageUpload 图片上传
 
 ```
 Zaly.reqImageUpload(callbackName);
@@ -243,8 +241,7 @@ IOS 使用方式是： src="' + imageSrcPath + '"
 
 
 
-6. tip 客户端toast信息，用来提示用户
-=====
+#### 6. tip 客户端toast信息，用来提示用户
 
 ```
 Zaly.tip(strTipMsg);
@@ -269,8 +266,7 @@ Zaly.tip(strTipMsg);
 
 
 
-7. refreshCurrentPage 刷新当前页面
-=====
+#### 7. refreshCurrentPage 刷新当前页面
 
 ```
 Zaly.refreshCurrentPage();
@@ -278,8 +274,7 @@ Zaly.refreshCurrentPage();
 * 目前只支持安卓客户端
 
 
-8. gotoPage 扩展跳转地址
-=====
+#### 8. gotoPage 扩展跳转地址
 
 ```
 Zaly.tip(strTipMsg);
