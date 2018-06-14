@@ -23,6 +23,7 @@ class GuessNum
 
     public $dbHelper;
     public $zalyHelper;
+    public $pluginId;
 
     /**
      * @return GuessNum|null
@@ -42,7 +43,7 @@ class GuessNum
         $this->dbHelper   = DBHelper::getInstance();
         $this->zalyHelper = ZalyHelper::getInstance();
         $config = parse_ini_file(__DIR__ . "/guess.ini");
-        $this->pluginId    = $config['plugin_id'];
+        $this->pluginId = $config['plugin_id'];
         $this->siteAddress = $config['site_address'];
         $this->pluginHttpDomain = $config['plugin_http_domain'];
     }
@@ -271,7 +272,7 @@ class GuessNum
         } else {
             $hrefUrl = str_replace(["SiteAddress", "chatSessionId", "PluginId"], [$this->siteAddress, $chatSessionId, $this->pluginId], $this->groupHrefUrl);
         }
-        error_log("href url ==" . $hrefUrl);
+        error_log("href_url ==" . $hrefUrl);
         $hrefUrl .= urlencode(json_encode($params));
         return $hrefUrl;
     }
@@ -399,9 +400,9 @@ if(!isset($siteSessionId['akaxin_site_session_id'])) {
 $siteSessionId = isset($siteSessionId['akaxin_site_session_id']) ? $siteSessionId['akaxin_site_session_id'] : '';
 
 $httpReferer = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : '';
-
 ////第一次进来需要处理chatSession, 以及hrefType, akaxin_param其他的时候
 $urlParams   = $guessNumObj->parseUrl($httpReferer);
+
 if(isset($urlParams['akaxin_param']) && $urlParams['akaxin_param']) {
     $params = json_decode($urlParams['akaxin_param'], true);
     $pageType  = isset($params['page_type']) ? $params['page_type'] : "third" ;
