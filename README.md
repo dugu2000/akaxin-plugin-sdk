@@ -69,6 +69,8 @@ var_dump($userProfileResponse->getUserProfile());
 > * domain、port是否正确，需要与用户客户端的地址一致。
 > * plugin_id 是否正确
 > * groupid与userid是否与用户点击消息时的聊天上下文一致。
+> * 如果自己拼装hrefurl，请确保 akaxin_param 的值正确urlencode。
+
 
 ### 怎样在扩展页面得知当前用户是谁？
 
