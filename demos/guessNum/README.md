@@ -5,7 +5,7 @@
 ====
 
 
-* 需要修改配置文件(heart.ini)
+* 需要修改配置文件(config.php)
 	
 	<table>
 	<tr>
