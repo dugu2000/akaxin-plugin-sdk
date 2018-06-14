@@ -20,7 +20,7 @@ $pluginId = 3;
 
 
 require_once(__DIR__ . "/AkaxinPluginApiClient.php");
-$akaxinApiClient = new AkaxinPluginApiClient($pluginApiHost, $pluginApiPort, $pluginId, $pluginAuthKey);
+$akaxinApiClient = new AkaxinPluginApiClient($innerApiHost, $innerApiPort, $pluginId, $pluginAuthKey);
 
 
 // 构造Request

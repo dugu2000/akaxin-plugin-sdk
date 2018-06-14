@@ -1,0 +1,105 @@
+body, html {
+    height: 100%;
+    -webkit-tap-highlight-color: transparent;
+    background-color: #F7CCE8;
+}
+
+.zaly-body{
+    background-color: #F7CCE8;
+}
+
+.zaly-title{
+    margin-top: 60px;
+    text-align: center;
+    font-size: 48px;
+    color: #BD10E0;
+    width: 100%;
+}
+.zaly-sub-title{
+    text-align: center;
+    font-size: 14px;
+    color: #2196F3;
+    width: 100%;
+}
+.zaly-sub-padding{
+    padding-top:0px;
+}
+.zaly-sub-title-margin{
+    margin-top: 0px;
+}
+
+.zaly-border{
+    border: #BC5383 4px solid;
+}
+.zaly-btn{
+    width:209px;
+    height:46px;
+    background:rgba(226,130,179,1);
+    box-shadow:0px 8px 4px -8px rgba(242,234,165,1);
+    border-radius:4px;
+    border:4px solid rgba(188,83,131,1);
+    color: #FFFFFF;
+}
+a:hover{
+    width:209px;
+    height:46px;
+    background:rgba(226,130,179,1);
+    box-shadow:0px 8px 4px -8px rgba(242,234,165,1);
+    border-radius:4px;
+    border:4px solid rgba(188,83,131,1);
+    color: #FFFFFF;
+}
+
+.zaly-btn-guess_type{
+    width:209px;
+    height:46px;
+    background:rgba(226,130,179,1);
+    box-shadow:0px 8px 4px -8px rgba(242,234,165,1);
+    border-radius:4px;
+    border:4px solid rgba(188,83,131,1);
+    color: #FFFFFF;
+    margin-top: 28px;
+}
+.zaly-num-style{
+    width: 60px;
+    height: 52px;
+    color:rgba(255,255,255,1);
+    background:rgba(226,130,179,1);
+    box-shadow:0px 8px 4px -8px rgba(242,234,165,1);
+    border-radius:4px;
+    float: left;
+    font-size:24px;
+    text-align: center;
+    border:4px solid rgba(188,83,131,1);
+}
+
+.zaly-num-right-style{
+    width: 60px;
+    height: 52px;
+    color:rgba(255,255,255,1);
+    background:rgba(33,150,243,0.4);
+    box-shadow:0px 8px 4px -8px rgba(242,234,165,1);
+    border-radius:4px;
+    float: left;
+    font-size:24px;
+    text-align: center;
+    border:4px solid rgba(33,150,243,1);
+}
+
+.zaly-num-wrong-style{
+    width:60px;
+    height:52px;
+    background:rgba(247,222,235,1);
+    border-radius:4px;
+    float: left;
+    font-size:24px;
+    text-align: center;
+    border:4px solid rgba(187,185,188,1);
+}
+.zaly-weui-grids{
+    overflow: hidden;
+}
+
+.zaly-guess_num_div {
+    margin:0 auto;
+}

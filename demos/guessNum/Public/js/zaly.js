@@ -40,7 +40,7 @@ var Zaly = {
      * @param params mix 请求参数
      */
     reqPage : function reqPage(reqUri, params) {
-        if (this.getOsType() == 'Android') {
+        if (this.getOsType()== 'Android') {
             Android.requestPage(reqUri, params)
         } else if (this.getOsType() == 'IOS') {
             ios_requestPage(reqUri, params);
@@ -74,7 +74,7 @@ var Zaly = {
     reqImageDownload : function reqImageDownload(imageId, callback) {
         if (this.getOsType() == 'Android') {
             Android.imageDownload(imageId, callback);
-        } else if (this.getOsType()  == 'IOS') {
+        } else if (this.getOsType()== 'IOS') {
             ios_imageDownload(imageId, callback);
         } else {
             this.tip('暂时不支持该设备');
