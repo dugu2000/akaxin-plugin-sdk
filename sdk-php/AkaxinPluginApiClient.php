@@ -178,10 +178,10 @@ class AkaxinPluginApiClient {
      * 设置当前Session用户，可以不设置
      *
      *
-     * @param string $siteUserId 用户的id
+     * @param string $sessionSiteUserId sessionSiteUserId
      */
-    public function setSessionSiteUserId($siteUserId) {
-        $this->sessionSiteUserId = $siteUserId;
+    public function setSessionSiteUserId($sessionSiteUserId) {
+        $this->sessionSiteUserId = $sessionSiteUserId;
     }
 
     /**
