@@ -1,8 +1,8 @@
 <?php
 
 require_once(__DIR__ . "/../../sdk-php/AkaxinPluginApiClient.php");
-require_once(__DIR__ . "/dbHelper.php");
-require_once(__DIR__ . "/zalyHelper.php");
+require_once(__DIR__ . "/DBHelper.php");
+require_once(__DIR__ . "/ZalyHelper.php");
 
 
 class GuessNum
@@ -14,8 +14,8 @@ class GuessNum
     public $groupType  = "group_msg";
     public $tableName  = "heart_and_soul";
     public $siteAddress  = "";//需要修改对应的站点
-    public $u2HrefUrl    = "zaly://SiteAddress/goto?page=plugin_for_u2_chat&site_user_id=chatSessionId&plugin_id=8&akaxin_param=";
-    public $groupHrefUrl = "zaly://SiteAddress/goto?page=plugin_for_group_chat&site_group_id=chatSessionId&plugin_id=8&&akaxin_param=";
+    public $u2HrefUrl    = "zaly://SiteAddress/goto?page=plugin_for_u2_chat&site_user_id=chatSessionId&plugin_id=PluginId&akaxin_param=";
+    public $groupHrefUrl = "zaly://SiteAddress/goto?page=plugin_for_group_chat&site_group_id=chatSessionId&plugin_id=PluginId&&akaxin_param=";
 
     public $akaxinApiClient;
     public $pluginHttpDomain = ""; ////需要修改成对应的扩展服务器地址
@@ -41,7 +41,8 @@ class GuessNum
     {
         $this->dbHelper   = DBHelper::getInstance();
         $this->zalyHelper = ZalyHelper::getInstance();
-        $config = parse_ini_file(__DIR__ . "/heart.ini");
+        $config = parse_ini_file(__DIR__ . "/guess.ini");
+        $this->pluginId    = $config['plugin_id'];
         $this->siteAddress = $config['site_address'];
         $this->pluginHttpDomain = $config['plugin_http_domain'];
     }
@@ -266,11 +267,11 @@ class GuessNum
             'game_type'  => $gameType,
         ];
         if($hrefType == $this->u2Type) {
-            $hrefUrl = str_replace(["SiteAddress", "chatSessionId"], [$this->siteAddress, $siteUserId], $this->u2HrefUrl);
+            $hrefUrl = str_replace(["SiteAddress", "chatSessionId", "PluginId"], [$this->siteAddress, $siteUserId, $this->pluginId], $this->u2HrefUrl);
         } else {
-            $hrefUrl = str_replace(["SiteAddress", "chatSessionId"], [$this->siteAddress, $chatSessionId], $this->groupHrefUrl);
+            $hrefUrl = str_replace(["SiteAddress", "chatSessionId", "PluginId"], [$this->siteAddress, $chatSessionId, $this->pluginId], $this->groupHrefUrl);
         }
-
+        error_log("href url ==" . $hrefUrl);
         $hrefUrl .= urlencode(json_encode($params));
         return $hrefUrl;
     }

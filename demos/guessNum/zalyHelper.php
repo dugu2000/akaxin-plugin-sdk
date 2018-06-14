@@ -30,7 +30,7 @@ class ZalyHelper
      */
     protected function __construct()
     {
-        $config = parse_ini_file(__DIR__."/heart.ini");
+        $config = parse_ini_file(__DIR__."/guess.ini");
         $this->pluginId      = $config['plugin_id'];
         $this->pluginAuthKey = $config['plugin_auth_key'];
         $this->innerApiHost = $config['inner_api_host'];
