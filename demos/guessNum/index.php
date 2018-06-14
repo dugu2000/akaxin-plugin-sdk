@@ -14,8 +14,8 @@ class GuessNum
     public $groupType  = "group_msg";
     public $tableName  = "heart_and_soul";
     public $siteAddress  = "";//需要修改对应的站点
-    public $u2HrefUrl    = "zaly://SiteAddress/goto?page=plugin_for_u2_chat&site_user_id=chatSessionId&plugin_id=8&akaxin_param=";
-    public $groupHrefUrl = "zaly://SiteAddress/goto?page=plugin_for_group_chat&site_group_id=chatSessionId&plugin_id=8&&akaxin_param=";
+    public $u2HrefUrl    = "zaly://SiteAddress/goto?page=plugin_for_u2_chat&site_user_id=chatSessionId&plugin_id=PluginId&akaxin_param=";
+    public $groupHrefUrl = "zaly://SiteAddress/goto?page=plugin_for_group_chat&site_group_id=chatSessionId&plugin_id=PluginId&&akaxin_param=";
 
     public $akaxinApiClient;
     public $pluginHttpDomain = ""; ////需要修改成对应的扩展服务器地址
@@ -23,6 +23,7 @@ class GuessNum
 
     public $dbHelper;
     public $zalyHelper;
+    public $pluginId;
 
     /**
      * @return GuessNum|null
@@ -42,6 +43,7 @@ class GuessNum
         $this->dbHelper   = DBHelper::getInstance();
         $this->zalyHelper = ZalyHelper::getInstance();
         $config = parse_ini_file(__DIR__ . "/guess.ini");
+        $this->pluginId = $config['plugin_id'];
         $this->siteAddress = $config['site_address'];
         $this->pluginHttpDomain = $config['plugin_http_domain'];
     }
@@ -266,11 +268,11 @@ class GuessNum
             'game_type'  => $gameType,
         ];
         if($hrefType == $this->u2Type) {
-            $hrefUrl = str_replace(["SiteAddress", "chatSessionId"], [$this->siteAddress, $siteUserId], $this->u2HrefUrl);
+            $hrefUrl = str_replace(["SiteAddress", "chatSessionId", "PluginId"], [$this->siteAddress, $siteUserId, $this->pluginId], $this->u2HrefUrl);
         } else {
-            $hrefUrl = str_replace(["SiteAddress", "chatSessionId"], [$this->siteAddress, $chatSessionId], $this->groupHrefUrl);
+            $hrefUrl = str_replace(["SiteAddress", "chatSessionId", "PluginId"], [$this->siteAddress, $chatSessionId, $this->pluginId], $this->groupHrefUrl);
         }
-
+        error_log("href_url ==" . $hrefUrl);
         $hrefUrl .= urlencode(json_encode($params));
         return $hrefUrl;
     }
@@ -398,9 +400,6 @@ if(!isset($siteSessionId['akaxin_site_session_id'])) {
 $siteSessionId = isset($siteSessionId['akaxin_site_session_id']) ? $siteSessionId['akaxin_site_session_id'] : '';
 
 $httpReferer = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : '';
-echo "<pre>";
-var_export($_SERVER);
-eixt;
 ////第一次进来需要处理chatSession, 以及hrefType, akaxin_param其他的时候
 $urlParams   = $guessNumObj->parseUrl($httpReferer);
 
