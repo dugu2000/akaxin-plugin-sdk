@@ -49,6 +49,7 @@ class ZalyHelper
         $this->akaxinApiClient->setSessionSiteUserId($siteSessionId);
     }
 
+    
     /**
      * @param $siteSessionId
      * @return bool|string
