@@ -30,11 +30,11 @@ class ZalyHelper
      */
     protected function __construct()
     {
-        $config = parse_ini_file(__DIR__."/guess.ini");
+        $config = getConf();
         $this->pluginId      = $config['plugin_id'];
         $this->pluginAuthKey = $config['plugin_auth_key'];
-        $this->innerApiHost = $config['inner_api_host'];
-        $this->innerApiPort = $config['inner_api_port'];
+        $this->innerApiHost = $config['plugin_api_host'];
+        $this->innerApiPort = $config['plugin_api_port'];
         $this->akaxinApiClient = new AkaxinPluginApiClient($this->innerApiHost, $this->innerApiPort, $this->pluginId, $this->pluginAuthKey);
     }
 
@@ -83,7 +83,7 @@ class ZalyHelper
     public function setGroupWebMsgByApiClient($chatSessionId, $siteSessionId, $siteUserId, $webCode, $hrefUrl, $height = 21, $width = 160)
     {
         $msgId = $this->generateMsgId($this->msg_type_group, $siteUserId);
-        $msgTime = mb_convert_encoding($this->getMsectime(), 'UTF-8');
+        $msgTime = $this->getMsectime();
 
         $groupWeb = new Akaxin\Proto\Core\GroupWeb();
         $groupWeb->setSiteUserId($siteUserId);
@@ -121,7 +121,7 @@ class ZalyHelper
     public function setGroupWebNoticeMsgByApiClient($chatSessionId, $siteSessionId,$siteUserId, $webCode, $hrefUrl, $height = 21)
     {
         $msgId = $this->generateMsgId($this->msg_type_notice, $siteUserId);
-        $msgTime = mb_convert_encoding($this->getMsectime(), 'UTF-8');
+        $msgTime = $this->getMsectime();
 
         $groupWebNotice = new Akaxin\Proto\Core\GroupWebNotice();
         $groupWebNotice->setSiteUserId($siteUserId);
@@ -159,7 +159,7 @@ class ZalyHelper
     public function setU2WebNoticeMsgByApiClient($chatSessionId, $siteSessionId,$siteUserId, $webCode, $hrefUrl, $height = 21)
     {
         $msgId = $this->generateMsgId($this->msg_type_notice, $siteUserId);
-        $msgTime = mb_convert_encoding($this->getMsectime(), 'UTF-8');
+        $msgTime = $this->getMsectime();
 
         $u2WebNotice = new Akaxin\Proto\Core\U2WebNotice();
         $u2WebNotice->setSiteUserId($siteUserId);
@@ -189,10 +189,10 @@ class ZalyHelper
      *
      * @author 尹少爷 2018.6.11
      */
-    public function setU2WebMsgByApiClient($chatSessionId, $siteSessionId, $siteUserId, $webCode, $hrefUrl, $height = 21, $width = 160)
+    public function setU2WebMsgByApiClient($chatSessionId, $siteSessionId, $siteUserId, $webCode, $hrefUrl, $height = 21, $width = 200)
     {
         $msgId = $this->generateMsgId($this->msg_type_u2, $siteUserId);
-        $msgTime = mb_convert_encoding($this->getMsectime(), 'UTF-8');
+        $msgTime = $this->getMsectime();
 
         $u2Web = new Akaxin\Proto\Core\U2Web();
         $u2Web->setSiteUserId($siteUserId);
@@ -259,7 +259,7 @@ class ZalyHelper
                 break;
         }
         if (strlen($siteUserId) > 8) {
-            $msgId .= mb_substr($siteUserId, 0, 8);
+            $msgId .= substr($siteUserId, 0, 8);
         } else {
             $msgId .= $siteUserId;
         }

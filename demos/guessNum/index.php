@@ -1,6 +1,18 @@
 <?php
 
+
+//
+// 心有灵犀 演示代码
+//
+//
+// 这只是一个Demo代码，正式产品请勿参考此代码的组织结构。
+//
+
+
+
 require_once(__DIR__ . "/../../sdk-php/AkaxinPluginApiClient.php");
+
+require_once(__DIR__ . "/config.php");
 require_once(__DIR__ . "/DBHelper.php");
 require_once(__DIR__ . "/ZalyHelper.php");
 
@@ -20,6 +32,8 @@ class GuessNum
     public $akaxinApiClient;
     public $pluginHttpDomain = ""; ////需要修改成对应的扩展服务器地址
     public static $instance = null;
+
+    public $cssForWebmsg;
 
     public $dbHelper;
     public $zalyHelper;
@@ -42,10 +56,16 @@ class GuessNum
     {
         $this->dbHelper   = DBHelper::getInstance();
         $this->zalyHelper = ZalyHelper::getInstance();
-        $config = parse_ini_file(__DIR__ . "/guess.ini");
+        $config = getConf();
         $this->pluginId = $config['plugin_id'];
         $this->siteAddress = $config['site_address'];
         $this->pluginHttpDomain = $config['plugin_http_domain'];
+
+        ////
+
+        $this->cssForWebmsg = <<<eot
+            <link rel="stylesheet" href="{$this->pluginHttpDomain}/Public/css/zaly.css" />
+eot;
     }
 
     /**
@@ -206,17 +226,40 @@ class GuessNum
         }
 
         $startNum = 1;
-        $webCode = '<!DOCTYPE html> <html lang="en"> <head> <meta charset="UTF-8"> <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0"> <title>心有灵犀</title> </title> <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" /> <link rel="stylesheet" href="'.$this->pluginHttpDomain.'/Public/css/zaly.css" /> </head> </head> <body ontouchstart="" class="zaly-body">';
+        $webCode = <<<eot
+        <!DOCTYPE html><html lang="en">
+            <head>
+                <meta charset="UTF-8">
+                <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
+                <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" />
+                {$this->cssForWebmsg}
+            </head>
+            <body class="zaly-body">
+                <div class="wrapper"><div>
+eot;
+
         for($i=0; $i<$row_num; $i++) {
-            $webCode .= '<div class="d-flex flex-row justify-content-center" >';
+            $webCode .= '<div class="d-flex flex-row justify-content-center">';
             for($j=0; $j<$row_num; $j++) {
                 if(isset($gameUserInfo[$startNum]) && $gameUserInfo[$startNum]>0 ) {
                     $gameSiteUserId = $gameUserInfo[$startNum]['site_user_id'];
-                    $webCode .= '<div class="p-2  guess_num ">';
+                    $webCode .= '<div class="p-2 guess_num">';
                     if(isset($gameUserInfo[$startNum]['is_right']) && $gameUserInfo[$startNum]['is_right']>0 ) {
-                        $webCode .= '<div class="zaly_border zaly-num-right-style " ><img  src="'.$this->pluginHttpDomain.'/?page_type=imageDownload&game_site_user_id='.$gameSiteUserId.'" style="height:38px; width:38px;border-radius:50%; text-align: center;margin-top: 3px;" " /></div>';
+                        $webCode .= <<<eot
+                        <div class="zaly_border zaly-num-right-style " >
+                            <img src="{$this->pluginHttpDomain}/index.php?page_type=imageDownload&game_site_user_id={$gameSiteUserId}"
+                                style="height:30px; width:30px;border-radius:50%; text-align: center;margin-top: 3px;"
+                            />
+                        </div>
+eot;
                     } else {
-                        $webCode .= '<div class="zaly_border zaly-num-wrong-style" ><img  src="'.$this->pluginHttpDomain.'/?page_type=imageDownload&game_site_user_id='.$gameSiteUserId.'" style="height:38px; width:38px;border-radius:50%; text-align: center;margin-top: 3px;" " /></div>';
+                        $webCode .= <<<eot
+                         <div class="zaly_border zaly-num-wrong-style" >
+                            <img  src="{$this->pluginHttpDomain}/index.php?page_type=imageDownload&game_site_user_id={$gameSiteUserId}"
+                                style="height:30px; width:30px;border-radius:50%; text-align: center;margin-top: 3px;"
+                            />
+                        </div>
+eot;
                     }
                     $webCode .= '</div>';
                 } else {
@@ -226,6 +269,8 @@ class GuessNum
             }
             $webCode .= '</div>';
         }
+
+        $webCode .= "</div></div></body></html>";
 
         $height = 0;
         switch ($gameType) {
@@ -288,19 +333,56 @@ class GuessNum
      */
     public function sendPluginMsg($chatSessionId, $siteSessionId, $siteUserId, $gameType, $hrefType, $hrefUrl)
     {
+        $text = "";
         switch ($gameType) {
             case 4:
-                $webCode = '<!DOCTYPE html> <html lang="en"> <head> <meta charset="UTF-8"> <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0"> <title>心有灵犀</title> </title> <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" /> <style> body, html {height: 100%; -webkit-tap-highlight-color: transparent; background-color: #F7CCE8; font-size: 10px; } .zaly-margin-16px{margin-top: 16px; } .zaly-btn, .zaly-btn:hover,.zaly-btn:active, .zaly-btn:focus, .zaly-btn:active:focus, .zaly-btn:active:hover{width:209px; height:46px; background:rgba(226,130,179,1); box-shadow:0px 8px 4px -8px rgba(242,234,165,1); border-radius:4px; border:4px solid rgba(188,83,131,1); } .zaly-btn-font{font-size:14px; font-family:PingFangSC-Regular; color:rgba(255,255,255,1); line-height:20px; margin-bottom: 10px; } </style> </head> <body ontouchstart=""> <div class="d-flex flex-column "> <div class="p-2 d-flex   zaly-margin-16px justify-content-center"> <label style="text-align: center;">我发起了一场心有灵犀：四猜一</label> </div> <div class="p-2 d-flex justify-content-center"> <button type="button" class="btn zaly-btn zaly-btn-font">来猜我的神秘数字吧</button> </div> </div> </body> </html>';
+                $text = "四猜一";
                 break;
             case 9:
-                $webCode = '<!DOCTYPE html> <html lang="en"> <head> <meta charset="UTF-8"> <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0"> <title>心有灵犀</title> </title> <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" /> <style> body, html {height: 100%; -webkit-tap-highlight-color: transparent; background-color: #F7CCE8; font-size: 10px; } .zaly-margin-16px{margin-top: 16px; } .zaly-btn, .zaly-btn:hover,.zaly-btn:active, .zaly-btn:focus, .zaly-btn:active:focus, .zaly-btn:active:hover{width:209px; height:46px; background:rgba(226,130,179,1); box-shadow:0px 8px 4px -8px rgba(242,234,165,1); border-radius:4px; border:4px solid rgba(188,83,131,1); } .zaly-btn-font{font-size:14px; font-family:PingFangSC-Regular; color:rgba(255,255,255,1); line-height:20px; margin-bottom: 10px; } </style> </head> <body ontouchstart=""> <div class="d-flex flex-column "> <div class="p-2 d-flex   zaly-margin-16px justify-content-center"> <label style="text-align: center;">我发起了一场心有灵犀：九猜一</label> </div> <div class="p-2 d-flex justify-content-center"> <button type="button" class="btn zaly-btn zaly-btn-font">来猜我的神秘数字吧</button> </div> </div> </body> </html>';
+                $text = "九猜一";
                 break;
             case 16:
-                $webCode = '<!DOCTYPE html> <html lang="en"> <head> <meta charset="UTF-8"> <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0"> <title>心有灵犀</title> </title> <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" /> <style> body, html {height: 100%; -webkit-tap-highlight-color: transparent; background-color: #F7CCE8; font-size: 10px; } .zaly-margin-16px{margin-top: 16px; } .zaly-btn, .zaly-btn:hover,.zaly-btn:active, .zaly-btn:focus, .zaly-btn:active:focus, .zaly-btn:active:hover{width:209px; height:46px; background:rgba(226,130,179,1); box-shadow:0px 8px 4px -8px rgba(242,234,165,1); border-radius:4px; border:4px solid rgba(188,83,131,1); } .zaly-btn-font{font-size:14px; font-family:PingFangSC-Regular; color:rgba(255,255,255,1); line-height:20px; margin-bottom: 10px; } </style> </head> <body ontouchstart=""> <div class="d-flex flex-column "> <div class="p-2 d-flex   zaly-margin-16px justify-content-center"> <label style="text-align: center;">我发起了一场心有灵犀：十六猜一</label> </div> <div class="p-2 d-flex justify-content-center"> <button type="button" class="btn zaly-btn zaly-btn-font">来猜我的神秘数字吧</button> </div> </div> </body> </html>';
+                $text = "十六猜一";
+                // $webCode = '<!DOCTYPE html> <html lang="en"> <head> <meta charset="UTF-8"> <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0"> <title>心有灵犀</title> </title> <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" /> <style> body, html {height: 100%; -webkit-tap-highlight-color: transparent; background-color: #F7CCE8; font-size: 10px; } .zaly-margin-16px{margin-top: 16px; } .zaly-btn, .zaly-btn:hover,.zaly-btn:active, .zaly-btn:focus, .zaly-btn:active:focus, .zaly-btn:active:hover{width:209px; height:46px; background:rgba(226,130,179,1); box-shadow:0px 8px 4px -8px rgba(242,234,165,1); border-radius:4px; border:4px solid rgba(188,83,131,1); } .zaly-btn-font{font-size:14px; font-family:PingFangSC-Regular; color:rgba(255,255,255,1); line-height:20px; margin-bottom: 10px; } </style> </head> <body ontouchstart=""> <div class="d-flex flex-column "> <div class="p-2 d-flex   zaly-margin-16px justify-content-center"> <label style="text-align: center;">我发起了一场心有灵犀：十六猜一</label> </div> <div class="p-2 d-flex justify-content-center"> <button type="button" class="btn zaly-btn zaly-btn-font">来猜我的神秘数字吧</button> </div> </div> </body> </html>';
                 break;
         }
+        $webCode = <<<eot
+        <!DOCTYPE html><html lang="en">
+        <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
+            {$this->cssForWebmsg}
+            <style>
 
-        $this->setMsgByApiClient($chatSessionId, $siteSessionId, $siteUserId, $webCode, $hrefType, $hrefUrl, 110, 260);
+                .zaly-btn, .zaly-btn:hover,.zaly-btn:active, .zaly-btn:focus, .zaly-btn:active:focus, .zaly-btn:active:hover {
+                    width:209px; height:46px;
+                    background:rgba(226,130,179,1);
+                    box-shadow:0px 8px 4px -8px rgba(242,234,165,1);
+                    border-radius:4px; border:4px solid rgba(188,83,131,1);
+                }
+                .zaly-btn-font{
+                    font-size:14px; font-family:PingFangSC-Regular;
+                    color:rgba(255,255,255,1);
+                    line-height:20px;
+                    margin-bottom: 10px;
+                }
+
+            </style>
+        </head>
+        <body>
+        <div class="wrapper">
+            <div>
+                <div style="text-align: center; margin: 16px auto 10px auto; color:rgba(188,83,131,1); font-weight: bold;">
+                    我发起了一场心有灵犀：{$text}
+                </div>
+                <div>
+                    <button type="button" class="btn zaly-btn zaly-btn-font">来猜我的神秘数字吧</button>
+                </div>
+            </div>
+        </div></body></html>
+eot;
+
+        $this->setMsgByApiClient($chatSessionId, $siteSessionId, $siteUserId, $webCode, $hrefType, $hrefUrl, 100, 300);
     }
 
     /**
@@ -313,8 +395,20 @@ class GuessNum
      */
     public function sendSuccessMsg($chatSessionId, $siteSessionId, $siteUserId, $guessNum, $hrefType, $hrefUrl)
     {
-        $webCode = '<!DOCTYPE html> <html lang="en"> <head> <meta charset="UTF-8"> <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0"> <title>心有灵犀</title> </title> <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" /> <style> body, html {height: 100%; -webkit-tap-highlight-color: transparent; background-color: #F7CCE8; font-size: 10px; } .zaly-lable-fail {text-align: center; font-size: 14px; font-family: STYuanti-SC-Regular; color: rgba(0, 0, 0, 0.54); } .fail-div{height: 100%; width: 100%; } </style> </head> <body ontouchstart=""> <div class="d-flex justify-content-center fail-div"> <p class="zaly-lable-fail align-self-center">我猜是：'.$guessNum.' ，猜对了！</p> </div> </body> </html>';
-        $this->setMsgByApiClient($chatSessionId, $siteSessionId, $siteUserId, $webCode, $hrefType, $hrefUrl);
+        $webCode = <<<eot
+        <!DOCTYPE html><html lang="en">
+        <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
+            {$this->cssForWebmsg}
+        </head>
+        <body ontouchstart="">
+            <div class="wrapper">
+                我猜是：{$guessNum} 猜对了！O(∩_∩)O哈哈~</p>
+            </div>
+        </body></html>
+eot;
+        $this->setMsgByApiClient($chatSessionId, $siteSessionId, $siteUserId, $webCode, $hrefType, $hrefUrl, 40, 200);
     }
 
     /**
@@ -327,8 +421,21 @@ class GuessNum
      */
     public function sendFailMsg($chatSessionId, $siteSessionId, $siteUserId, $guessNum, $hrefType, $hrefUrl)
     {
-        $webCode = '<!DOCTYPE html> <html lang="en"> <head> <meta charset="UTF-8"> <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0"> <title>心有灵犀</title> </title> <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" /> <style> body, html {height: 100%; -webkit-tap-highlight-color: transparent; background-color: #F7CCE8; font-size: 10px; } .zaly-lable-fail {text-align: center; font-size: 14px; font-family: STYuanti-SC-Regular; color: rgba(0, 0, 0, 0.54); } .fail-div{height: 100%; width: 100%; } </style> </head> <body ontouchstart=""> <div class="d-flex justify-content-center fail-div"> <p class="zaly-lable-fail align-self-center">我猜是：'.$guessNum.' ，猜错了！</p> </div> </body> </html>';
-        $this->setMsgByApiClient($chatSessionId, $siteSessionId, $siteUserId, $webCode, $hrefType, $hrefUrl);
+        $webCode = <<<EOT
+        <!DOCTYPE html><html lang="en">
+            <head>
+                <meta charset="UTF-8">
+                <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
+                {$this->cssForWebmsg}
+            </head>
+            <body>
+                <div class="wrapper">
+                    <p>我猜是：{$guessNum}！猜错了！/(ㄒoㄒ)/~~ </p>
+                </div>
+            </body>
+        </html>
+EOT;
+        $this->setMsgByApiClient($chatSessionId, $siteSessionId, $siteUserId, $webCode, $hrefType, $hrefUrl, 40, 200);
     }
 
     /**
@@ -416,15 +523,15 @@ if(isset($urlParams['akaxin_param']) && $urlParams['akaxin_param']) {
 switch ($pageType) {
     case "first":
         $urlParams['http_domain'] = $guessNumObj->pluginHttpDomain;
-        $urlParams['href_url'] = $guessNumObj->pluginHttpDomain."?is_sponsor=1&page_type=second&chat_session_id=".$urlParams['chat_session_id']."&href_type=".$urlParams['href_type'];
+        $urlParams['href_url'] = $guessNumObj->pluginHttpDomain."/index.php?is_sponsor=1&page_type=second&chat_session_id=".$urlParams['chat_session_id']."&href_type=".$urlParams['href_type'];
         echo $guessNumObj->render("guessNum", $urlParams);
         break;
 
     case "second":
         $urlParams = [
-            'four_url'    => $guessNumObj->pluginHttpDomain."?is_sponsor=".$isSponsor."&page_type=third&game_type=4&chat_session_id=".$chatSessionId."&href_type=".$hrefType,
-            'nine_url'    => $guessNumObj->pluginHttpDomain."?is_sponsor=".$isSponsor."&page_type=third&game_type=9&chat_session_id=".$chatSessionId."&href_type=".$hrefType,
-            'sixteen_url' => $guessNumObj->pluginHttpDomain."?is_sponsor=".$isSponsor."&page_type=third&game_type=16&chat_session_id=".$chatSessionId."&href_type=".$hrefType,
+            'four_url'    => $guessNumObj->pluginHttpDomain."/index.php?is_sponsor=".$isSponsor."&page_type=third&game_type=4&chat_session_id=".$chatSessionId."&href_type=".$hrefType,
+            'nine_url'    => $guessNumObj->pluginHttpDomain."/index.php?is_sponsor=".$isSponsor."&page_type=third&game_type=9&chat_session_id=".$chatSessionId."&href_type=".$hrefType,
+            'sixteen_url' => $guessNumObj->pluginHttpDomain."/index.php?is_sponsor=".$isSponsor."&page_type=third&game_type=16&chat_session_id=".$chatSessionId."&href_type=".$hrefType,
             'http_domain' => $guessNumObj->pluginHttpDomain,
         ];
         echo $guessNumObj->render("chooseGameType", $urlParams);

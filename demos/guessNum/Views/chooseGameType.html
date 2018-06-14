@@ -8,22 +8,24 @@
     </title>
     <!-- 引入 WeUI -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="<?php echo $http_domain;?>/Public/css/zaly.css" />
+    <link rel="stylesheet" href="./Public/css/zaly.css" />
 </head>
 
 <body ontouchstart="" class="zaly-body">
 
-<div class="d-flex flex-column ">
-    <div class="p-2 d-flex justify-content-center">
-        <a  href="<?php echo $four_url;?>" class="btn zaly-border zaly-btn-guess_type  fourToOne ">四猜一</a>
+<div class="wrapper">
+    <div class="d-flex flex-column ">
+        <div class="p-2 d-flex justify-content-center">
+            <a  href="<?php echo $four_url;?>" class="btn zaly-border zaly-btn-guess_type  fourToOne ">四猜一</a>
+        </div>
+        <div class=" d-flex justify-content-center ">
+            <a href="<?php echo $nine_url;?>"  class="btn zaly-border zaly-btn-guess_type  nineToOne">九猜一</a>
+        </div>
+        <div class="p-2 d-flex justify-content-center">
+            <a href="<?php echo $sixteen_url;?>"  class="btn zaly-border zaly-btn-guess_type  sixteenToOne">十六猜一</a>
+        </div>
     </div>
-    <div class=" d-flex justify-content-center ">
-        <a href="<?php echo $nine_url;?>"  class="btn zaly-border zaly-btn-guess_type  nineToOne">九猜一</a>
-    </div>
-    <div class="p-2 d-flex justify-content-center">
-        <a href="<?php echo $sixteen_url;?>"  class="btn zaly-border zaly-btn-guess_type  sixteenToOne">十六猜一</a>
-    </div>
-</div>
+<div>
 
 </body>
 

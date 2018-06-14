@@ -2,7 +2,7 @@
 class DBHelper
 {
     public $db;
-    public $dbName = "openzaly_guessNum.db";
+    public $dbName;
     public $tableName  = "guess_num";
     public $u2Type     = "u2_msg";
     public $groupType  = "group_msg";
@@ -11,8 +11,10 @@ class DBHelper
 
     protected function __construct()
     {
+        $conf = getConf();
+        $this->dbName = "openzaly_guessNum_{$conf["db_safe_prefix"]}.db";
         $this->db = new \PDO("sqlite:./".$this->dbName);
-        $config  = parse_ini_file(__DIR__.'/guess.ini');
+        $config  = getConf();
         $this->expirtTime = $config['game_expire_time'];
     }
 
