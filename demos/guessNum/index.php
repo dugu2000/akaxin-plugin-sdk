@@ -1,8 +1,8 @@
 <?php
 
 require_once(__DIR__ . "/../../sdk-php/AkaxinPluginApiClient.php");
-require_once(__DIR__ . "/dbHelper.php");
-require_once(__DIR__ . "/zalyHelper.php");
+require_once(__DIR__ . "/DBHelper.php");
+require_once(__DIR__ . "/ZalyHelper.php");
 
 
 class GuessNum
@@ -41,7 +41,7 @@ class GuessNum
     {
         $this->dbHelper   = DBHelper::getInstance();
         $this->zalyHelper = ZalyHelper::getInstance();
-        $config = parse_ini_file(__DIR__ . "/heart.ini");
+        $config = parse_ini_file(__DIR__ . "/guess.ini");
         $this->siteAddress = $config['site_address'];
         $this->pluginHttpDomain = $config['plugin_http_domain'];
     }
@@ -398,9 +398,12 @@ if(!isset($siteSessionId['akaxin_site_session_id'])) {
 $siteSessionId = isset($siteSessionId['akaxin_site_session_id']) ? $siteSessionId['akaxin_site_session_id'] : '';
 
 $httpReferer = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : '';
-
+echo "<pre>";
+var_export($_SERVER);
+eixt;
 ////第一次进来需要处理chatSession, 以及hrefType, akaxin_param其他的时候
 $urlParams   = $guessNumObj->parseUrl($httpReferer);
+
 if(isset($urlParams['akaxin_param']) && $urlParams['akaxin_param']) {
     $params = json_decode($urlParams['akaxin_param'], true);
     $pageType  = isset($params['page_type']) ? $params['page_type'] : "third" ;

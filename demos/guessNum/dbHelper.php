@@ -12,7 +12,7 @@ class DBHelper
     protected function __construct()
     {
         $this->db = new \PDO("sqlite:./".$this->dbName);
-        $config  = parse_ini_file(__DIR__.'/heart.ini');
+        $config  = parse_ini_file(__DIR__.'/guess.ini');
         $this->expirtTime = $config['game_expire_time'];
     }
 
