@@ -13,8 +13,8 @@
 require_once(__DIR__ . "/../../sdk-php/AkaxinPluginApiClient.php");
 
 require_once(__DIR__ . "/config.php");
-require_once(__DIR__ . "/DBHelper.php");
-require_once(__DIR__ . "/ZalyHelper.php");
+require_once(__DIR__ . "/dbHelper.php");
+require_once(__DIR__ . "/zalyHelper.php");
 
 
 class GuessNum
@@ -404,7 +404,7 @@ eot;
         </head>
         <body ontouchstart="">
             <div class="wrapper">
-                我猜是：{$guessNum} 猜对了！O(∩_∩)O哈哈~</p>
+                我猜是：{$guessNum} 猜对了！赢得了开局机会。</p>
             </div>
         </body></html>
 eot;
