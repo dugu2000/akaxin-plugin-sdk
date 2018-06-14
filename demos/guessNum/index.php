@@ -13,8 +13,8 @@
 require_once(__DIR__ . "/../../sdk-php/AkaxinPluginApiClient.php");
 
 require_once(__DIR__ . "/config.php");
-require_once(__DIR__ . "/DBHelper.php");
-require_once(__DIR__ . "/ZalyHelper.php");
+require_once(__DIR__ . "/dBHelper.php");
+require_once(__DIR__ . "/zalyHelper.php");
 
 
 class GuessNum
