@@ -22,12 +22,24 @@
         <div class="d-flex flex-row justify-content-center" >
             <?php for($j=0; $j<$row_num; $j++) { ?>
 
-                <div class="p-2  guess_num <?php echo $start_num;?>  "   guess-num="<?php echo $start_num;?>"  >
-                        <button type="button" class="btn zaly-border zaly-num-style new_game "><?php echo $start_num++;?></button>
-                </div>
+                <?php if(isset($game_user_info[$start_num]) && $game_user_info[$start_num]>0 ) {?>
 
+                    <div class="p-2  guess_num  <?php echo $start_num;?>  "   guess-num="<?php echo $start_num;?>" >
+                        <?php if(isset($game_user_info[$start_num]['is_right']) && $game_user_info[$start_num]['is_right']>0 ) { ?>
+                        <div class="zaly-border zaly-num-right-style  user_photo  <?php echo $game_user_info[$start_num]['site_user_photo'];?> "  user-photo="<?php echo $game_user_info[$start_num]['site_user_photo'];?>" ></div>
+                        <?php } else {?>
+                        <div class="zaly-border zaly-num-wrong-style  user_photo  <?php echo $game_user_info[$start_num]['site_user_photo'];?> "  user-photo="<?php echo $game_user_info[$start_num]['site_user_photo'];?>" ></div>
+                        <?php } ?>
+                    </div>
+
+                    <input type="hidden" start_num="<?php echo $start_num++;?>"/>
+                <?php } else { ?>
+                    <div class="p-2  guess_num <?php echo $start_num;?>  "   guess-num="<?php echo $start_num;?>"  >
+                            <button type="button" class="btn zaly-border zaly-num-style new_game "><?php echo $start_num++;?></button>
+                    </div>
+
+                <?php } ?>
             <?php } ?>
-
         </div>
     <?php } ?>
 
