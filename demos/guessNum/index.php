@@ -234,7 +234,7 @@ eot;
                 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" />
                 {$this->cssForWebmsg}
             </head>
-            <body class="zaly-body">
+            <body style="background: #eee;">
                 <div class="wrapper"><div>
 eot;
 
